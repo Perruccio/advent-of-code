@@ -13,11 +13,7 @@ def print_points(points):
 
 def fold(points, mirror):
     d, l = mirror
-    new_points = set()
-    for x, y in points:
-        new_point = (min(x, 2*l - x), y) if d == 'x' else (x, min(y, 2*l - y))
-        new_points.add(new_point)
-    return new_points
+    return {(min(x, 2*l - x), y) if d == 'x' else (x, min(y, 2*l - y)) for x, y in points}
 
 def part1(points, foldings):
     return len(fold(points, foldings[0]))
