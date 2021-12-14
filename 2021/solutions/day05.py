@@ -41,7 +41,7 @@ def main(pretty_print = True):
         (x1, y1), (x2, y2) = map(lambda s: map(int, s.split(',')), line.split('->'))
         return (x1, y1), (x2, y2)
     
-    data = map_input_lines(prj_path + '/input/day5.txt', process_line)
+    data = map_input_lines(prj_path + '/input/day05.txt', process_line)
     
     if (pretty_print):
         print_results(1, part1, data)

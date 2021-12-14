@@ -63,7 +63,7 @@ def main(pretty_print = True):
     def process_line(line):
         return [int(x) for x in line]
     
-    data = map_input_lines(prj_path + '/input/day9.txt', process_line)
+    data = map_input_lines(prj_path + '/input/day09.txt', process_line)
     
     if (pretty_print):
         print_results(1, part1, data)

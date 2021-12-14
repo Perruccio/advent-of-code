@@ -26,7 +26,7 @@ def part2(data):
 
 def main(pretty_print = True):
     
-    data = list(map(int, input_as_string(prj_path + '/input/day7.txt').rstrip().split(',')))
+    data = list(map(int, input_as_string(prj_path + '/input/day07.txt').rstrip().split(',')))
     
     if (pretty_print):
         print_results(1, part1, data)

@@ -33,7 +33,7 @@ def main(pretty_print = True):
         a, b = line.split()
         return a, int(b)
     
-    data = map_input_lines(prj_path + '/input/day2.txt', process_line)
+    data = map_input_lines(prj_path + '/input/day02.txt', process_line)
     
     if (pretty_print):
         print_results(1, part1, data)
