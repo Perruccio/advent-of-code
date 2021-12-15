@@ -39,3 +39,13 @@ def mean(l):
 def sorted_string(s):
     s = sorted(s)
     return ''.join(s)
+
+def get_neighbours(pos, end, exclude_diag=False):
+    """ return the position of the neighbours of pos in a 2d matrix"""
+    shifts = [(0, 1), (0, -1), (1, 0), (-1, 0)]
+    if not exclude_diag:
+        shifts += [(1, 1), (1, -1), (-1, 1), (-1, -1)]
+    for di, dj in shifts:
+        i2, j2 = pos[0] + di, pos[1] + dj
+        if 0 <= i2 < end[0] and 0 <= j2 < end[1]:
+            yield i2, j2

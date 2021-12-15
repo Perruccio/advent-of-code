@@ -38,10 +38,10 @@ def part2(data):
     return paths(data, 'start', 'end', True)
 
 def main(pretty_print = True):
-    def process_line(line):
+    def map_line(line):
         return line.split('-')
     
-    raw = map_input_lines(prj_path + '/input/day12.txt', process_line)
+    raw = map_input_lines(prj_path + '/input/day12.txt', map_line)
     
     data = defaultdict(set)
     for a, b in raw:

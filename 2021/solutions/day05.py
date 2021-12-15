@@ -37,11 +37,11 @@ def part2(data):
     return get_overlaps(data, lambda v: straight(*v) or diag(*v))
 
 def main(pretty_print = True):
-    def process_line(line):
+    def map_line(line):
         (x1, y1), (x2, y2) = map(lambda s: map(int, s.split(',')), line.split('->'))
         return (x1, y1), (x2, y2)
     
-    data = map_input_lines(prj_path + '/input/day05.txt', process_line)
+    data = map_input_lines(prj_path + '/input/day05.txt', map_line)
     
     if (pretty_print):
         print_results(1, part1, data)

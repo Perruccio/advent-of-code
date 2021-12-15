@@ -29,11 +29,11 @@ def part2(data):
 
 def main(pretty_print = True):
     
-    def process_line(line):
+    def map_line(line):
         a, b = line.split()
         return a, int(b)
     
-    data = map_input_lines(prj_path + '/input/day02.txt', process_line)
+    data = map_input_lines(prj_path + '/input/day02.txt', map_line)
     
     if (pretty_print):
         print_results(1, part1, data)

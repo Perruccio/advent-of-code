@@ -64,11 +64,11 @@ def part2(data):
 def main(pretty_print = True):
     
     # use frozen set as keys of dict (standard sets are not hashable)
-    def process_line(line):
+    def map_line(line):
         a, b = line.split('|')
         return list(map(frozenset, a.split())), list(map(frozenset, b.split()))
     
-    data = map_input_lines(prj_path + '/input/day08.txt', process_line)
+    data = map_input_lines(prj_path + '/input/day08.txt', map_line)
     
     if (pretty_print):
         print_results(1, part1, data)
