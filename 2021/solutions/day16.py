@@ -74,7 +74,7 @@ def get_packet(b, i):
         sub_packets, i = get_sub_packets(b, i)
         return Packet(version, type, sub_packets=sub_packets), i
 
-def get_packets(data):
+def decode(data):
     b = hex2bin(data)
     i = 0
     while i < len(b):
@@ -84,10 +84,10 @@ def get_packets(data):
         yield packet
 
 def part1(data):
-    return sum([p.sum_versions() for p in get_packets(data)])
+    return sum([p.sum_versions() for p in decode(data)])
 
 def part2(data):
-    return next(get_packets(data)).evaluate()
+    return next(decode(data)).evaluate()
 
 def main(pretty_print = True):
     
