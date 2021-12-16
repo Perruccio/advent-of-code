@@ -7,10 +7,10 @@ from utils.aoc import *
 from math import prod
 
 class Packet:
-    def __init__(self, version, type, literal=None, sub_packets=None):
+    def __init__(self, version, type, value=None, sub_packets=None):
         self.version = version
         self.type = type
-        self.literal = literal
+        self.value = value
         self.sub_packets = [] if sub_packets is None else sub_packets
 
     def sum_versions(self):
@@ -27,7 +27,7 @@ class Packet:
             case 3:
                 return max([p.evaluate() for p in self.sub_packets])
             case 4:
-                return self.literal
+                return self.value
             case 5:
                 return self.sub_packets[0].evaluate() > self.sub_packets[1].evaluate()
             case 6:
@@ -35,13 +35,13 @@ class Packet:
             case 7:
                 return self.sub_packets[0].evaluate() == self.sub_packets[1].evaluate()
 
-def get_literal(b, i):
-    # return value of the literal and advance index
-    literal = ""
+def get_value(b, i):
+    # return value of the literal packet and advance index
+    value = ""
     while b[i] == '1':
-        literal, i = literal + b[i+1:i+5], i+5
-    literal, i = literal + b[i+1:i+5], i+5
-    return int(literal, 2), i
+        value, i = value + b[i+1:i+5], i+5
+    value, i = value + b[i+1:i+5], i+5
+    return int(value, 2), i
 
 def get_sub_packets(b, i):
     sub_packets = []
@@ -66,11 +66,11 @@ def get_packet(b, i):
     type, i = int(b[i:i+3], 2), i+3
     # data
     if type == 4:
-        # literal
-        literal, i = get_literal(b, i)
-        return Packet(version, type, literal=literal), i
+        # value
+        value, i = get_value(b, i)
+        return Packet(version, type, value=value), i
     else:
-        # is operator
+        # is operator, get operands
         sub_packets, i = get_sub_packets(b, i)
         return Packet(version, type, sub_packets=sub_packets), i
 
