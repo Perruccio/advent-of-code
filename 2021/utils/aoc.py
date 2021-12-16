@@ -50,5 +50,5 @@ def get_neighbours(pos, end, exclude_diag=False):
         if 0 <= i2 < end[0] and 0 <= j2 < end[1]:
             yield i2, j2
 
-def hex2bin(hex_digits):
-    return "".join([bin(int(hex_digit, 16))[2:].zfill(4) for hex_digit in hex_digits])
+def hex2bin(hex_digits, fill=True):
+    return "".join([bin(int(hex_digit, 16))[2:].zfill(4 * int(fill)) for hex_digit in hex_digits])
