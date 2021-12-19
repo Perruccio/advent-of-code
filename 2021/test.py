@@ -20,6 +20,7 @@ answers = OrderedDict({
     'day15' : (562, 2874),
     'day16' : (854, 186189840660),
     'day17' : (8911, 4748),
+    'day18' : (4391, 4626),
 })
 
 def print_test(day):

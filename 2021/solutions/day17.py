@@ -8,7 +8,7 @@ import re
 """
 given (x0, y0) initial position and (vx0, vy0) initial velocity,
 knowint the acceleration and friction,
-the equations of the motions are (position updated before velocity):
+the equations of the motion are (position updated before velocity):
 
 ---
 | x(n) = x0 + vx0 * (vx0 + 1) / 2 - (vx0 - n) * (vx0 - n + ) / 2 * (n < vx0)
@@ -50,6 +50,9 @@ def part1(x_min, x_max, y_min, y_max):
     raise ValueError("couldn't find any solution")
 
 def part2(x_min, x_max, y_min, y_max):
+    # we could find the solution without brute force
+    # computing x(n), y(n) everytime from (0,0) is useless
+    # but i wanted to test the dynamics
     res = 0
     for vx in range(1, x_max + 1):
         for vy in range(y_min, -y_min + 1):
