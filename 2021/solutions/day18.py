@@ -14,6 +14,8 @@ def furthest_node(tree, dir):
     return tree
 
 class Tree:
+    """ a binary tree, leaf nodes are trees with non-None leaf attribute
+    store also the parent as attribute"""
     def __init__(self, node):
         if isinstance(node, int):
             self.leaf = node
@@ -74,15 +76,16 @@ class Tree:
             return self.left.split() or self.right.split()
 
     def reduce(self):
-        while True:
-            if not self.explode() and not self.split():
-                break
+        # exploit priority of or operator
+        while self.explode() or self.split():
+            pass
         return self
 
     def magnitude(self):
         if self.leaf is not None:
             return self.leaf
-        return 3 * self.left.magnitude() + 2 * self.right.magnitude()
+        else:
+            return 3 * self.left.magnitude() + 2 * self.right.magnitude()
 
     def __add__(self, tree):
         return Tree([self, tree]).reduce()
