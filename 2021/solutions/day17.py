@@ -4,10 +4,29 @@ prj_path = str(pathlib.Path(__file__).parent.parent.resolve())
 sys.path.append(prj_path)
 from utils.aoc import *
 import re
-from math import sqrt
+
+"""
+given (x0, y0) initial position and (vx0, vy0) initial velocity,
+knowint the acceleration and friction,
+the equations of the motions are (position updated before velocity):
+
+---
+| x(n) = x0 + vx0 * (vx0 + 1) / 2 - (vx0 - n) * (vx0 - n + ) / 2 * (n < vx0)
+| y(n) = y0 + vy0 * n - n * (n - 1) / 2
+|
+| vx(n) = max(vx0 - n, 0)
+| vy(n) = vy0 - n
+---
+
+in our case x(0) = y(0) = 0
+
+if vy0 > 0, max height is hit when vy(n_hi) = 0
+i.e. when n_hi = vy0, and y(n_hi) = vy0 * (vy0 + 1) / 2
+
+"""
 
 def move(x, y, vx, vy, n):
-    xn = x + vx * (vx + 1) // 2 - (vx - n) * (vx - n + 1) * (n < vx)
+    xn = x + vx * (vx + 1) // 2 - (vx - n) * (vx - n + 1) // 2 * (n < vx)
     yn = y + vy * n - n * (n - 1) // 2
     vxn = max(vx - n, 0)
     vyn = vy - n
@@ -31,7 +50,18 @@ def part1(x_min, x_max, y_min, y_max):
     raise ValueError("couldn't find any solution")
 
 def part2(x_min, x_max, y_min, y_max):
-    pass
+    res = 0
+    for vx in range(1, x_max + 1):
+        for vy in range(y_min, -y_min + 1):
+            n, xn, yn = 0, 0, 0
+            while xn <= x_max and yn >= y_min:
+                if x_min <= xn <= x_max and y_min <= yn <= y_max:
+                    res += 1
+                    break
+                n += 1
+                xn, yn = move(0, 0, vx, vy, n)[0]
+    return res
+
 
 def main(pretty_print = True):
     
