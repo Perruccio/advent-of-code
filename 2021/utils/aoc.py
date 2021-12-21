@@ -56,3 +56,13 @@ def get_neighbours(pos, end, exclude_diag=False):
 
 def hex2bin(hex_digits, fill=True):
     return "".join([bin(int(hex_digit, 16))[2:].zfill(4 * int(fill)) for hex_digit in hex_digits])
+
+def print_image(image):
+    for line in image:
+        for c in line:
+            if c:
+                print('#', end='')
+            else:
+                print('.', end='')
+        print()
+    print()
