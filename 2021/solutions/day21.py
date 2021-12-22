@@ -27,7 +27,7 @@ def part1(p1, p2):
         if s2 >= 1000:
             winner = 2
             break
-        
+
     return rolls * (s1 if winner == 2 else s2)
 
 OUTCOMES = Counter(map(sum, product(*[[1,2,3]]*3)))
@@ -49,21 +49,21 @@ def quantum_dice(p1, s1, p2, s2):
         win1 += next_win1 * freq
         win2 += next_win2 * freq
     return win1, win2
-        
+
 def part2(p1, p2):
     return max(quantum_dice(p1, 0, p2, 0))
 
 def main(pretty_print = True):
     def map_line(line):
         return int(line.split(': ')[1])
-    
+
     p1, p2 = map_input_lines(prj_path + '/input/day21.txt', map_line)
-    
+
     if (pretty_print):
         print_results(1, part1, p1, p2)
         print_results(2, part2, p1, p2)
     else:
         return part1(p1, p2), part2(p1, p2)
-   
+
 if __name__ == "__main__":
     main()

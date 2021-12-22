@@ -26,7 +26,7 @@ def part2(points, foldings, pretty_print = True):
     return len(points)
 
 def main(pretty_print = True):
-    
+
     raw = input_as_lines(prj_path + '/input/day13.txt')
     i = raw.index('')
     points = set(map(lambda s: tuple(map(int, s.split(','))), raw[:i]))
@@ -37,6 +37,6 @@ def main(pretty_print = True):
         print_results(2, part2, points, foldings)
     else:
         return part1(points, foldings), part2(points, foldings, False)
-   
+
 if __name__ == "__main__":
     main()

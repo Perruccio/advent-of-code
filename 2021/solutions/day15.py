@@ -16,7 +16,7 @@ def dijkstra(grid, scale=1):
         ii, jj = node[0] // h, node[1] // w
         x = grid[node[0] % h][node[1] % w] + ii + jj
         return 1 + (x - 1) % 9
-    
+
     # compute start and end points
     h, w = len(grid), len(grid[0])
     start, end = (0, 0), (h * scale - 1, w * scale - 1)
@@ -48,7 +48,7 @@ def dijkstra(grid, scale=1):
             # already solved
             if neigh in visited:
                 continue
-            
+
             # update distance if current path is better
             new_dist = dist + cost(h, w, neigh, grid)
             if new_dist < min_dist[neigh]:
@@ -57,7 +57,7 @@ def dijkstra(grid, scale=1):
                 #prev[neigh] = node
     return dist[end]#, prev
 
-def part1(data):     
+def part1(data):
     return dijkstra(data)
 
 def part2(data):
@@ -74,6 +74,6 @@ def main(pretty_print = True):
         print_results(2, part2, data)
     else:
         return part1(data), part2(data)
-   
+
 if __name__ == "__main__":
     main()

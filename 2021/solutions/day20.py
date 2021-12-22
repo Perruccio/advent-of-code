@@ -18,7 +18,7 @@ def enhance(image, inf, alg):
     # new image
     h, w = len(image) + 2, len(image[0]) + 2
     new_image = [[0] * w for _ in range(h)]
-    
+
     # add padding to old image
     pad_image = [[inf] * w]
     for line in image:
@@ -44,7 +44,7 @@ def part1(image, alg):
 def part2(image, alg):
     return enhance_n(image, alg, 50)
 
-def main(pretty_print = True):    
+def main(pretty_print = True):
     data = input_as_string(prj_path + '/input/day20.txt').split('\n\n')
     alg = [int(x == '#') for x in data[0]]
     image = [[int(x == '#') for x in line] for line in data[1].split('\n')]
@@ -54,6 +54,6 @@ def main(pretty_print = True):
         print_results(2, part2, image, alg)
     else:
         return part1(image, alg), part2(image, alg)
-   
+
 if __name__ == "__main__":
     main()

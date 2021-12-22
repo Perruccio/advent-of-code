@@ -18,10 +18,10 @@ def solve(polymer, rules, n):
     # model the data as pairs, don't mind the whole sequence
     # every pair is independent
     pairs = Counter({pair: polymer.count(pair) for pair in rules})
-        
+
     # keep count of occurences of each letter
     occurrences = Counter(polymer)
-    for _ in range(n): 
+    for _ in range(n):
         pairs, occ = insert(pairs, rules)
         occurrences += occ
     return max(occurrences.values()) - min(occurrences.values())
@@ -34,7 +34,7 @@ def part2(polymer, rules):
 
 def main(pretty_print = True):
     data = input_as_lines(prj_path + '/input/day14.txt')
-    
+
     polymer = data[0]
     rules = dict(rule.split(' -> ') for rule in data[2:])
 
@@ -43,6 +43,6 @@ def main(pretty_print = True):
         print_results(2, part2, polymer, rules)
     else:
         return part1(polymer, rules), part2(polymer, rules)
-   
+
 if __name__ == "__main__":
     main()

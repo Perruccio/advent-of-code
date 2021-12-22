@@ -67,7 +67,7 @@ def part2(x_min, x_max, y_min, y_max):
 
 
 def main(pretty_print = True):
-    
+
     data = input_as_string(prj_path + '/input/day17.txt')
 
     x_min, x_max, y_min, y_max = map(int, re.findall(RE['int'], data))
@@ -77,6 +77,6 @@ def main(pretty_print = True):
         print_results(2, part2, x_min, x_max, y_min, y_max)
     else:
         return part1(x_min, x_max, y_min, y_max), part2(x_min, x_max, y_min, y_max)
-   
+
 if __name__ == "__main__":
     main()

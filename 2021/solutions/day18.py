@@ -95,7 +95,7 @@ def part1(data):
     for i in range(1, len(data)):
         tree += Tree(data[i])
     return tree.magnitude()
-    
+
 def part2(data):
     res = 0
     for i in range(len(data)):
@@ -115,6 +115,6 @@ def main(pretty_print = True):
         print_results(2, part2, data)
     else:
         return part1(data), part2(data)
-   
+
 if __name__ == "__main__":
     main()

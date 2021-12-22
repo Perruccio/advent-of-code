@@ -14,7 +14,7 @@ def input_as_string(filename:str) -> str:
 def input_as_lines(filename:str) -> List[str]:
     """Return a list where each line in the input file is an element of the list"""
     return input_as_string(filename).split("\n")
-    
+
 def map_input_lines(filename:str, func) -> List:
     """Returns the content of the input file as a list of mapped lines"""
     return list(map(func, input_as_lines(filename)))
@@ -39,7 +39,7 @@ def sign(x:float) -> float:
 
 def mean(l):
     return sum(l) / len(l)
-    
+
 def sorted_string(s):
     s = sorted(s)
     return ''.join(s)

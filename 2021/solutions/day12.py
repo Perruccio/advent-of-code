@@ -8,7 +8,7 @@ from collections import defaultdict, deque
 def paths(graph, start, end, single_small_twice = False):
     # (node, visited, can_visit_one_small_twice)
     # define a state as the current node + the set of visited nodes,
-    # so that the back-tracking is automatic. add 'twice' for part 2 
+    # so that the back-tracking is automatic. add 'twice' for part 2
     # use DFS to lower the memory used
     stack = deque([(start, {start}, single_small_twice)])
 
@@ -40,9 +40,9 @@ def part2(data):
 def main(pretty_print = True):
     def map_line(line):
         return line.split('-')
-    
+
     raw = map_input_lines(prj_path + '/input/day12.txt', map_line)
-    
+
     data = defaultdict(set)
     for a, b in raw:
         # don't add links to start as they are useless and are a problem for part 2
@@ -56,6 +56,6 @@ def main(pretty_print = True):
         print_results(2, part2, data)
     else:
         return part1(data), part2(data)
-   
+
 if __name__ == "__main__":
     main()

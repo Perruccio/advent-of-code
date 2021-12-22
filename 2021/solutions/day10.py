@@ -48,14 +48,14 @@ def part2(data):
 def main(pretty_print = True):
     def map_line(line):
         return line
-    
+
     data = map_input_lines(prj_path + '/input/day10.txt', map_line)
-    
+
     if (pretty_print):
         print_results(1, part1, data)
         print_results(2, part2, data)
     else:
         return part1(data), part2(data)
-   
+
 if __name__ == "__main__":
     main()

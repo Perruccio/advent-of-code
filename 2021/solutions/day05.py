@@ -27,12 +27,12 @@ def get_overlaps(data, can_overlap):
             # add visited steps
             for i in range(0, n_steps + 1):
                 overlaps[move(vertices[0], (i * x_dir, i * y_dir))] += 1
-                
+
     return sum(1 for value in overlaps.values() if value > 1)
 
 def part1(data):
     return get_overlaps(data, lambda v: straight(*v))
-            
+
 def part2(data):
     return get_overlaps(data, lambda v: straight(*v) or diag(*v))
 
@@ -40,14 +40,14 @@ def main(pretty_print = True):
     def map_line(line):
         (x1, y1), (x2, y2) = map(lambda s: map(int, s.split(',')), line.split('->'))
         return (x1, y1), (x2, y2)
-    
+
     data = map_input_lines(prj_path + '/input/day05.txt', map_line)
-    
+
     if (pretty_print):
         print_results(1, part1, data)
         print_results(2, part2, data)
     else:
         return part1(data), part2(data)
-   
+
 if __name__ == "__main__":
     main()

@@ -13,7 +13,7 @@ class Board:
         self.marks = [[0 for _ in range(self.size)] for _ in range(self.size)]
         self.won = False
         self.score = None
-        
+
     def __position(self, n):
         """ return, if found, the coordinates
         of the number n in the bingo board"""
@@ -30,7 +30,7 @@ class Board:
         check_cols = any(all(col) for col in list(zip(*self.marks)))
         self.won = check_rows or check_cols
         return self.won
-                
+
     def __sum_unmarked(self):
         """ compute the sum of all unmarked number
         of a board"""
@@ -40,11 +40,11 @@ class Board:
                 if not self.marks[i][j]:
                     res += self.board[i][j]
         return res
-    
+
     def calc_score(self, n):
         self.score = n * self.__sum_unmarked()
         return self.score
-    
+
     def mark_n(self, n):
         pos = self.__position(n)
         if pos is not None:
@@ -56,7 +56,7 @@ class Board:
 def part1(numbers, raw_boards):
     """ brute force until a board wins, number by number"""
     boards = [Board(b) for b in raw_boards]
-    
+
     for n in numbers:
         # mark n in every board (if found)
         for b in boards:
@@ -64,15 +64,15 @@ def part1(numbers, raw_boards):
             if b.won:
                 return b.score
     return None
-            
+
 def part2(numbers, raw_boards):
     # init a corresponding table of marked numbers for each board
     boards = [Board(b) for b in raw_boards]
-    
+
     last_win_score = 0
     for n in numbers:
         # mark n in every board (if found)
-        for b in boards: 
+        for b in boards:
             # check only if not already won
             if not b.won:
                 b.mark_n(n)
@@ -81,7 +81,7 @@ def part2(numbers, raw_boards):
     return last_win_score
 
 def main(pretty_print = True):
-    
+
     raw = input_as_lines(prj_path + '/input/day04.txt')
     # get drawn numbers in order
     numbers = [int(x) for x in raw[0].split(',')]
@@ -90,12 +90,12 @@ def main(pretty_print = True):
     boards = []
     for i in range(2, len(raw), BOARD_SZ + 1):
         boards.append([[int(x) for x in raw[j].split()] for j in range(i, i + BOARD_SZ)])
-    
+
     if (pretty_print):
         print_results(1, part1, numbers, boards)
         print_results(2, part2, numbers, boards)
     else:
         return part1(numbers, boards), part2(numbers, boards)
-   
+
 if __name__ == "__main__":
     main()

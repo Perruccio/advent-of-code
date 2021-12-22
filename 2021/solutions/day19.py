@@ -90,9 +90,9 @@ def part2(scanners):
     return max_dist
 
 def main(pretty_print = True):
-    
+
     raw = input_as_lines(prj_path + '/input/day19.txt')
-    
+
     data = []
     i = 0
     while i < len(raw):
@@ -103,7 +103,7 @@ def main(pretty_print = True):
                 i += 1
             data.append(scanner)
             i += 1
-    
+
     beacons, scanners = scan(data)
 
     if (pretty_print):
@@ -111,6 +111,6 @@ def main(pretty_print = True):
         print_results(2, part2, scanners)
     else:
         return part1(data), part2(scanners)
-   
+
 if __name__ == "__main__":
     main()

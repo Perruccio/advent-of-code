@@ -25,14 +25,14 @@ def part2(data):
     return min(fuel(m1), fuel(m1 + 1))
 
 def main(pretty_print = True):
-    
+
     data = list(map(int, input_as_string(prj_path + '/input/day07.txt').rstrip().split(',')))
-    
+
     if (pretty_print):
         print_results(1, part1, data)
         print_results(2, part2, data)
     else:
         return part1(data), part2(data)
-   
+
 if __name__ == "__main__":
     main()

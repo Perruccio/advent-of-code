@@ -11,14 +11,14 @@ def part2(v, shift=3):
     return sum(map(int.__lt__, v, v[shift:]))
 
 def main(pretty_print = True):
-    
+
     data = map_input_lines(prj_path + '/input/day01.txt', int)
-    
+
     if (pretty_print):
         print_results(1, part1, data)
         print_results(2, part2, data)
     else:
         return part1(data), part2(data)
-    
+
 if __name__ == "__main__":
     main()
