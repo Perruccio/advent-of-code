@@ -5,30 +5,22 @@ sys.path.append(prj_path)
 from utils.aoc import *
 import re
 
-def solve(data, ignore=lambda _:False):
-    def check(olds, new, new_cuboids):
-        for c in olds:
-            intersection = c.intersection(new, -c.on)
-            if intersection is not None:
-                new_cuboids.add(intersection)
-        return new_cuboids
+def solve(data):
 
-    intersections = set()
-    originals = set()
-    for step in data:
-        cuboid = Cuboid(*step[1:], step[0])
-        if ignore(cuboid):
-            continue
-        new_cuboids = check(originals, cuboid, set())
-        if new_cuboids:
-            new_cuboids = check(intersections, cuboid, new_cuboids)
+    def untouched_volume(cuboid, next):
+        """ return only the volume of cuboid that
+        will never be changed by following instructions"""
+        intersections = [cuboid.intersect(c) for c in next if cuboid.intersect(c)]
+        return cuboid.volume() - sum([untouched_volume(intersections[i], intersections[i+1:]) for i in range(len(intersections))])
 
-        originals.add(cuboid)
-        intersections |= new_cuboids
-    return sum([c.on * c.volume() for c in originals | intersections])
+    # read the data
+    ons, cuboids = zip(*map(lambda step: (step[0], Cuboid(*step[1:])), data))
+    # for each cuboid, add up only the part of the volume that will never change
+    return sum([untouched_volume(cuboids[i], cuboids[i+1:]) for i in range(len(ons)) if ons[i] == 1])
 
 def part1(data):
-    return solve(data, lambda c: not c.is_small())
+    data = [l for l in data if Cuboid(*l[1:]).is_small(50)]
+    return solve(data)
 
 def part2(data):
     return solve(data)

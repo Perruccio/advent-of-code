@@ -73,12 +73,11 @@ def intersect1d(aa, bb):
     return (l, r) if l <= r else None
 
 class Cuboid():
-    def __init__(self, xx, yy, zz, on=1):
+    def __init__(self, xx, yy, zz):
         assert xx[0] <= xx[1] and yy[0] <= yy[1] and zz[0] <= zz[1]
         self.xx = xx
         self.yy = yy
         self.zz = zz
-        self.on = on
 
     def is_small(self, l=50):
         return all(-l <= tt[0] and tt[1] <= l for tt in [self.xx, self.yy, self.zz])
@@ -86,10 +85,10 @@ class Cuboid():
     def volume(self):
         return (self.xx[1] - self.xx[0] + 1) * (self.yy[1] - self.yy[0] + 1) * (self.zz[1] - self.zz[0] + 1)
 
-    def intersection(self, other, on):
+    def intersect(self, other):
         xx = intersect1d(self.xx, other.xx)
         yy = intersect1d(self.yy, other.yy)
         zz = intersect1d(self.zz, other.zz)
         if any([t is None for t in [xx, yy, zz]]):
             return None
-        return Cuboid(xx, yy, zz, on)
+        return Cuboid(xx, yy, zz)
