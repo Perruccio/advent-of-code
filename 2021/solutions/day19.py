@@ -110,7 +110,7 @@ def main(pretty_print = True):
         print_results(1, part1, beacons)
         print_results(2, part2, scanners)
     else:
-        return part1(data), part2(scanners)
+        return part1(beacons), part2(scanners)
 
 if __name__ == "__main__":
     main()
