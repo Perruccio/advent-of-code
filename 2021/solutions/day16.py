@@ -1,7 +1,7 @@
 import sys
 import pathlib
 from typing import Literal
-prj_path = str(pathlib.Path(__file__).parent.parent.resolve())
+prj_path = str(pathlib.Path(__file__).parent.parent.parent.resolve())
 sys.path.append(prj_path)
 from utils.aoc import *
 from math import prod
@@ -91,7 +91,7 @@ def part2(data):
 
 def main(pretty_print = True):
 
-    data = input_as_string(prj_path + '/input/day16.txt')
+    data = input_as_string(prj_path + '/2021/input/day16.txt')
 
     if (pretty_print):
         print_results(1, part1, data)

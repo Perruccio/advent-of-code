@@ -1,6 +1,6 @@
 import sys
 import pathlib
-prj_path = str(pathlib.Path(__file__).parent.parent.resolve())
+prj_path = str(pathlib.Path(__file__).parent.parent.parent.resolve())
 sys.path.append(prj_path)
 from utils.aoc import *
 import re
@@ -68,7 +68,7 @@ def part2(x_min, x_max, y_min, y_max):
 
 def main(pretty_print = True):
 
-    data = input_as_string(prj_path + '/input/day17.txt')
+    data = input_as_string(prj_path + '/2021/input/day17.txt')
 
     x_min, x_max, y_min, y_max = map(int, re.findall(RE['int'], data))
 

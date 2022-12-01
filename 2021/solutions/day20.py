@@ -1,6 +1,6 @@
 import sys
 import pathlib
-prj_path = str(pathlib.Path(__file__).parent.parent.resolve())
+prj_path = str(pathlib.Path(__file__).parent.parent.parent.resolve())
 sys.path.append(prj_path)
 from utils.aoc import *
 
@@ -45,7 +45,7 @@ def part2(image, alg):
     return enhance_n(image, alg, 50)
 
 def main(pretty_print = True):
-    data = input_as_string(prj_path + '/input/day20.txt').split('\n\n')
+    data = input_as_string(prj_path + '/2021/input/day20.txt').split('\n\n')
     alg = [int(x == '#') for x in data[0]]
     image = [[int(x == '#') for x in line] for line in data[1].split('\n')]
 

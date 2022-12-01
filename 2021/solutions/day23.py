@@ -1,6 +1,6 @@
 import sys
 import pathlib
-prj_path = str(pathlib.Path(__file__).parent.parent.resolve())
+prj_path = str(pathlib.Path(__file__).parent.parent.parent.resolve())
 sys.path.append(prj_path)
 from utils.aoc import *
 from collections import deque
@@ -197,7 +197,7 @@ def main(pretty_print = True):
     def map_line(line):
         return list(line)
 
-    data = map_input_lines(prj_path + '/input/day23.txt', map_line)
+    data = map_input_lines(prj_path + '/2021/input/day23.txt', map_line)
     data[-2] += [' '] * 2
     data[-1] += [' '] * 2
 

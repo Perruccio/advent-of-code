@@ -1,6 +1,6 @@
 import sys
 import pathlib
-prj_path = str(pathlib.Path(__file__).parent.parent.resolve())
+prj_path = str(pathlib.Path(__file__).parent.parent.parent.resolve())
 sys.path.append(prj_path)
 from utils.aoc import *
 from collections import defaultdict, deque
@@ -41,7 +41,7 @@ def main(pretty_print = True):
     def map_line(line):
         return line.split('-')
 
-    raw = map_input_lines(prj_path + '/input/day12.txt', map_line)
+    raw = map_input_lines(prj_path + '/2021/input/day12.txt', map_line)
 
     data = defaultdict(set)
     for a, b in raw:

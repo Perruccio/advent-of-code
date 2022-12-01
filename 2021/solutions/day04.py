@@ -1,6 +1,6 @@
 import sys
 import pathlib
-prj_path = str(pathlib.Path(__file__).parent.parent.resolve())
+prj_path = str(pathlib.Path(__file__).parent.parent.parent.resolve())
 sys.path.append(prj_path)
 from utils.aoc import *
 
@@ -82,7 +82,7 @@ def part2(numbers, raw_boards):
 
 def main(pretty_print = True):
 
-    raw = input_as_lines(prj_path + '/input/day04.txt')
+    raw = input_as_lines(prj_path + '/2021/input/day04.txt')
     # get drawn numbers in order
     numbers = [int(x) for x in raw[0].split(',')]
     # get bingo boards as (list of) lists of lists

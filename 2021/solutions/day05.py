@@ -1,6 +1,6 @@
 import sys
 import pathlib
-prj_path = str(pathlib.Path(__file__).parent.parent.resolve())
+prj_path = str(pathlib.Path(__file__).parent.parent.parent.resolve())
 sys.path.append(prj_path)
 from utils.aoc import *
 from collections import defaultdict
@@ -41,7 +41,7 @@ def main(pretty_print = True):
         (x1, y1), (x2, y2) = map(lambda s: map(int, s.split(',')), line.split('->'))
         return (x1, y1), (x2, y2)
 
-    data = map_input_lines(prj_path + '/input/day05.txt', map_line)
+    data = map_input_lines(prj_path + '/2021/input/day05.txt', map_line)
 
     if (pretty_print):
         print_results(1, part1, data)

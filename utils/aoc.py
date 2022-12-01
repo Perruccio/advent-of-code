@@ -2,29 +2,42 @@
 from typing import List
 import time
 
-RE = {
-    "int": '[+-]?\d+'
-}
+RE = {"int": "[+-]?\d+"}
 
-def input_as_string(filename:str) -> str:
+
+def input_as_string(filename: str) -> str:
     """Returns the content of the input file as a string"""
     with open(filename) as f:
         return f.read().rstrip("\n")
 
-def input_as_lines(filename:str) -> List[str]:
+
+def input_as_lines(filename: str) -> List[str]:
     """Return a list where each line in the input file is an element of the list"""
     return input_as_string(filename).split("\n")
 
-def map_input_lines(filename:str, func) -> List:
+
+def map_input_lines(filename: str, func) -> List:
     """Returns the content of the input file as a list of mapped lines"""
     return list(map(func, input_as_lines(filename)))
+
+
+def input_as_list_of_lists(filename: str, delim: str = "", func=int) -> List[List]:
+    """Parse input where data are lists separated by a delimiter line"""
+    return list(
+        map(
+            lambda line: [func(x) for x in line.split("\n")],
+            input_as_string(filename).split("\n" + delim + "\n"),
+        )
+    )
+
 
 def print_results(part, func, *arg, **kw):
     t = time.time_ns()
     ans = func(*arg, **kw)
-    ns = time.time_ns() - t #nanoseconds
+    ns = time.time_ns() - t  # nanoseconds
     print(f"Part {part}: {ans} ({time_measure(ns)})")
     return ans
+
 
 def time_measure(ns):
     # compute appropriate time measure units
@@ -32,20 +45,24 @@ def time_measure(ns):
     while ns >= 1000 and i < 3:
         ns /= 1000
         i += 1
-    return str(f'{ns:.2f}') + " " + ["ns", "us", "ms", "s"][i]
+    return str(f"{ns:.2f}") + " " + ["ns", "us", "ms", "s"][i]
 
-def sign(x:float) -> float:
+
+def sign(x: float) -> float:
     return 1 if x > 0 else -1 if x < 0 else 0
+
 
 def mean(l):
     return sum(l) / len(l)
 
+
 def sorted_string(s):
     s = sorted(s)
-    return ''.join(s)
+    return "".join(s)
+
 
 def get_neighbours(pos, end, exclude_diag=False):
-    """ return the position of the neighbours of pos in a 2d matrix"""
+    """return the position of the neighbours of pos in a 2d matrix"""
     shifts = [(0, 1), (0, -1), (1, 0), (-1, 0)]
     if not exclude_diag:
         shifts += [(1, 1), (1, -1), (-1, 1), (-1, -1)]
@@ -54,25 +71,29 @@ def get_neighbours(pos, end, exclude_diag=False):
         if 0 <= i2 < end[0] and 0 <= j2 < end[1]:
             yield i2, j2
 
+
 def hex2bin(hex_digits, fill=True):
     return "".join([bin(int(hex_digit, 16))[2:].zfill(4 * int(fill)) for hex_digit in hex_digits])
+
 
 def print_image(image):
     for line in image:
         for c in line:
             if c:
-                print('#', end='')
+                print("#", end="")
             else:
-                print('.', end='')
+                print(".", end="")
         print()
     print()
+
 
 def intersect1d(aa, bb):
     l = max(aa[0], bb[0])
     r = min(aa[1], bb[1])
     return (l, r) if l <= r else None
 
-class Cuboid():
+
+class Cuboid:
     def __init__(self, xx, yy, zz):
         assert xx[0] <= xx[1] and yy[0] <= yy[1] and zz[0] <= zz[1]
         self.xx = xx
@@ -83,7 +104,11 @@ class Cuboid():
         return all(-l <= tt[0] and tt[1] <= l for tt in [self.xx, self.yy, self.zz])
 
     def volume(self):
-        return (self.xx[1] - self.xx[0] + 1) * (self.yy[1] - self.yy[0] + 1) * (self.zz[1] - self.zz[0] + 1)
+        return (
+            (self.xx[1] - self.xx[0] + 1)
+            * (self.yy[1] - self.yy[0] + 1)
+            * (self.zz[1] - self.zz[0] + 1)
+        )
 
     def intersect(self, other):
         xx = intersect1d(self.xx, other.xx)
