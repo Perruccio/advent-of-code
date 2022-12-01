@@ -5,8 +5,6 @@ prj_path = str(pathlib.Path(__file__).parent.parent.parent.resolve())
 sys.path.append(prj_path)
 
 from utils.aoc import *
-from math import prod
-
 
 def part1(v):
     return max([sum(cal) for cal in v])
