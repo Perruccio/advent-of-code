@@ -7,7 +7,7 @@ sys.path.append(str(root))
 
 from utils.aoc import *
 
-
+# rock:1, paper:2, scissors:3
 shape_points = {0: 1, 1: 2, 2: 3}
 
 outcome_points = {"win": 6, "draw": 3, "loss": 0}
