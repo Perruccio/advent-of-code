@@ -39,12 +39,11 @@ def part1(v):
 
 
 def part2(v):
-    decrypt_strategy = {"X": "lose", "Y": "draw", "Z": "win"}
-
     def compute_move(strategy, opponent):
-        if strategy == "draw":
+        # return (opponent + ord(strategy) - ord("Y")) % 3
+        if strategy == "Y":
             return opponent
-        elif strategy == "lose":
+        elif strategy == "X":
             return (opponent - 1) % 3
         else:
             return (opponent + 1) % 3
@@ -52,7 +51,7 @@ def part2(v):
     return sum(
         [
             round_score(
-                compute_move(decrypt_strategy[pl_strat], decrypt_opponent(opp)),
+                compute_move(pl_strat, decrypt_opponent(opp)),
                 decrypt_opponent(opp),
             )
             for opp, pl_strat in v
