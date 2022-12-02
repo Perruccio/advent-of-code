@@ -8,34 +8,34 @@ sys.path.append(str(root))
 from utils.aoc import *
 
 
-decrypt_opponent = {
-    "A": "rock",
-    "B": "paper",
-    "C": "scissors",
-}
-
-shape_points = {"rock": 1, "paper": 2, "scissors": 3}
+shape_points = {0: 1, 1: 2, 2: 3}
 
 outcome_points = {"win": 6, "draw": 3, "loss": 0}
 
-beats = {"rock": "scissors", "scissors": "paper", "paper": "rock"}
+
+def decrypt_opponent(opp):
+    """modulo 3 moves: rock = 0, paper = 1, scissors = 2"""
+    return ord(opp) - ord("A")
 
 
 def rock_paper_scissors(player, opponent):
-    # return 'win'/'draw'/'loss' from player's perspective
-    if player == opponent:
-        return "draw"
-    return "win" if beats[player] == opponent else "loss"
+    """
+    return 'win'/'draw'/'loss' from player's perspective
+    use modulo 3 arithmetic, 0 < 1 < 2 < 0
+    """
+    #'draw' if player == opponent, 'win' if player = opponent + 1,
+    #lose if player == opponent-1 (mod3) (in this case player - opponent = -1 = 2)
+    return ["draw", "win", "loss"][(player - opponent) % 3]
 
 
 def round_score(player, opponent):
-    # shape points + outcome points
+    """ shape points + outcome points """
     return shape_points[player] + outcome_points[rock_paper_scissors(player, opponent)]
 
 
 def part1(v):
-    decrypt_player = {"X": "rock", "Y": "paper", "Z": "scissors"}
-    return sum([round_score(decrypt_player[pl], decrypt_opponent[opp]) for opp, pl in v])
+    decrypt_player = lambda pl: ord(pl) - ord("X")
+    return sum([round_score(decrypt_player(pl), decrypt_opponent(opp)) for opp, pl in v])
 
 
 def part2(v):
@@ -45,15 +45,15 @@ def part2(v):
         if strategy == "draw":
             return opponent
         elif strategy == "lose":
-            return beats[opponent]
+            return (opponent - 1) % 3
         else:
-            return {beats[winner]: winner for winner in beats}[opponent]
+            return (opponent + 1) % 3
 
     return sum(
         [
             round_score(
-                compute_move(decrypt_strategy[pl_strat], decrypt_opponent[opp]),
-                decrypt_opponent[opp],
+                compute_move(decrypt_strategy[pl_strat], decrypt_opponent(opp)),
+                decrypt_opponent(opp),
             )
             for opp, pl_strat in v
         ]
@@ -67,8 +67,7 @@ def get_input():
 def main(pretty_print=False):
     data = get_input()
     if pretty_print:
-        print_results(1, part1, data)
-        print_results(2, part2, data)
+        print_results(1, part1, data), print_results(2, part2, data)
     else:
         return part1(data), part2(data)
 
