@@ -29,5 +29,10 @@ def main(pretty_print=False):
         return part1(data), part2(data)
 
 
+def test():
+    """test for pytest"""
+    assert main() == (72240, 210957)
+
+
 if __name__ == "__main__":
     main(pretty_print=True)
