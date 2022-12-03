@@ -26,6 +26,7 @@ def part1(v):
 
 
 def part2(v, k=3):
+    assert len(v) % k == 0
     return sum(
         [
             priority((set(v[i]) & set(v[i + 1]) & set(v[i + 2])).pop())
