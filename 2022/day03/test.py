@@ -1,12 +1,17 @@
-import solution
+import sys
+import pathlib
+
+curr_dir = pathlib.Path(__file__).parent
+parent_dir = curr_dir.parent
+sys.path.append(str(parent_dir))
+from day03 import solution
+
+from utils.test import check_values
 
 
-def test():
-    p1, p2 = solution.main()
-    res1 = "OK" if p1 == 8123 else "ERROR"
-    res2 = "OK" if p2 == 2620 else "ERROR"
-    print(f"Day 1:\tpart 1 {res1}, part 2 {res2}")
+def check():
+    check_values(int(str(curr_dir)[-2:]), solution.main(), (8123, 2620))
 
 
 if __name__ == "__main__":
-    test()
+    check()
