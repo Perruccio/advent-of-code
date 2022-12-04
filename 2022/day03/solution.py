@@ -14,12 +14,14 @@ def get_input():
 
 
 def priority(x):
+    """['a', 'z'] -> [1, 26] and ['A', 'Z'] -> [27, 52]"""
     assert x.islower() or x.isupper()
     return 1 + ord(x) - ord("a") if x.islower() else 27 + ord(x) - ord("A")
 
 
 def part1(v):
     def share_item(line):
+        """compute intersection of halves of line"""
         mid = len(line) // 2
         return (set(line[:mid]) & set(line[mid:])).pop()
 
@@ -27,6 +29,7 @@ def part1(v):
 
 
 def part2(v, k=3):
+    """compute intersection of 3 consecutive lines"""
     assert len(v) % k == 0
     return sum(
         [
