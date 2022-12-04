@@ -35,7 +35,7 @@ def print_results(part, func, *arg, **kw):
     t = time.time_ns()
     ans = func(*arg, **kw)
     ns = time.time_ns() - t  # nanoseconds
-    print(f"Part {part}: {ans} ({time_measure(ns)})")
+    print(f"Part {part}: {ans} \t({time_measure(ns)})")
     return ans
 
 
@@ -73,7 +73,9 @@ def get_neighbours(pos, end, exclude_diag=False):
 
 
 def hex2bin(hex_digits, fill=True):
-    return "".join([bin(int(hex_digit, 16))[2:].zfill(4 * int(fill)) for hex_digit in hex_digits])
+    return "".join(
+        [bin(int(hex_digit, 16))[2:].zfill(4 * int(fill)) for hex_digit in hex_digits]
+    )
 
 
 def print_image(image):

@@ -63,12 +63,9 @@ def get_input():
     return map_input_lines(str(curr_dir) + "/input.txt", lambda line: line.split())
 
 
-def main(pretty_print=False):
+def main():
     data = get_input()
-    if pretty_print:
-        print_results(1, part1, data), print_results(2, part2, data)
-    else:
-        return part1(data), part2(data)
+    return print_results(1, part1, data), print_results(2, part2, data)
 
 
 def test():
@@ -77,4 +74,4 @@ def test():
 
 
 if __name__ == "__main__":
-    main(pretty_print=True)
+    main()
