@@ -5,14 +5,14 @@ curr_dir = pathlib.Path(__file__).parent
 root = curr_dir.parent.parent
 sys.path.append(str(root))
 
-from utils.aoc import *
+from utils import aoc
 
 
 def get_input():
     def get_ranges(line):
         return [list(map(int, range.split("-"))) for range in line.split(",")]
 
-    return map_input_lines(str(curr_dir) + "/input.txt", get_ranges)
+    return aoc.map_input_lines(str(curr_dir) + "/input.txt", get_ranges)
 
 
 def part1(v):
@@ -31,9 +31,10 @@ def part2(v):
     return sum(range_overlap(r1, r2) for r1, r2 in v)
 
 
-def main():
+def main(pretty=False):
     data = get_input()
-    return print_results(1, part1, data), print_results(2, part2, data)
+    return (aoc.output_procedure(1, part1, pretty, data),
+            aoc.output_procedure(2, part2, pretty, data))
 
 
 def test():

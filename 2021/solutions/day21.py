@@ -60,8 +60,8 @@ def main(pretty_print = True):
     p1, p2 = map_input_lines(prj_path + '/2021/input/day21.txt', map_line)
 
     if (pretty_print):
-        print_results(1, part1, p1, p2)
-        print_results(2, part2, p1, p2)
+        output_procedure(1, part1, True, p1, p2)
+        output_procedure(2, part2, True, p1, p2)
     else:
         return part1(p1, p2), part2(p1, p2)
 

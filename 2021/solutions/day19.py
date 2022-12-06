@@ -107,8 +107,8 @@ def main(pretty_print = True):
     beacons, scanners = scan(data)
 
     if (pretty_print):
-        print_results(1, part1, beacons)
-        print_results(2, part2, scanners)
+        output_procedure(1, part1, True, beacons)
+        output_procedure(2, part2, True, scanners)
     else:
         return part1(beacons), part2(scanners)
 

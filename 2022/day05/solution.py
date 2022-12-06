@@ -5,7 +5,7 @@ curr_dir = pathlib.Path(__file__).parent
 root = curr_dir.parent.parent
 sys.path.append(str(root))
 
-from utils.aoc import *
+from utils import aoc
 import copy
 
 
@@ -18,7 +18,7 @@ class CraneStep:
 
 def get_input():
     # read from file as list of strings
-    lines = input_as_lines(str(curr_dir) + "/input.txt")
+    lines = aoc.input_as_lines(str(curr_dir) + "/input.txt")
 
     ## first parse crates
     # stop at first empty line
@@ -62,9 +62,10 @@ def part2(crates, steps):
     return "".join([crate[-1] for crate in crates])
 
 
-def main():
+def main(pretty=False):
     crates, steps = get_input()
-    return print_results(1, part1, crates, steps), print_results(2, part2, crates, steps)
+    return (aoc.output_procedure(1, part1, pretty, crates, steps),
+            aoc.output_procedure(2, part2, pretty, crates, steps))
 
 
 def test():

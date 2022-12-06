@@ -31,11 +31,12 @@ def input_as_list_of_lists(filename: str, delim: str = "", func=int) -> List[Lis
     )
 
 
-def print_results(part, func, *arg, **kw):
+def output_procedure(part, func, pretty, *arg, **kw):
     t = time.time_ns()
     ans = func(*arg, **kw)
     ns = time.time_ns() - t  # nanoseconds
-    print(f"Part {part}: {ans} \t({time_measure(ns)})")
+    if pretty:
+        print(f"Part {part}: {ans} \t({time_measure(ns)})")
     return ans
 
 
@@ -73,9 +74,7 @@ def get_neighbours(pos, end, exclude_diag=False):
 
 
 def hex2bin(hex_digits, fill=True):
-    return "".join(
-        [bin(int(hex_digit, 16))[2:].zfill(4 * int(fill)) for hex_digit in hex_digits]
-    )
+    return "".join([bin(int(hex_digit, 16))[2:].zfill(4 * int(fill)) for hex_digit in hex_digits])
 
 
 def print_image(image):

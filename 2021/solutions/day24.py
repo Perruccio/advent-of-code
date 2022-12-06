@@ -40,8 +40,8 @@ def main(pretty_print = True):
     dd, cc, oo = get_info(data)
 
     if (pretty_print):
-        print_results(1, part1, dd, cc, oo)
-        print_results(2, part2, dd, cc, oo)
+        output_procedure(1, part1, True, dd, cc, oo)
+        output_procedure(2, part2, True, dd, cc, oo)
     else:
         return part1(dd, cc, oo), part2(dd, cc, oo)
 

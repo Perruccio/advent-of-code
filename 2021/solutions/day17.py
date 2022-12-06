@@ -73,8 +73,8 @@ def main(pretty_print = True):
     x_min, x_max, y_min, y_max = map(int, re.findall(RE['int'], data))
 
     if (pretty_print):
-        print_results(1, part1, x_min, x_max, y_min, y_max)
-        print_results(2, part2, x_min, x_max, y_min, y_max)
+        output_procedure(1, part1, True, x_min, x_max, y_min, y_max)
+        output_procedure(2, part2, True, x_min, x_max, y_min, y_max)
     else:
         return part1(x_min, x_max, y_min, y_max), part2(x_min, x_max, y_min, y_max)
 

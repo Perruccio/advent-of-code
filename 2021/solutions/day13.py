@@ -33,8 +33,8 @@ def main(pretty_print = True):
     foldings = list(map(lambda s: (s[0], int(s[1])), map(lambda s: s.split()[-1].split('='), raw[i+1:])))
 
     if (pretty_print):
-        print_results(1, part1, points, foldings)
-        print_results(2, part2, points, foldings)
+        output_procedure(1, part1, True, points, foldings)
+        output_procedure(2, part2, True, points, foldings)
     else:
         return part1(points, foldings), part2(points, foldings, False)
 

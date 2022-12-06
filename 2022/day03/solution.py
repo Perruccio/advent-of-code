@@ -5,12 +5,12 @@ curr_dir = pathlib.Path(__file__).parent
 root = curr_dir.parent.parent
 sys.path.append(str(root))
 
-from utils.aoc import *
+from utils import aoc
 from functools import reduce
 
 
 def get_input():
-    return input_as_lines(str(curr_dir) + "/input.txt")
+    return aoc.input_as_lines(str(curr_dir) + "/input.txt")
 
 
 def priority(x):
@@ -39,9 +39,10 @@ def part2(v, k=3):
     )
 
 
-def main():
+def main(pretty=False):
     data = get_input()
-    return print_results(1, part1, data), print_results(2, part2, data)
+    return (aoc.output_procedure(1, part1, pretty, data),
+            aoc.output_procedure(2, part2, pretty, data))
 
 
 def test():

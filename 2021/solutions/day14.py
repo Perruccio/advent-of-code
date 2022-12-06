@@ -39,8 +39,8 @@ def main(pretty_print = True):
     rules = dict(rule.split(' -> ') for rule in data[2:])
 
     if (pretty_print):
-        print_results(1, part1, polymer, rules)
-        print_results(2, part2, polymer, rules)
+        output_procedure(1, part1, True, polymer, rules)
+        output_procedure(2, part2, True, polymer, rules)
     else:
         return part1(polymer, rules), part2(polymer, rules)
 
