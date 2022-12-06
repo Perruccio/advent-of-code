@@ -31,10 +31,10 @@ def part2(v):
     return sum(range_overlap(r1, r2) for r1, r2 in v)
 
 
-def main(pretty=False):
+def main():
     data = get_input()
-    return (aoc.output_procedure(1, part1, pretty, data),
-            aoc.output_procedure(2, part2, pretty, data))
+    return (aoc.print_result(1, part1, data),
+            aoc.print_result(2, part2, data))
 
 
 def test():

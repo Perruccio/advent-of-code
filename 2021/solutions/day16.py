@@ -94,8 +94,8 @@ def main(pretty_print = True):
     data = input_as_string(prj_path + '/2021/input/day16.txt')
 
     if (pretty_print):
-        output_procedure(1, part1, True, data)
-        output_procedure(2, part2, True, data)
+        print_result(1, part1, data)
+        print_result(2, part2, data)
     else:
         return part1(data), part2(data)
 

@@ -62,10 +62,10 @@ def part2(crates, steps):
     return "".join([crate[-1] for crate in crates])
 
 
-def main(pretty=False):
+def main():
     crates, steps = get_input()
-    return (aoc.output_procedure(1, part1, pretty, crates, steps),
-            aoc.output_procedure(2, part2, pretty, crates, steps))
+    return (aoc.print_result(1, part1, crates, steps),
+            aoc.print_result(2, part2, crates, steps))
 
 
 def test():

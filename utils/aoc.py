@@ -31,12 +31,11 @@ def input_as_list_of_lists(filename: str, delim: str = "", func=int) -> List[Lis
     )
 
 
-def output_procedure(part, func, pretty, *arg, **kw):
+def print_result(part, func, *arg, **kw):
     t = time.time_ns()
     ans = func(*arg, **kw)
     ns = time.time_ns() - t  # nanoseconds
-    if pretty:
-        print(f"Part {part}: {ans} \t({time_measure(ns)})")
+    print(f"Part {part}: {ans} \t({time_measure(ns)})")
     return ans
 
 

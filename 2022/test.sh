@@ -1,2 +1,2 @@
 #!/bin/bash
-pytest */solution.py
+pytest $(dirname "$0")/*/solution.py

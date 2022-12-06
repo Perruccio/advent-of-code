@@ -44,7 +44,7 @@ def main(pretty_print = True):
     data = map_input_lines(prj_path + '/2021/input/day25.txt', map_line )
 
     if (pretty_print):
-        output_procedure(1, part1, True, data)
+        print_result(1, part1, data)
     else:
         return part1(data), part2()
 

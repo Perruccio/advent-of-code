@@ -8,8 +8,8 @@ sys.path.append(str(root))
 from utils import aoc
 
 
-def get_input():
-    return aoc.input_as_string(str(curr_dir) + "/input.txt")
+def get_input(file):
+    return aoc.input_as_string(str(curr_dir) + "/" + file)
 
 
 def check_different_chars(s):
@@ -27,20 +27,27 @@ def part2(input):
     return part1(input, k=14)
 
 
-def main(input=None, pretty=False):
-    input = input if input else get_input()
-    return (aoc.output_procedure(1, part1, pretty, input),
-            aoc.output_procedure(2, part2, pretty, input))
+def main():
+    input = get_input("input.txt")
+    aoc.print_result(1, part1, input)
+    aoc.print_result(2, part2, input)
 
 
 def test():
-    """test for pytest"""
+    input = get_input("input.txt")
+
+    # part 1
+    assert part1(input) == 1155
     assert part1("abcd") == 4
-    assert main("bvwbjplbgvbhsrlpgdmjqwftvncz") == (5, 23)
-    assert main("zcfzfwzzqfrljwzlrfnpqdbhtmscgvjw") == (11, 26)
-    assert main() == (1155, 2789)
+    assert part1("bvwbjplbgvbhsrlpgdmjqwftvncz") == 5
+    assert part1("zcfzfwzzqfrljwzlrfnpqdbhtmscgvjw") == 11
+    #part 2
+    assert part2(input) == 2789
+    assert part2("bvwbjplbgvbhsrlpgdmjqwftvncz") == 23
+    assert part2("zcfzfwzzqfrljwzlrfnpqdbhtmscgvjw") == 26
+    
     print("Test OK")
 
 
 if __name__ == "__main__":
-    test()
+    main()
