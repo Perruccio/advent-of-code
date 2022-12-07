@@ -1,7 +1,4 @@
 import pathlib
-
-curr_dir = pathlib.Path(__file__).parent
-
 import advent_of_code.utils.aoc as aoc
 
 # rock:1, paper:2, scissors:3
@@ -56,18 +53,17 @@ def part2(v):
     )
 
 
-def get_input():
-    return aoc.map_input_lines(str(curr_dir) + "/input.txt", lambda line: line.split())
+def get_input(file):
+    return aoc.map_input_lines(str(pathlib.Path(__file__).parent) + "/" + file, lambda line: line.split())
 
 
 def main():
-    data = get_input()
+    data = get_input("input.txt")
     return (aoc.print_result(1, part1, data),
             aoc.print_result(2, part2, data))
 
 
 def test():
-    """test for pytest"""
     assert main() == (8890, 10238)
 
 

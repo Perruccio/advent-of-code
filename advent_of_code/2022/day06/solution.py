@@ -1,12 +1,9 @@
 import pathlib
-
-curr_dir = pathlib.Path(__file__).parent
-
 import advent_of_code.utils.aoc as aoc
 
 
 def get_input(file):
-    return aoc.input_as_string(str(curr_dir) + "/" + file)
+    return aoc.input_as_string(str(pathlib.Path(__file__).parent) + "/" + file)
 
 
 def check_different_chars(s):

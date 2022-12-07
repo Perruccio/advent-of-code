@@ -1,15 +1,12 @@
 import pathlib
-
-curr_dir = pathlib.Path(__file__).parent
-
 import advent_of_code.utils.aoc as aoc
 
 
-def get_input():
+def get_input(file):
     def get_ranges(line):
         return [list(map(int, range.split("-"))) for range in line.split(",")]
 
-    return aoc.map_input_lines(str(curr_dir) + "/input.txt", get_ranges)
+    return aoc.map_input_lines(str(pathlib.Path(__file__).parent) + "/" + file, get_ranges)
 
 
 def part1(v):
@@ -29,13 +26,12 @@ def part2(v):
 
 
 def main():
-    data = get_input()
+    data = get_input("input.txt")
     return (aoc.print_result(1, part1, data),
             aoc.print_result(2, part2, data))
 
 
 def test():
-    """test for pytest"""
     assert main() == (503, 827)
 
 

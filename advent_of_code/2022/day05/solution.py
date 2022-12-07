@@ -1,7 +1,4 @@
 import pathlib
-
-curr_dir = pathlib.Path(__file__).parent
-
 import advent_of_code.utils.aoc as aoc
 import copy
 
@@ -13,9 +10,9 @@ class CraneStep:
         self.to = to - 1
 
 
-def get_input():
+def get_input(file):
     # read from file as list of strings
-    lines = aoc.input_as_lines(str(curr_dir) + "/input.txt")
+    lines = aoc.input_as_lines(str(pathlib.Path(__file__).parent) + "/" + file)
 
     ## first parse crates
     # stop at first empty line
@@ -60,13 +57,12 @@ def part2(crates, steps):
 
 
 def main():
-    crates, steps = get_input()
+    crates, steps = get_input("input.txt")
     return (aoc.print_result(1, part1, crates, steps),
             aoc.print_result(2, part2, crates, steps))
 
 
 def test():
-    """test for pytest"""
     assert main() == ("WSFTMRHPP", "GSLCMFBRP")
 
 

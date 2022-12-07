@@ -1,12 +1,9 @@
 import pathlib
-
-curr_dir = pathlib.Path(__file__).parent
-
 import advent_of_code.utils.aoc as aoc
 
 
-def get_input():
-    return aoc.input_as_list_of_lists(str(curr_dir) + "/input.txt", "")
+def get_input(file):
+    return aoc.input_as_list_of_lists(str(pathlib.Path(__file__).parent) + "/" + file, "")
 
 
 def part1(v):
@@ -18,13 +15,12 @@ def part2(v, top=3):
 
 
 def main():
-    data = get_input()
+    data = get_input("input.txt")
     return (aoc.print_result(1, part1, data),
             aoc.print_result(2, part2, data))
 
 
 def test():
-    """test for pytest"""
     assert main() == (72240, 210957)
 
 
