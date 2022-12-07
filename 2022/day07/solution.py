@@ -14,14 +14,21 @@ def get_input(file):
 
 
 class Directory:
-    """Represent a directory, with size and a list of subfolders paths"""
+    """Represent a directory, with marginal size (contained files), a list of sub-Directories,
+    and size = total size (files + subfolders)"""
 
-    def __init__(self, size=0):
-        self.size = size
+    def __init__(self):
+        self.marginal_size = 0
         self.subs = []
+        self.size = None
 
     def add_sub(self, sub):
         self.subs.append(sub)
+
+    def get_size(self):
+        if self.size is None:
+            self.size = self.marginal_size + sum(sub.get_size() for sub in self.subs)
+        return self.size
 
 
 def parent_path(dir):
@@ -30,45 +37,7 @@ def parent_path(dir):
 
 def sub_path(dir, subdir):
     """Return actual sub path if subdir != "..", else parent_path"""
-    return parent_path(dir) if subdir == ".." else dir + (subdir, )
-
-
-def do_ls(curr_dir, tree, input, i):
-    """Extract information from command ls, compute size of current folder and its subfolders.
-    The size of the subfolders will be computed lates."""
-
-    # while reading output of ls (end of input or other command found)
-    while i < len(input) and not input[i].startswith("$"):
-        # input[i] is "<size> <file_name>"" or "'dir' <dir_name>"
-        size_or_dir, item = input[i].split()
-        if size_or_dir == "dir":
-            tree[curr_dir].add_sub(sub_path(curr_dir, item))
-        else:
-            tree[curr_dir].size += int(size_or_dir)
-        i += 1
-    # return new index
-    return i
-
-
-def do(curr_dir, tree, input, i):
-    """Execute command ('cd' or 'ls') and return the new state (directory, index)"""
-    tokens = input[i].split()
-    assert tokens[0] == "$"
-
-    if tokens[1] == "cd":
-        return sub_path(curr_dir, tokens[2]), i + 1
-    elif tokens[1] == "ls":
-        return curr_dir, do_ls(curr_dir, tree, input, i + 1)
-    else:
-        raise RuntimeError
-
-
-def add_subfolder_size(tree, dir):
-    """Recursevly add subfolders' size to each folder"""
-    # dfs
-    for sub_dir in tree[dir].subs:
-        tree[dir].size += add_subfolder_size(tree, sub_dir)
-    return tree[dir].size
+    return parent_path(dir) if subdir == ".." else dir + (subdir,)
 
 
 def compute_tree(input):
@@ -77,25 +46,36 @@ def compute_tree(input):
     # first step: compute folders tree with marginal size (contained files but not contained folders)
     # by executing one command at a time. Use tuples for paths
     tree = defaultdict(Directory)
-    curr_dir, i = tuple(), 0
-    while i < len(input):
-        curr_dir, i = do(curr_dir, tree, input, i)
-
-    add_subfolder_size(tree, ('/',))
+    current = tuple()  # current path as tuple
+    for line in input:
+        match line.split():
+            case ["$", "cd", dir]:
+                current = sub_path(current, dir)
+            case ["$", "ls"]:
+                pass
+            case ["dir", name]:
+                # add the subfolder to the tree and link it to current
+                tree[current].add_sub(tree[sub_path(current, name)])
+            case [size, name]:
+                tree[current].marginal_size += int(size)
+            case _:
+                raise RuntimeError
     return tree
 
 
 def part1(input, max_size=100000):
     tree = compute_tree(input)
-    return sum([dir.size for dir in tree.values() if dir.size <= max_size])
+    return sum([dir.get_size() for dir in tree.values() if dir.get_size() <= max_size])
 
 
 def part2(input, tot_space=70000000, need=30000000):
     # compute single smallest directory that can be deleted to have at least
     # "need" free space
     tree = compute_tree(input)
-    need_to_free = need - (tot_space - tree[('/',)].size)
-    return min([dir.size for dir in tree.values() if dir.size >= need_to_free])
+    need_to_free = need - (tot_space - tree[("/",)].get_size())
+    return min(
+        [dir.get_size() for dir in tree.values() if dir.get_size() >= need_to_free]
+    )
 
 
 def main():
@@ -112,6 +92,7 @@ def test():
     input = get_input("input.txt")
     assert part1(input) == 1644735
     assert part2(input) == 1300850
+
     print("Test OK")
 
 
