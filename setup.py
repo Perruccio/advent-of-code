@@ -6,9 +6,9 @@ setup(
     description='Solutions to Advent of Code',
     url='https://github.com/Perruccio/advent-of-code',
     author='Perruccio',
-    author_email='francesco.perinti@gmail.com',
+    author_email='',
     license='',
-    packages=["advent_of_code"],#packages=find_packages(),
+    packages=find_packages(),
     install_requires=['numpy'],
 
     classifiers=[

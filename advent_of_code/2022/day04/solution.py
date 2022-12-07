@@ -1,11 +1,8 @@
-import sys
 import pathlib
 
 curr_dir = pathlib.Path(__file__).parent
-root = curr_dir.parent.parent
-sys.path.append(str(root))
 
-from utils import aoc
+import advent_of_code.utils.aoc as aoc
 
 
 def get_input():

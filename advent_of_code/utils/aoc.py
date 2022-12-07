@@ -2,7 +2,7 @@
 from typing import List
 import time
 
-RE = {"int": "[+-]?\d+"}
+RE = {"int": r"[+-]?\d+"}
 
 
 def input_as_string(filename: str) -> str:
