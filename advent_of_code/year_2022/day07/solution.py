@@ -53,11 +53,13 @@ def compute_tree(input):
     return tree
 
 
+@aoc.pretty_solution(1)
 def part1(input, max_size=100000):
     tree = compute_tree(input)
     return sum([dir.get_size() for dir in tree.values() if dir.get_size() <= max_size])
 
 
+@aoc.pretty_solution(2)
 def part2(input, tot_space=70000000, need=30000000):
     # compute single smallest directory that can be deleted to have at least
     # "need" free space
@@ -70,8 +72,8 @@ def part2(input, tot_space=70000000, need=30000000):
 
 def main():
     input = get_input("input.txt")
-    aoc.print_result(1, part1, input)
-    aoc.print_result(2, part2, input)
+    part1(input)
+    part2(input)
 
 
 def test():
@@ -87,4 +89,4 @@ def test():
 
 
 if __name__ == "__main__":
-    test()
+    main()

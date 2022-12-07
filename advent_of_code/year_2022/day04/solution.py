@@ -27,13 +27,15 @@ def part2(v):
 
 def main():
     data = get_input("input.txt")
-    return (aoc.print_result(1, part1, data),
-            aoc.print_result(2, part2, data))
+    aoc.print_result(1, part1, data)
+    aoc.print_result(2, part2, data)
 
 
 def test():
-    assert main() == (503, 827)
-
+    data = get_input("input.txt")
+    assert part1(data) == 503
+    assert part2(data) == 827
+    print("Test OK")
 
 if __name__ == "__main__":
-    main()
+    test()

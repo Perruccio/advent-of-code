@@ -58,12 +58,15 @@ def part2(crates, steps):
 
 def main():
     crates, steps = get_input("input.txt")
-    return (aoc.print_result(1, part1, crates, steps),
-            aoc.print_result(2, part2, crates, steps))
+    aoc.print_result(1, part1, crates, steps)
+    aoc.print_result(2, part2, crates, steps)
 
 
 def test():
-    assert main() == ("WSFTMRHPP", "GSLCMFBRP")
+    crates, steps = get_input("input.txt")
+    assert part1(crates, steps) == "WSFTMRHPP"
+    assert part2(crates, steps) == "GSLCMFBRP"
+    print("Test OK")
 
 
 if __name__ == "__main__":
