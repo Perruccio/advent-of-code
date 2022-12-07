@@ -35,7 +35,7 @@ def parent_path(dir):
     return dir[:-1]
 
 
-def sub_path(dir, subdir):
+def change_dir(dir, subdir):
     """Return actual sub path if subdir != "..", else parent_path"""
     return parent_path(dir) if subdir == ".." else dir + (subdir,)
 
@@ -50,12 +50,12 @@ def compute_tree(input):
     for line in input:
         match line.split():
             case ["$", "cd", dir]:
-                current = sub_path(current, dir)
+                current = change_dir(current, dir)
             case ["$", "ls"]:
                 pass
             case ["dir", name]:
                 # add the subfolder to the tree and link it to current
-                tree[current].add_sub(tree[sub_path(current, name)])
+                tree[current].add_sub(tree[change_dir(current, name)])
             case [size, name]:
                 tree[current].marginal_size += int(size)
             case _:
