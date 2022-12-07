@@ -38,15 +38,14 @@ def do_ls(curr_dir, tree, input, i):
     """Extract information from command ls, compute size of current folder and its subfolders.
     The size of the subfolders will be computed lates."""
 
-    size = 0
     # while reading output of ls (end of input or other command found)
-    while i < len(input) and input[i][0] != "$":
+    while i < len(input) and not input[i].startswith("$"):
         # input[i] is "<size> <file_name>"" or "'dir' <dir_name>"
-        size, item = input[i].split()
-        if size.isnumeric():
-            tree[curr_dir].size += int(size)
-        else:
+        size_or_dir, item = input[i].split()
+        if size_or_dir == "dir":
             tree[curr_dir].add_sub(sub_path(curr_dir, item))
+        else:
+            tree[curr_dir].size += int(size_or_dir)
         i += 1
     # return new index
     return i
@@ -67,6 +66,7 @@ def do(curr_dir, tree, input, i):
 
 def add_subfolder_size(tree, dir):
     """Recursevly add subfolders' size to each folder"""
+    # dfs
     for sub_dir in tree[dir].subs:
         tree[dir].size += add_subfolder_size(tree, sub_dir)
     return tree[dir].size
@@ -76,13 +76,12 @@ def compute_tree(input):
     """Compute the tree of folders structure as a dictionary {path:Directory}"""
 
     # first step: compute folders tree with marginal size (contained files but not contained folders)
-    # by executing one step at a time
+    # by executing one command at a time
     tree = defaultdict(Directory)
     curr_dir, i = "", 0
     while i < len(input):
         curr_dir, i = do(curr_dir, tree, input, i)
 
-    # recursively add subfolders size
     add_subfolder_size(tree, "//")
     return tree
 
