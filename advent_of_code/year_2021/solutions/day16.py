@@ -91,7 +91,7 @@ def part2(data):
 
 def main(pretty_print = True):
 
-    data = input_as_string(prj_path + '/2021/input/day16.txt')
+    data = input_as_string(prj_path + '/year_2021/input/day16.txt')
 
     if (pretty_print):
         print_result(1, part1, data)

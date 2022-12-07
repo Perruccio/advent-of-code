@@ -36,7 +36,7 @@ def main(pretty_print = True):
         l = line.split()
         return (l[0], tuple([int(x) if x[0] == '-' or x.isnumeric() else x for x in l[1:]]))
 
-    data = map_input_lines(prj_path + '/2021/input/day24.txt', map_line)
+    data = map_input_lines(prj_path + '/year_2021/input/day24.txt', map_line)
     dd, cc, oo = get_info(data)
 
     if (pretty_print):

@@ -33,7 +33,7 @@ def part2(polymer, rules):
     return solve(polymer, rules, 40)
 
 def main(pretty_print = True):
-    data = input_as_lines(prj_path + '/2021/input/day14.txt')
+    data = input_as_lines(prj_path + '/year_2021/input/day14.txt')
 
     polymer = data[0]
     rules = dict(rule.split(' -> ') for rule in data[2:])

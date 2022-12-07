@@ -68,7 +68,7 @@ def part2(x_min, x_max, y_min, y_max):
 
 def main(pretty_print = True):
 
-    data = input_as_string(prj_path + '/2021/input/day17.txt')
+    data = input_as_string(prj_path + '/year_2021/input/day17.txt')
 
     x_min, x_max, y_min, y_max = map(int, re.findall(RE['int'], data))
 

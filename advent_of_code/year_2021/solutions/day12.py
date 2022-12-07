@@ -41,7 +41,7 @@ def main(pretty_print = True):
     def map_line(line):
         return line.split('-')
 
-    raw = map_input_lines(prj_path + '/2021/input/day12.txt', map_line)
+    raw = map_input_lines(prj_path + '/year_2021/input/day12.txt', map_line)
 
     data = defaultdict(set)
     for a, b in raw:

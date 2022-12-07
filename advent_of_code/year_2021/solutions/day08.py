@@ -68,7 +68,7 @@ def main(pretty_print = True):
         a, b = line.split('|')
         return list(map(frozenset, a.split())), list(map(frozenset, b.split()))
 
-    data = map_input_lines(prj_path + '/2021/input/day08.txt', map_line)
+    data = map_input_lines(prj_path + '/year_2021/input/day08.txt', map_line)
 
     if (pretty_print):
         print_result(1, part1, data)

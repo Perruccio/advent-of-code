@@ -197,7 +197,7 @@ def main(pretty_print = True):
     def map_line(line):
         return list(line)
 
-    data = map_input_lines(prj_path + '/2021/input/day23.txt', map_line)
+    data = map_input_lines(prj_path + '/year_2021/input/day23.txt', map_line)
     data[-2] += [' '] * 2
     data[-1] += [' '] * 2
 

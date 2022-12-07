@@ -91,7 +91,7 @@ def part2(scanners):
 
 def main(pretty_print = True):
 
-    raw = input_as_lines(prj_path + '/2021/input/day19.txt')
+    raw = input_as_lines(prj_path + '/year_2021/input/day19.txt')
 
     data = []
     i = 0
