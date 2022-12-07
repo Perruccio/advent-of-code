@@ -31,13 +31,9 @@ class Directory:
         return self.size
 
 
-def parent_path(dir):
-    return dir[:-1]
-
-
 def change_dir(dir, subdir):
     """Return actual sub path if subdir != "..", else parent_path"""
-    return parent_path(dir) if subdir == ".." else dir + (subdir,)
+    return dir[:-1] if subdir == ".." else dir + (subdir,)
 
 
 def compute_tree(input):
