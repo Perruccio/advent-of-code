@@ -25,13 +25,12 @@ class Directory:
 
 
 def parent_path(dir):
-    idx = dir.rfind("/")
-    return dir[:idx]
+    return dir[:-1]
 
 
 def sub_path(dir, subdir):
     """Return actual sub path if subdir != "..", else parent_path"""
-    return parent_path(dir) if subdir == ".." else dir + "/" + subdir
+    return parent_path(dir) if subdir == ".." else dir + (subdir, )
 
 
 def do_ls(curr_dir, tree, input, i):
@@ -76,13 +75,13 @@ def compute_tree(input):
     """Compute the tree of folders structure as a dictionary {path:Directory}"""
 
     # first step: compute folders tree with marginal size (contained files but not contained folders)
-    # by executing one command at a time
+    # by executing one command at a time. Use tuples for paths
     tree = defaultdict(Directory)
-    curr_dir, i = "", 0
+    curr_dir, i = tuple(), 0
     while i < len(input):
         curr_dir, i = do(curr_dir, tree, input, i)
 
-    add_subfolder_size(tree, "//")
+    add_subfolder_size(tree, ('/',))
     return tree
 
 
@@ -95,7 +94,7 @@ def part2(input, tot_space=70000000, need=30000000):
     # compute single smallest directory that can be deleted to have at least
     # "need" free space
     tree = compute_tree(input)
-    unused_space = tot_space - tree["//"].size
+    unused_space = tot_space - tree[('/',)].size
     need_to_free = need - unused_space
     return sorted([dir.size for dir in tree.values() if dir.size >= need_to_free])[0]
 
