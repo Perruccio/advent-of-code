@@ -94,7 +94,7 @@ def part2(input, tot_space=70000000, need=30000000):
     # compute single smallest directory that can be deleted to have at least
     # "need" free space
     tree = compute_tree(input)
-    need_to_free = need + tree[('/',)].size - tot_space
+    need_to_free = need - (tot_space - tree[('/',)].size)
     return min([dir.size for dir in tree.values() if dir.size >= need_to_free])
 
 
