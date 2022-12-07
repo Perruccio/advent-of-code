@@ -27,7 +27,7 @@ def part2(points, foldings, pretty_print = True):
 
 def main(pretty_print = True):
 
-    raw = input_as_lines(prj_path + '/year_2021/input/day13.txt')
+    raw = input_as_lines(prj_path + '/year2021/input/day13.txt')
     i = raw.index('')
     points = set(map(lambda s: tuple(map(int, s.split(','))), raw[:i]))
     foldings = list(map(lambda s: (s[0], int(s[1])), map(lambda s: s.split()[-1].split('='), raw[i+1:])))

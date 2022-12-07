@@ -57,7 +57,7 @@ def main(pretty_print = True):
     def map_line(line):
         return int(line.split(': ')[1])
 
-    p1, p2 = map_input_lines(prj_path + '/year_2021/input/day21.txt', map_line)
+    p1, p2 = map_input_lines(prj_path + '/year2021/input/day21.txt', map_line)
 
     if (pretty_print):
         output_procedure(1, part1, True, p1, p2)

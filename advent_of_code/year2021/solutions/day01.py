@@ -12,7 +12,7 @@ def part2(v, shift=3):
 
 def main(pretty_print = True):
 
-    data = map_input_lines(prj_path + '/year_2021/input/day01.txt', int)
+    data = map_input_lines(prj_path + '/year2021/input/day01.txt', int)
 
     if (pretty_print):
         print_result(1, part1, data)
