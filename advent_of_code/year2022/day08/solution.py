@@ -8,8 +8,8 @@ def get_input(file):
 
 
 def get_directions(grid, r, c):
-    """Get the 4 iterators starting from (r, c) excluded, with True when other tree
-    is lower than grid[r][c]"""
+    """Get the 4 iterators starting from (r, c) excluded, with True when other
+    trees are lower than grid[r][c]"""
     height = grid[r][c]
     east = (tree < height for tree in grid[r][c + 1 :])
     west = (tree < height for tree in reversed(grid[r][:c]))
