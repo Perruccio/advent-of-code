@@ -7,54 +7,43 @@ def get_input(file):
     return aoc.map_input_lines(file_path, lambda line: [int(x) for x in line])
 
 
-def is_visibile_from(grid, point, direction):
-    """Given a direction in the form (dx, dy) unitary, check if point is visibile
-    and also return n of trees visibile from point"""
-    (x, y), (dx, dy) = point, direction
-    h = grid[x][y]
-    trees_seen = 0
-    # make first step to avoid cumbersome checks
-    x, y = x + dx, y + dy
-    # while still in the grid
-    while 0 <= x < len(grid) and 0 <= y < len(grid[0]):
-        trees_seen += 1
-        if grid[x][y] >= h:
-            return False, trees_seen
-        x, y = x + dx, y + dy
-    return True, trees_seen
-
-
-def is_visible(grid, point):
-    """Check if point is visible from any direction and compute also its scenic score"""
-    directions = [(1, 0), (0, 1), (-1, 0), (0, -1)]
-    scenic_score, visible = 1, False
-    for direction in directions:
-        visible_from, score = is_visibile_from(grid, point, direction)
-        visible |= visible_from
-        scenic_score *= score
-    return visible, scenic_score
+def get_directions(grid, r, c):
+    """Get the 4 iterators starting from (r, c) excluded, with True when other tree
+    is lower than grid[r][c]"""
+    height = grid[r][c]
+    east = (tree < height for tree in grid[r][c + 1 :])
+    west = (tree < height for tree in reversed(grid[r][:c]))
+    south = (grid[i][c] < height for i in range(r + 1, len(grid)))
+    north = (grid[i][c] < height for i in range(r - 1, -1, -1))
+    return east, west, south, north
 
 
 @aoc.pretty_solution(1)
-def part1(input):
-    # compute all visibile spots
-    return sum(
-        [
-            sum([is_visible(input, (x, y))[0] for x in range(len(input))])
-            for y in range(len(input[0]))
-        ]
-    )
+def part1(grid):
+    visibles = 0
+    for r in range(len(grid)):
+        for c in range(len(grid[r])):
+            # visibile if any of the directions has all trees lower
+            visibles += any(map(all, get_directions(grid, r, c)))
+    return visibles
 
 
 @aoc.pretty_solution(2)
-def part2(input):
-    # compute max possible scenic score
-    return max(
-        [
-            max([is_visible(input, (x, y))[1] for x in range(len(input))])
-            for y in range(len(input[0]))
-        ]
-    )
+def part2(grid):
+    max_score = 0
+    for r in range(len(grid)):
+        for c in range(len(grid[r])):
+            score = 1
+            # directions as list to use len(). Not efficient but more readable
+            for direction in map(list, get_directions(grid, r, c)):
+                # compute the first index where the tree is not lower than current
+                # if every tree is lower, than every tree (len(direction))
+                score *= next(
+                    (i + 1 for i, lower in enumerate(direction) if not lower),
+                    len(direction),
+                )
+            max_score = max(max_score, score)
+    return max_score
 
 
 def main():
