@@ -1,6 +1,9 @@
 import pathlib
 import advent_of_code.utils.aoc as aoc
 
+# model points in grid as complex numbers to ease moving
+direction_step = {"R": 1, "L": -1, "U": 1j, "D": -1j}
+
 
 def get_input(file):
     file_path = str(pathlib.Path(__file__).parent) + "/" + file
@@ -12,41 +15,28 @@ def get_input(file):
     return aoc.map_input_lines(file_path, get_step)
 
 
-def move(point, direction, step=1):
-    """Move 2D point to direction by step"""
-    assert direction in "RLUD"
-    coord = 0 if direction in "RL" else 1
-    step = step if direction in "RU" else -step
-    point[coord] += step
-
-
-def is_adjacent(tail, head):
-    """Return True iff tail and head are adjacent or coincide in 2D grid"""
-    return -1 <= tail[0] - head[0] <= 1 and -1 <= tail[1] - head[1] <= 1
-
-
 def follow(tail, head):
-    """Move tail horizontal/vertical/diagonal by 1
-    to follow head if not adjacent"""
-    if not is_adjacent(tail, head):
-        for i in [0, 1]:
-            tail[i] += aoc.sign(head[i] - tail[i])
+    """Move tail horizontal/vertical/diagonal by 1 to follow head if not adjacent,
+    where head and tail are point in the complex integer plane"""
+    if abs(tail - head) >= 2:
+        tail += aoc.complex_sign(head - tail)
+    return tail
 
 
 def solve(data, n):
-    # init all knots to 0,0
-    knots = [[0, 0] for _ in range(n)]
+    # init all knots to 0
+    knots = [0] * n
     # use set for visited points
-    visited = {tuple(knots[-1])}
+    visited = {knots[-1]}
     # follow instructions step by step
     for direction, steps in data:
         for _ in range(steps):
             # first move the head
-            move(knots[0], direction)
+            knots[0] += direction_step[direction]
             # every other knot follows the precedent
             for i in range(1, n):
-                follow(knots[i], knots[i - 1])
-            visited.add(tuple(knots[-1]))
+                knots[i] = follow(knots[i], knots[i - 1])
+            visited.add(knots[-1])
     return len(visited)
 
 

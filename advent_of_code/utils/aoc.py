@@ -65,6 +65,9 @@ def time_measure(ns):
 def sign(x: float) -> float:
     return 1 if x > 0 else -1 if x < 0 else 0
 
+def complex_sign(x: complex) -> complex:
+    return complex((x.real > 0) - (x.real < 0), (x.imag > 0) - (x.imag < 0))
+
 
 def mean(l):
     return sum(l) / len(l)
