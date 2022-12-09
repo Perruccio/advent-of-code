@@ -11,7 +11,7 @@ def get_directions(grid, r, c):
     """Get the 4 iterators starting from (r, c) excluded, with True when other
     trees are lower than grid[r][c]"""
     height = grid[r][c]
-    east = (tree < height for tree in grid[r][c + 1 :])
+    east = (tree < height for tree in grid[r][c + 1:])
     west = (tree < height for tree in reversed(grid[r][:c]))
     south = (grid[i][c] < height for i in range(r + 1, len(grid)))
     north = (grid[i][c] < height for i in range(r - 1, -1, -1))
@@ -20,12 +20,12 @@ def get_directions(grid, r, c):
 
 @aoc.pretty_solution(1)
 def part1(grid):
-    visibles = 0
+    visible = 0
     for r in range(len(grid)):
         for c in range(len(grid[r])):
-            # visibile if any of the directions has all trees lower
-            visibles += any(map(all, get_directions(grid, r, c)))
-    return visibles
+            # visible if any of the directions has all trees lower
+            visible += any(map(all, get_directions(grid, r, c)))
+    return visible
 
 
 @aoc.pretty_solution(2)
@@ -47,9 +47,9 @@ def part2(grid):
 
 
 def main():
-    input = get_input("input.txt")
-    part1(input)
-    part2(input)
+    data = get_input("input.txt")
+    part1(data)
+    part2(data)
 
 
 def test():
@@ -57,12 +57,12 @@ def test():
     assert part1(example) == 21
     assert part2(example) == 8
 
-    input = get_input("input.txt")
-    assert part1(input) == 1796
-    assert part2(input) == 288120
+    data = get_input("input.txt")
+    assert part1(data) == 1796
+    assert part2(data) == 288120
 
     print("Test OK")
 
 
 if __name__ == "__main__":
-    test()
+    main()
