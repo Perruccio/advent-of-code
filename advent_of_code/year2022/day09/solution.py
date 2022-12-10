@@ -1,7 +1,8 @@
 import pathlib
+
 import advent_of_code.utils.aoc as aoc
 
-# model points in grid as complex numbers to ease moving
+# model points in grid as complex (integer) numbers to ease moving
 direction_step = {"R": 1, "L": -1, "U": 1j, "D": -1j}
 
 
