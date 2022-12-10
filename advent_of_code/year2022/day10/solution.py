@@ -8,7 +8,7 @@ def get_input(file):
 
 def do_cycle(x, cycle, res, crt, display, width):
     # draw pixel if crt sees the sprite
-    if -1 <= abs(crt[1] - x) <= 1:
+    if 0 <= abs(crt[1] - x) <= 1:
         display[crt[0]][crt[1]] = True
     # advance crt
     crt = [crt[0], crt[1] + 1] if crt[1] < width - 1 else [crt[0] + 1, 0]
