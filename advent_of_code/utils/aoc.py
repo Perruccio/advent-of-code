@@ -99,9 +99,9 @@ def print_image(image):
     for line in image:
         for c in line:
             if c:
-                print("⬛", end="")
+                print("⬛ ", end="")
             else:
-                print(" ", end="")
+                print("  ", end="")
         print()
 
 
