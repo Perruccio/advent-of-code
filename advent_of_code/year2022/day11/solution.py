@@ -2,7 +2,7 @@ import copy
 import pathlib
 from collections import deque
 from math import prod
-from operator import attrgetter
+from operator import attrgetter, add, mul
 
 from advent_of_code.utils import output as aoc_output, parse as aoc_parse
 
@@ -26,9 +26,13 @@ class Monkey:
     def create_monkey(cls, lines):
         # NB assuming a lot about the structure of lines data
         assert len(lines) == 6
+
         items = deque(aoc_parse.get_ints(lines[1]))
-        # hacky solution with eval. one should parse the operation
-        operation = eval("lambda old : " + lines[2].split("=")[1])
+        # parse operation
+        operator, val = lines[2].split()[-2:]
+        assert operator == "*" or operator == "+"
+        op = {"*": mul, "+": add}[operator]
+        operation = lambda old: op(old, old if val == "old" else int(val))
         mod = aoc_parse.get_ints(lines[3])[0]
         to_if_true = aoc_parse.get_ints(lines[4])[0]
         to_if_false = aoc_parse.get_ints(lines[5])[0]
