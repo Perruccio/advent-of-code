@@ -75,7 +75,7 @@ def main(pretty_print=True):
 
     x_min, x_max, y_min, y_max = map(int, re.findall(aoc_parse.RE['int'], data))
 
-    if (pretty_print):
+    if pretty_print:
         aoc_output.print_result(1, part1, x_min, x_max, y_min, y_max)
         aoc_output.print_result(2, part2, True, x_min, x_max, y_min, y_max)
     else:

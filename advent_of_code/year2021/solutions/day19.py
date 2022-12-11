@@ -111,7 +111,7 @@ def main(pretty_print=True):
 
     beacons, scanners = scan(data)
 
-    if (pretty_print):
+    if pretty_print:
         aoc_output.print_result(1, part1, beacons)
         aoc_output.print_result(2, part2, True, scanners)
     else:

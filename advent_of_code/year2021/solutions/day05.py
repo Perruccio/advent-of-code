@@ -18,7 +18,7 @@ def diag(p1, p2):
 
 
 def move(point, dir):
-    return (point[0] + dir[0], point[1] + dir[1])
+    return point[0] + dir[0], point[1] + dir[1]
 
 
 def get_overlaps(data, can_overlap):
@@ -51,7 +51,7 @@ def main(pretty_print=True):
 
     data = aoc_parse.map_input_lines(prj_path + '/year2021/input/day05.txt', map_line)
 
-    if (pretty_print):
+    if pretty_print:
         aoc_output.print_result(1, part1, data)
         aoc_output.print_result(2, part2, data)
     else:

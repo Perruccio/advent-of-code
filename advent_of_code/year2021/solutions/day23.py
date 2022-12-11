@@ -57,7 +57,9 @@ def door(pos, diagram):
     return wall((i - 1, j), diagram) and not wall((i + 1, j), diagram)
 
 
-def hallway(pos, diagram=TARGET1):
+def hallway(pos, diagram=None):
+    if diagram is None:
+        diagram = TARGET1
     return pos[0] == 1 and 1 <= pos[1] < len(diagram[0]) - 1
 
 
@@ -91,7 +93,7 @@ def move_hallway(i, j, dir, diagram, e, delta_e):
     return ms
 
 
-class Amph():
+class Amph:
     def __init__(self, pos, type):
         self.pos = pos
         self.type = type
@@ -145,7 +147,6 @@ def solve(diagram, target_diagram, target_rooms):
 
     # init amphs
     amphs = []
-    frontier = []
     for i in range(w):
         for j in range(h):
             if not wall((i, j), diagram) and not empty((i, j), diagram):
@@ -218,7 +219,7 @@ def main(pretty_print=True):
     data[-2] += [' '] * 2
     data[-1] += [' '] * 2
 
-    if (pretty_print):
+    if pretty_print:
         aoc_output.print_result(1, part1, data)
         aoc_output.print_result(2, part2, data)
     else:

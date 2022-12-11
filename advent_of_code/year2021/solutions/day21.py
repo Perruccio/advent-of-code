@@ -64,7 +64,7 @@ def main(pretty_print=True):
 
     p1, p2 = aoc_parse.map_input_lines(prj_path + '/year2021/input/day21.txt', map_line)
 
-    if (pretty_print):
+    if pretty_print:
         aoc_output.print_result(1, part1, p1, p2)
         aoc_output.print_result(2, part2, True, p1, p2)
     else:

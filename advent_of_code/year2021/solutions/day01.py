@@ -16,7 +16,7 @@ def part2(v, shift=3):
 def main(pretty_print=True):
     data = aoc_parse.map_input_lines(prj_path + '/year2021/input/day01.txt', int)
 
-    if (pretty_print):
+    if pretty_print:
         aoc_output.print_result(1, part1, data)
         aoc_output.print_result(2, part2, data)
     else:

@@ -39,12 +39,12 @@ def part2(dd, cc, oo):
 def main(pretty_print=True):
     def map_line(line):
         l = line.split()
-        return (l[0], tuple([int(x) if x[0] == '-' or x.isnumeric() else x for x in l[1:]]))
+        return l[0], tuple([int(x) if x[0] == '-' or x.isnumeric() else x for x in l[1:]])
 
     data = aoc_parse.map_input_lines(prj_path + '/year2021/input/day24.txt', map_line)
     dd, cc, oo = get_info(data)
 
-    if (pretty_print):
+    if pretty_print:
         aoc_output.print_result(1, part1, dd, cc, oo)
         aoc_output.print_result(2, part2, True, dd, cc, oo)
     else:

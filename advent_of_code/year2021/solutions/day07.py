@@ -32,7 +32,7 @@ def part2(data):
 def main(pretty_print=True):
     data = list(map(int, aoc_parse.input_as_string(prj_path + '/year2021/input/day07.txt').rstrip().split(',')))
 
-    if (pretty_print):
+    if pretty_print:
         aoc_output.print_result(1, part1, data)
         aoc_output.print_result(2, part2, data)
     else:

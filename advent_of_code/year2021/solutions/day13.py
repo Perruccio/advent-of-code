@@ -25,7 +25,7 @@ def part1(points, foldings):
 def part2(points, foldings, pretty_print=True):
     for f in foldings:
         points = fold(points, f)
-    if (pretty_print):
+    if pretty_print:
         print_points(points)
     return len(points)
 
@@ -36,7 +36,7 @@ def main(pretty_print=True):
     points = set(map(lambda s: tuple(map(int, s.split(','))), raw[:i]))
     foldings = list(map(lambda s: (s[0], int(s[1])), map(lambda s: s.split()[-1].split('='), raw[i + 1:])))
 
-    if (pretty_print):
+    if pretty_print:
         aoc_output.print_result(1, part1, points, foldings)
         aoc_output.print_result(2, part2, True, points, foldings)
     else:

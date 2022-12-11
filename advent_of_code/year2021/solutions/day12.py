@@ -55,7 +55,7 @@ def main(pretty_print=True):
         if a != 'start':
             data[b].add(a)
 
-    if (pretty_print):
+    if pretty_print:
         aoc_output.print_result(1, part1, data)
         aoc_output.print_result(2, part2, data)
     else:

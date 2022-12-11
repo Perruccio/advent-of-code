@@ -43,7 +43,7 @@ def main(pretty_print=True):
     polymer = data[0]
     rules = dict(rule.split(' -> ') for rule in data[2:])
 
-    if (pretty_print):
+    if pretty_print:
         aoc_output.print_result(1, part1, polymer, rules)
         aoc_output.print_result(2, part2, True, polymer, rules)
     else:

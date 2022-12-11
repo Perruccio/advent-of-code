@@ -22,7 +22,7 @@ class Board:
         for i in range(0, self.size):
             for j in range(0, self.size):
                 if self.board[i][j] == n:
-                    return (i, j)
+                    return i, j
         return None
 
     def check_win(self):
@@ -95,7 +95,7 @@ def main(pretty_print=True):
     for i in range(2, len(raw), BOARD_SZ + 1):
         boards.append([[int(x) for x in raw[j].split()] for j in range(i, i + BOARD_SZ)])
 
-    if (pretty_print):
+    if pretty_print:
         aoc_output.print_result(1, part1, numbers, boards)
         aoc_output.print_result(2, part2, numbers, boards)
     else:

@@ -10,7 +10,7 @@ def get_neighoburs(i, j, h, w):
         for dj in [-1, 0, 1]:
             i2, j2 = i + di, j + dj
             if 0 <= i2 < h and 0 <= j2 < w and (di != 0 or dj != 0):
-                yield (i2, j2)
+                yield i2, j2
 
 
 def step(data, h, w):
@@ -61,7 +61,7 @@ def main(pretty_print=True):
 
     data = aoc_parse.map_input_lines(prj_path + '/year2021/input/day11.txt', map_line)
 
-    if (pretty_print):
+    if pretty_print:
         aoc_output.print_result(1, part1, data)
         aoc_output.print_result(2, part2, data)
     else:
