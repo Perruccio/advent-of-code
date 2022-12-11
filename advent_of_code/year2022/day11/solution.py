@@ -7,6 +7,7 @@ from operator import attrgetter
 
 
 class Monkey:
+    __slots__ = ("items", "operation", "mod", "get_to", "inspected", "cache")
     # lcm common to every monkey
     # warning: this is very bad modeling of lcm and divide_worry...
     lcm = None
@@ -25,6 +26,7 @@ class Monkey:
         # NB assuming a lot about the structure of lines data
         assert len(lines) == 6
         items = deque(aoc.get_ints(lines[1]))
+        # hacky solution with eval. one should parse the operation
         operation = eval("lambda old : " + lines[2].split("=")[1])
         mod = aoc.get_ints(lines[3])[0]
         to_if_true = aoc.get_ints(lines[4])[0]
