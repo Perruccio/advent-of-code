@@ -7,9 +7,9 @@ from operator import attrgetter
 
 
 class Monkey:
-    # mcm common to every monkey
-    # warning: this is very bad modeling of mcm and divide_worry...
-    mcm = None
+    # lcm common to every monkey
+    # warning: this is very bad modeling of lcm and divide_worry...
+    lcm = None
     divide_worry = 1
 
     def __init__(self, items, operation, mod, get_to):
@@ -38,8 +38,8 @@ class Monkey:
         if old not in self.cache:
             # compute new worry level
             new = self.operation(old) // Monkey.divide_worry
-            if Monkey.mcm:
-                new %= Monkey.mcm
+            if Monkey.lcm:
+                new %= Monkey.lcm
             self.cache[old] = (new, self.get_to(new))
         return self.cache[old]
 
@@ -75,7 +75,8 @@ def part1(monkeys, rounds=20):
 
 @aoc.pretty_solution(2)
 def part2(monkeys, rounds=10000):
-    Monkey.mcm = prod(monkey.mod for monkey in monkeys)
+    # not really a lcm
+    Monkey.lcm = prod(monkey.mod for monkey in monkeys)
     Monkey.divide_worry = 1
     return solve(monkeys, rounds)
 
