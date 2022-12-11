@@ -1,9 +1,12 @@
 # py
 from typing import List
 import time
+import re
 
 RE = {"int": r"[+-]?\d+"}
 
+def get_ints(line):
+    return list(map(int, re.findall(RE["int"], line)))
 
 def input_as_string(filename: str) -> str:
     """Returns the content of the input file as a string"""

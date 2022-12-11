@@ -1,13 +1,14 @@
 import pathlib
 import advent_of_code.utils.aoc as aoc
 from collections import deque
-import re
 import copy
-from functools import reduce
+from math import prod
+from operator import attrgetter
 
 
 class Monkey:
     # mcm common to every monkey
+    # warning: this is very bad modeling of mcm and divide_worry...
     mcm = None
     divide_worry = 1
 
@@ -19,16 +20,16 @@ class Monkey:
         self.inspected = 0
         self.cache = {}  # old:new, to
 
-    @staticmethod
-    def create_monkey(raw):
-        # NB assuming a lot about the structure of raw data
-        assert len(raw) == 6
-        items = deque(map(int, re.findall(aoc.RE["int"], raw[1])))
-        operation = eval("lambda old : " + raw[2][len("  Operation: new = ") :])
-        mod = int(raw[3].split()[-1])
-        to_if_true = int(raw[4].split()[-1])
-        to_if_false = int(raw[5].split()[-1])
-        return Monkey(items, operation, mod, lambda x: [to_if_false, to_if_true][x % mod == 0])
+    @classmethod
+    def create_monkey(cls, lines):
+        # NB assuming a lot about the structure of lines data
+        assert len(lines) == 6
+        items = deque(aoc.get_ints(lines[1]))
+        operation = eval("lambda old : " + lines[2][len("  Operation: new = ") :])
+        mod = aoc.get_ints(lines[3])[0]
+        to_if_true = aoc.get_ints(lines[4])[0]
+        to_if_false = aoc.get_ints(lines[5])[0]
+        return cls(items, operation, mod, lambda x: [to_if_false, to_if_true][x % mod == 0])
 
     def throw(self):
         # take items from left
@@ -47,8 +48,9 @@ class Monkey:
 
 
 def get_input(file):
-    raw = aoc.input_as_lines(str(pathlib.Path(__file__).parent) + "/" + file)
-    return [Monkey.create_monkey(raw[i : i + 6]) for i in range(0, len(raw), 7)]
+    raw = aoc.input_as_string(str(pathlib.Path(__file__).parent) + "/" + file)
+    # split in \n\n to get each raw monkey, then split in \n to get lines
+    return [Monkey.create_monkey(raw_monkey.split("\n")) for raw_monkey in raw.split("\n\n")]
 
 
 def solve(monkeys, rounds):
@@ -59,8 +61,8 @@ def solve(monkeys, rounds):
                 item, to = monkey.throw()
                 monkeys[to].catch(item)
     # compute 2 greatest inspections and multiply
-    most_inspection = sorted([monkey.inspected for monkey in monkeys], reverse=True)[:2]
-    return most_inspection[0] * most_inspection[1]
+    insp1, insp2 = sorted(map(attrgetter("inspected"), monkeys), reverse=True)[:2]
+    return insp1 * insp2
 
 
 @aoc.pretty_solution(1)
@@ -73,7 +75,7 @@ def part1(monkeys, rounds=20):
 
 @aoc.pretty_solution(2)
 def part2(monkeys, rounds=10000):
-    Monkey.mcm = reduce(lambda m1, m2: m1 * m2, (monkey.mod for monkey in monkeys))
+    Monkey.mcm = prod(monkey.mod for monkey in monkeys)
     Monkey.divide_worry = 1
     return solve(monkeys, rounds)
 
