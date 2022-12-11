@@ -49,8 +49,8 @@ def main(pretty_print = True):
     image = [[int(x == '#') for x in line] for line in data[1].split('\n')]
 
     if (pretty_print):
-         aoc_output.output_procedure(1, part1, True, image, alg)
-         aoc_output.output_procedure(2, part2, True, image, alg)
+         aoc_output.print_result(1, part1, image, alg)
+         aoc_output.print_result(2, part2, True, image, alg)
     else:
         return part1(image, alg), part2(image, alg)
 

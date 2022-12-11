@@ -124,7 +124,7 @@ class Amph():
             while empty((i+1, j), diagram):
                 i += 1
                 e += delta_e
-            return set([((i, j), e)])
+            return {((i, j), e)}
 
 def solve(diagram, target_diagram, target_rooms):
     w, h = len(diagram), len(diagram[0])

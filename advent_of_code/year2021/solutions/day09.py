@@ -29,7 +29,7 @@ def part2(data):
     basin_size = []
     for low in low_points(data):
         visited = set()
-        frontier = set([low])
+        frontier = {low}
         # continue adding neighbours (horiz/vert) to frontier until 9 is found
         while frontier:
             pos = frontier.pop()

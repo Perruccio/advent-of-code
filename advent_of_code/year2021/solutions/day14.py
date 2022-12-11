@@ -18,7 +18,7 @@ def solve(polymer, rules, n):
     # every pair is independent
     pairs = Counter({pair: polymer.count(pair) for pair in rules})
 
-    # keep count of occurences of each letter
+    # keep count of occurrences of each letter
     occurrences = Counter(polymer)
     for _ in range(n):
         pairs, occ = insert(pairs, rules)
@@ -38,8 +38,8 @@ def main(pretty_print = True):
     rules = dict(rule.split(' -> ') for rule in data[2:])
 
     if (pretty_print):
-         aoc_output.output_procedure(1, part1, True, polymer, rules)
-         aoc_output.output_procedure(2, part2, True, polymer, rules)
+         aoc_output.print_result(1, part1, polymer, rules)
+         aoc_output.print_result(2, part2, True, polymer, rules)
     else:
         return part1(polymer, rules), part2(polymer, rules)
 

@@ -1,5 +1,5 @@
-import pathlib
 import copy
+import pathlib
 
 import advent_of_code.utils.output as aoc_output
 import advent_of_code.utils.parse as aoc_parse

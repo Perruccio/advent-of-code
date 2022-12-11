@@ -1,5 +1,5 @@
 import pathlib
-from typing import Literal
+
 prj_path = str(pathlib.Path(__file__).parent.parent.parent.resolve())
 import advent_of_code.utils.output as aoc_output
 import advent_of_code.utils.parse as aoc_parse

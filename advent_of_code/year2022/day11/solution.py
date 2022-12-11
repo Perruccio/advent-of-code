@@ -1,11 +1,11 @@
+import copy
 import pathlib
+from collections import deque
+from math import prod
+from operator import attrgetter
 
 import advent_of_code.utils.output as aoc_output
 import advent_of_code.utils.parse as aoc_parse
-from collections import deque
-import copy
-from math import prod
-from operator import attrgetter
 
 
 class Monkey:

@@ -91,8 +91,8 @@ def main(pretty_print = True):
         boards.append([[int(x) for x in raw[j].split()] for j in range(i, i + BOARD_SZ)])
 
     if (pretty_print):
-         aoc_output.output_procedure(1, part1, True, numbers, boards)
-         aoc_output.output_procedure(2, part2, True, numbers, boards)
+         aoc_output.print_result(1, part1, numbers, boards)
+         aoc_output.print_result(2, part2, numbers, boards)
     else:
         return part1(numbers, boards), part2(numbers, boards)
 

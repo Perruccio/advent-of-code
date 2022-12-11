@@ -22,7 +22,7 @@ def part2(data):
     n = max(n.bit_length() for n in data)
 
     def compute_rate(data, most_common):
-        # start from leftest bit
+        # start from leftmost bit
         i = n - 1
         # continue until only one left
         while len(set(data)) > 1:

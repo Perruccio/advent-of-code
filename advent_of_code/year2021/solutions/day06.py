@@ -8,7 +8,7 @@ def population(init_state, time):
     state_count = [init_state.count(i) for i in range(0, 9)]
     for _ in range(0, time):
         # rotate list (diminuish day counter of each fish by 1)
-        # this also adds new born fish
+        # this also adds newborn fish
         state_count.append(state_count[0])
         s0 = state_count.pop(0)
         # reset counter of fish that gave birth to 6
