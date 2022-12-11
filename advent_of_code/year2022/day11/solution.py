@@ -25,7 +25,7 @@ class Monkey:
         # NB assuming a lot about the structure of lines data
         assert len(lines) == 6
         items = deque(aoc.get_ints(lines[1]))
-        operation = eval("lambda old : " + lines[2][len("  Operation: new = ") :])
+        operation = eval("lambda old : " + lines[2].split("=")[1])
         mod = aoc.get_ints(lines[3])[0]
         to_if_true = aoc.get_ints(lines[4])[0]
         to_if_false = aoc.get_ints(lines[5])[0]
