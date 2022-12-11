@@ -1,20 +1,26 @@
 import pathlib
+
 prj_path = str(pathlib.Path(__file__).parent.parent.parent.resolve())
 import advent_of_code.utils.output as aoc_output
 import advent_of_code.utils.parse as aoc_parse
 from math import floor, ceil
 
+
 def furthest_node(tree, dir):
     """ return most right or left node of tree"""
+
     def advance(node, dir):
         return node.right if dir == 'right' else node.left
+
     while advance(tree, dir) is not None:
         tree = advance(tree, dir)
     return tree
 
+
 class Tree:
     """ a binary tree, leaf nodes are trees with non-None leaf attribute
     store also the parent as attribute"""
+
     def __init__(self, node):
         if isinstance(node, int):
             self.leaf = node
@@ -55,9 +61,9 @@ class Tree:
             self.left, self.right = None, None
             return True
         else:
-            if self.left is not None and self.left.explode(d+1):
+            if self.left is not None and self.left.explode(d + 1):
                 return True
-            if self.right is not None and self.right.explode(d+1):
+            if self.right is not None and self.right.explode(d + 1):
                 return True
             return False
 
@@ -89,11 +95,13 @@ class Tree:
     def __add__(self, tree):
         return Tree([self, tree]).reduce()
 
+
 def part1(data):
     tree = Tree(data[0])
     for i in range(1, len(data)):
         tree += Tree(data[i])
     return tree.magnitude()
+
 
 def part2(data):
     res = 0
@@ -103,7 +111,8 @@ def part2(data):
                 res = max(res, (Tree(data[i]) + Tree(data[j])).magnitude())
     return res
 
-def main(pretty_print = True):
+
+def main(pretty_print=True):
     def map_line(line):
         return eval(line)
 
@@ -114,6 +123,7 @@ def main(pretty_print = True):
         aoc_output.print_result(2, part2, data)
     else:
         return part1(data), part2(data)
+
 
 if __name__ == "__main__":
     main()

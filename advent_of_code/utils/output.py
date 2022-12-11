@@ -1,5 +1,4 @@
 import time
-from typing import List
 
 
 def print_result(part, func, *arg, **kw):

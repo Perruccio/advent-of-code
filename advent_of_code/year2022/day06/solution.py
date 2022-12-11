@@ -14,7 +14,7 @@ def check_different_chars(s):
 
 def part1(input, k=4):
     for i in range(len(input) - k + 1):
-        if check_different_chars(input[i : i + k]):
+        if check_different_chars(input[i: i + k]):
             return i + k
     raise RuntimeError
 
@@ -37,11 +37,11 @@ def test():
     assert part1("abcd") == 4
     assert part1("bvwbjplbgvbhsrlpgdmjqwftvncz") == 5
     assert part1("zcfzfwzzqfrljwzlrfnpqdbhtmscgvjw") == 11
-    #part 2
+    # part 2
     assert part2(input) == 2789
     assert part2("bvwbjplbgvbhsrlpgdmjqwftvncz") == 23
     assert part2("zcfzfwzzqfrljwzlrfnpqdbhtmscgvjw") == 26
-    
+
     print("Test OK")
 
 

@@ -1,4 +1,5 @@
 import pathlib
+
 prj_path = str(pathlib.Path(__file__).parent.parent.parent.resolve())
 import advent_of_code.utils.output as aoc_output
 import advent_of_code.utils.parse as aoc_parse
@@ -24,6 +25,7 @@ i.e. when n_hi = vy0, and y(n_hi) = vy0 * (vy0 + 1) / 2
 
 """
 
+
 def move(x, y, vx, vy, n):
     xn = x + vx * (vx + 1) // 2 - (vx - n) * (vx - n + 1) // 2 * (n < vx)
     yn = y + vy * n - n * (n - 1) // 2
@@ -31,8 +33,10 @@ def move(x, y, vx, vy, n):
     vyn = vy - n
     return (xn, yn), (vxn, vyn)
 
+
 def y_max(vy_0):
     return vy_0 * (vy_0 + 1) // 2
+
 
 def part1(x_min, x_max, y_min, y_max):
     # assume y_min, y_max are non-positive
@@ -47,6 +51,7 @@ def part1(x_min, x_max, y_min, y_max):
             if x_min <= x <= x_max:
                 return y * (y - 1) // 2
     raise ValueError("couldn't find any solution")
+
 
 def part2(x_min, x_max, y_min, y_max):
     # we could find the solution without brute force
@@ -65,17 +70,17 @@ def part2(x_min, x_max, y_min, y_max):
     return res
 
 
-def main(pretty_print = True):
-
+def main(pretty_print=True):
     data = aoc_parse.input_as_string(prj_path + '/year2021/input/day17.txt')
 
     x_min, x_max, y_min, y_max = map(int, re.findall(aoc_parse.RE['int'], data))
 
     if (pretty_print):
-         aoc_output.print_result(1, part1, x_min, x_max, y_min, y_max)
-         aoc_output.print_result(2, part2, True, x_min, x_max, y_min, y_max)
+        aoc_output.print_result(1, part1, x_min, x_max, y_min, y_max)
+        aoc_output.print_result(2, part2, True, x_min, x_max, y_min, y_max)
     else:
         return part1(x_min, x_max, y_min, y_max), part2(x_min, x_max, y_min, y_max)
+
 
 if __name__ == "__main__":
     main()

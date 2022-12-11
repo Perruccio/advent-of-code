@@ -1,7 +1,9 @@
 import pathlib
+
 prj_path = str(pathlib.Path(__file__).parent.parent.parent.resolve())
 import advent_of_code.utils.output as aoc_output
 import advent_of_code.utils.parse as aoc_parse
+
 
 def part1(data):
     horizontal = sum(x[1] for x in data if x[0] == 'forward')
@@ -11,6 +13,7 @@ def part1(data):
         0
         for x in data)
     return horizontal * depth
+
 
 def part2(data):
     h_pos = 0
@@ -23,11 +26,11 @@ def part2(data):
             aim -= step
         elif dir == "forward":
             h_pos += step
-            d_pos += aim*step
+            d_pos += aim * step
     return h_pos * d_pos
 
-def main(pretty_print = True):
 
+def main(pretty_print=True):
     def map_line(line):
         a, b = line.split()
         return a, int(b)
@@ -39,6 +42,7 @@ def main(pretty_print = True):
         aoc_output.print_result(2, part2, data)
     else:
         return part1(data), part2(data)
+
 
 if __name__ == "__main__":
     main()

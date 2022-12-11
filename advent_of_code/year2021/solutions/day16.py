@@ -6,6 +6,7 @@ import advent_of_code.utils.parse as aoc_parse
 import advent_of_code.utils.math as aoc_math
 from math import prod
 
+
 class Packet:
     def __init__(self, version, type, value=None, sub_packets=None):
         self.version = version
@@ -35,35 +36,38 @@ class Packet:
             case 7:
                 return self.sub_packets[0].evaluate() == self.sub_packets[1].evaluate()
 
+
 def get_value(b, i):
     # return value of the literal packet and advance index
     value = ""
     while b[i] == '1':
-        value, i = value + b[i+1:i+5], i+5
-    value, i = value + b[i+1:i+5], i+5
+        value, i = value + b[i + 1:i + 5], i + 5
+    value, i = value + b[i + 1:i + 5], i + 5
     return int(value, 2), i
+
 
 def get_sub_packets(b, i):
     sub_packets = []
-    length_type, i = b[i], i+1
+    length_type, i = b[i], i + 1
     if length_type == '0':
-        b_length, i = int(b[i:i+15], 2), i+15
+        b_length, i = int(b[i:i + 15], 2), i + 15
         end = i + b_length
         while i < end:
             sub_packet, i = get_packet(b, i)
             sub_packets.append(sub_packet)
     else:
-        n_sub_packets, i = int(b[i:i+11], 2), i+11
+        n_sub_packets, i = int(b[i:i + 11], 2), i + 11
         for _ in range(n_sub_packets):
             sub_packet, i = get_packet(b, i)
             sub_packets.append(sub_packet)
     return sub_packets, i
 
+
 def get_packet(b, i):
     # version
-    version, i = int(b[i:i+3], 2), i+3
+    version, i = int(b[i:i + 3], 2), i + 3
     # type id
-    type, i = int(b[i:i+3], 2), i+3
+    type, i = int(b[i:i + 3], 2), i + 3
     # data
     if type == 4:
         # value
@@ -74,6 +78,7 @@ def get_packet(b, i):
         sub_packets, i = get_sub_packets(b, i)
         return Packet(version, type, sub_packets=sub_packets), i
 
+
 def decode(data):
     b = aoc_math.hex2bin(data)
     i = 0
@@ -83,14 +88,16 @@ def decode(data):
             i += 1
         yield packet
 
+
 def part1(data):
     return sum([p.sum_versions() for p in decode(data)])
+
 
 def part2(data):
     return next(decode(data)).evaluate()
 
-def main(pretty_print = True):
 
+def main(pretty_print=True):
     data = aoc_parse.input_as_string(prj_path + '/year2021/input/day16.txt')
 
     if (pretty_print):
@@ -98,6 +105,7 @@ def main(pretty_print = True):
         aoc_output.print_result(2, part2, data)
     else:
         return part1(data), part2(data)
+
 
 if __name__ == "__main__":
     main()

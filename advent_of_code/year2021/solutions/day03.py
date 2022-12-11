@@ -1,12 +1,15 @@
 import pathlib
+
 prj_path = str(pathlib.Path(__file__).parent.parent.parent.resolve())
 import advent_of_code.utils.output as aoc_output
 import advent_of_code.utils.parse as aoc_parse
+
 
 def find_most_common_bit(data, i):
     # check if i-th bit (from right) is the most common or not
     # n >> i & 1  takes i-th bit from right
     return 2 * sum(n >> i & 1 for n in data) >= len(data)
+
 
 def part1(data):
     n = max(n.bit_length() for n in data)
@@ -15,8 +18,9 @@ def part1(data):
     gamma = sum(find_most_common_bit(data, i) << i for i in range(n))
 
     # bitwise xor
-    epsilon = gamma ^ int('1'*n, 2)
+    epsilon = gamma ^ int('1' * n, 2)
     return gamma * epsilon
+
 
 def part2(data):
     n = max(n.bit_length() for n in data)
@@ -39,9 +43,11 @@ def part2(data):
 
     return compute_rate(data, 1) * compute_rate(data, 0)
 
-def main(pretty_print = True):
+
+def main(pretty_print=True):
     def map_line(line):
         return int(line, 2)
+
     data = aoc_parse.map_input_lines(prj_path + '/year2021/input/day03.txt', map_line)
 
     if (pretty_print):
@@ -49,6 +55,7 @@ def main(pretty_print = True):
         aoc_output.print_result(2, part2, data)
     else:
         return part1(data), part2(data)
+
 
 if __name__ == "__main__":
     main()

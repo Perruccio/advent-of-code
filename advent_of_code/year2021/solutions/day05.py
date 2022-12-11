@@ -1,20 +1,25 @@
 import pathlib
+
 prj_path = str(pathlib.Path(__file__).parent.parent.parent.resolve())
 import advent_of_code.utils.output as aoc_output
 import advent_of_code.utils.parse as aoc_parse
 import advent_of_code.utils.math as aoc_math
 from collections import defaultdict
 
+
 def straight(p1, p2):
     (x1, y1), (x2, y2) = p1, p2
     return x1 == x2 or y1 == y2
+
 
 def diag(p1, p2):
     (x1, y1), (x2, y2) = p1, p2
     return abs(x2 - x1) == abs(y2 - y1)
 
+
 def move(point, dir):
     return (point[0] + dir[0], point[1] + dir[1])
+
 
 def get_overlaps(data, can_overlap):
     overlaps = defaultdict(int)
@@ -30,13 +35,16 @@ def get_overlaps(data, can_overlap):
 
     return sum(1 for value in overlaps.values() if value > 1)
 
+
 def part1(data):
     return get_overlaps(data, lambda v: straight(*v))
+
 
 def part2(data):
     return get_overlaps(data, lambda v: straight(*v) or diag(*v))
 
-def main(pretty_print = True):
+
+def main(pretty_print=True):
     def map_line(line):
         (x1, y1), (x2, y2) = map(lambda s: map(int, s.split(',')), line.split('->'))
         return (x1, y1), (x2, y2)
@@ -48,6 +56,7 @@ def main(pretty_print = True):
         aoc_output.print_result(2, part2, data)
     else:
         return part1(data), part2(data)
+
 
 if __name__ == "__main__":
     main()

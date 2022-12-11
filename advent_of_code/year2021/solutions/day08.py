@@ -1,7 +1,9 @@
 import pathlib
+
 prj_path = str(pathlib.Path(__file__).parent.parent.parent.resolve())
 import advent_of_code.utils.output as aoc_output
 import advent_of_code.utils.parse as aoc_parse
+
 
 def pattern_to_digit(patterns):
     # pattern : digit
@@ -43,6 +45,7 @@ def pattern_to_digit(patterns):
                 p2d[p] = 0
     return p2d
 
+
 def part1(data):
     def check(n):
         return n == 1 or n == 4 or n == 7 or n == 8
@@ -53,15 +56,16 @@ def part1(data):
         res += sum([check(p2d[x]) for x in line[1]])
     return res
 
+
 def part2(data):
     res = 0
     for line in data:
         p2d = pattern_to_digit(line[0])
-        res += sum([10**i * p2d[line[1][3 - i]] for i in range(4)])
+        res += sum([10 ** i * p2d[line[1][3 - i]] for i in range(4)])
     return res
 
-def main(pretty_print = True):
 
+def main(pretty_print=True):
     # use frozen set as keys of dict (standard sets are not hashable)
     def map_line(line):
         a, b = line.split('|')
@@ -74,6 +78,7 @@ def main(pretty_print = True):
         aoc_output.print_result(2, part2, data)
     else:
         return part1(data), part2(data)
+
 
 if __name__ == "__main__":
     main()

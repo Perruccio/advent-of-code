@@ -19,8 +19,8 @@ def rock_paper_scissors(player, opponent):
     return 'win'/'draw'/'loss' from player's perspective
     use modulo 3 arithmetic, 0 < 1 < 2 < 0
     """
-    #'draw' if player == opponent, 'win' if player = opponent + 1,
-    #lose if player == opponent-1 (mod3) (in this case player - opponent = -1 = 2)
+    # 'draw' if player == opponent, 'win' if player = opponent + 1,
+    # lose if player == opponent-1 (mod3) (in this case player - opponent = -1 = 2)
     return ["draw", "win", "loss"][(player - opponent) % 3]
 
 

@@ -1,10 +1,12 @@
 import pathlib
+
 prj_path = str(pathlib.Path(__file__).parent.parent.parent.resolve())
 import advent_of_code.utils.output as aoc_output
 import advent_of_code.utils.parse as aoc_parse
 from collections import defaultdict, deque
 
-def paths(graph, start, end, single_small_twice = False):
+
+def paths(graph, start, end, single_small_twice=False):
     # (node, visited, can_visit_one_small_twice)
     # define a state as the current node + the set of visited nodes,
     # so that the back-tracking is automatic. add 'twice' for part 2
@@ -30,13 +32,16 @@ def paths(graph, start, end, single_small_twice = False):
                 stack.append((next_node, visited | {next_node}, twice and check))
     return res
 
+
 def part1(data):
     return paths(data, 'start', 'end')
+
 
 def part2(data):
     return paths(data, 'start', 'end', True)
 
-def main(pretty_print = True):
+
+def main(pretty_print=True):
     def map_line(line):
         return line.split('-')
 
@@ -55,6 +60,7 @@ def main(pretty_print = True):
         aoc_output.print_result(2, part2, data)
     else:
         return part1(data), part2(data)
+
 
 if __name__ == "__main__":
     main()

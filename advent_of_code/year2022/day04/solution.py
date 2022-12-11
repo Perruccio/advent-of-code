@@ -39,5 +39,6 @@ def test():
     assert part2(data) == 827
     print("Test OK")
 
+
 if __name__ == "__main__":
     test()

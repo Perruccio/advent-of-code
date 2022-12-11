@@ -1,7 +1,9 @@
 import pathlib
+
 prj_path = str(pathlib.Path(__file__).parent.parent.parent.resolve())
 import advent_of_code.utils.output as aoc_output
 import advent_of_code.utils.parse as aoc_parse
+
 
 def population(init_state, time):
     # use counter, state_count[i] = num of fish with i days to procreate
@@ -15,14 +17,16 @@ def population(init_state, time):
         state_count[6] += s0
     return sum(state_count)
 
+
 def part1(data):
     return population(data, 80)
+
 
 def part2(data):
     return population(data, 256)
 
-def main(pretty_print = True):
 
+def main(pretty_print=True):
     data = list(map(int, aoc_parse.input_as_string(prj_path + '/year2021/input/day06.txt').split(',')))
 
     if (pretty_print):
@@ -30,6 +34,7 @@ def main(pretty_print = True):
         aoc_output.print_result(2, part2, data)
     else:
         return part1(data), part2(data)
+
 
 if __name__ == "__main__":
     main()

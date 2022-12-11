@@ -1,10 +1,12 @@
 import pathlib
+
 prj_path = str(pathlib.Path(__file__).parent.parent.parent.resolve())
 import advent_of_code.utils.output as aoc_output
 import advent_of_code.utils.parse as aoc_parse
 import advent_of_code.utils.geometry as aoc_geometry
 from collections import defaultdict
 import heapq
+
 
 def dijkstra(grid, scale=1):
     # https://en.wikipedia.org/wiki/Dijkstra%27s_algorithm#Algorithm
@@ -25,7 +27,7 @@ def dijkstra(grid, scale=1):
     min_dist = defaultdict(lambda: float('inf'), {start: 0})
 
     # use prev to reconstruct path
-    #prev = dict()
+    # prev = dict()
 
     visited = set()
     # priority queue
@@ -54,16 +56,19 @@ def dijkstra(grid, scale=1):
             if new_dist < min_dist[neigh]:
                 min_dist[neigh] = new_dist
                 heapq.heappush(pq, (new_dist, neigh))
-                #prev[neigh] = node
-    return dist[end]#, prev
+                # prev[neigh] = node
+    return dist[end]  # , prev
+
 
 def part1(data):
     return dijkstra(data)
 
+
 def part2(data):
     return dijkstra(data, 5)
 
-def main(pretty_print = True):
+
+def main(pretty_print=True):
     def map_line(line):
         return list(map(int, line))
 
@@ -74,6 +79,7 @@ def main(pretty_print = True):
         aoc_output.print_result(2, part2, data)
     else:
         return part1(data), part2(data)
+
 
 if __name__ == "__main__":
     main()

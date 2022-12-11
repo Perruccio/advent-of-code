@@ -1,10 +1,12 @@
 import pathlib
+
 prj_path = str(pathlib.Path(__file__).parent.parent.parent.resolve())
 import advent_of_code.utils.output as aoc_output
 import advent_of_code.utils.parse as aoc_parse
 import advent_of_code.utils.math as aoc_math
 from collections import deque
 import copy
+
 
 def target_room(type, diagram):
     room = set()
@@ -14,44 +16,50 @@ def target_room(type, diagram):
                 room.add((i, j))
     return room
 
+
 TARGET1 = [
-'#############',
-'#...........#',
-'###A#B#C#D###',
-'  #A#B#C#D#  ',
-'  #########  '
+    '#############',
+    '#...........#',
+    '###A#B#C#D###',
+    '  #A#B#C#D#  ',
+    '  #########  '
 ]
 
 TARGET2 = [
-'#############',
-'#...........#',
-'###A#B#C#D###',
-'  #A#B#C#D#  ',
-'  #A#B#C#D#  ',
-'  #A#B#C#D#  ',
-'  #########  '
+    '#############',
+    '#...........#',
+    '###A#B#C#D###',
+    '  #A#B#C#D#  ',
+    '  #A#B#C#D#  ',
+    '  #A#B#C#D#  ',
+    '  #########  '
 ]
 
 TARGET1 = [list(line) for line in TARGET1]
 TARGET2 = [list(line) for line in TARGET2]
-TARGET_ROOMS1 = {t:target_room(t, TARGET1) for t in 'ABCD'}
-TARGET_ROOMS2 = {t:target_room(t, TARGET2) for t in 'ABCD'}
+TARGET_ROOMS1 = {t: target_room(t, TARGET1) for t in 'ABCD'}
+TARGET_ROOMS2 = {t: target_room(t, TARGET2) for t in 'ABCD'}
 TARGET_COLS = {t: 3 + 2 * (ord(t) - ord('A')) for t in 'ABCD'}
 
-ENERGY = {t: 10**(ord(t) - ord('A')) for t in 'ABCD'}
+ENERGY = {t: 10 ** (ord(t) - ord('A')) for t in 'ABCD'}
+
 
 def empty(pos, diagram):
     return diagram[pos[0]][pos[1]] == '.'
 
+
 def wall(pos, diagram):
     return diagram[pos[0]][pos[1]] == '#' or diagram[pos[0]][pos[1]] == ' '
 
+
 def door(pos, diagram):
     i, j = pos
-    return wall((i-1, j), diagram) and not wall((i+1, j), diagram)
+    return wall((i - 1, j), diagram) and not wall((i + 1, j), diagram)
+
 
 def hallway(pos, diagram=TARGET1):
     return pos[0] == 1 and 1 <= pos[1] < len(diagram[0]) - 1
+
 
 def in_target(pos, type, target_rooms, diagram):
     for ii, jj in target_rooms[type]:
@@ -59,24 +67,29 @@ def in_target(pos, type, target_rooms, diagram):
             return False
     return pos in target_rooms[type]
 
+
 def room(pos, diagram):
     return wall((pos[0], pos[1] - 1), diagram) and wall((pos[0], pos[1] + 1), diagram)
+
 
 def view_diagram(diagram):
     return ["".join(l) for l in diagram]
 
+
 def string_diagram(diagram):
     return "".join(["".join(l) for l in diagram])
 
+
 def move_hallway(i, j, dir, diagram, e, delta_e):
     ms = set()
-    while empty((i, j+dir), diagram):
+    while empty((i, j + dir), diagram):
         j += dir
         e += delta_e
         # don't stop outside rooms
-        if wall((i+1, j), diagram):
+        if wall((i + 1, j), diagram):
             ms.add(((i, j), e))
     return ms
+
 
 class Amph():
     def __init__(self, pos, type):
@@ -92,7 +105,7 @@ class Amph():
         delta_e = ENERGY[self.type]
         if room(self.pos, diagram):
             # go up until hallway then go left and right
-            while empty((i-1, j), diagram):
+            while empty((i - 1, j), diagram):
                 i -= 1
                 e += delta_e
             # hallway
@@ -121,10 +134,11 @@ class Amph():
             if j != tc:
                 return set()
             # got down until empty
-            while empty((i+1, j), diagram):
+            while empty((i + 1, j), diagram):
                 i += 1
                 e += delta_e
             return {((i, j), e)}
+
 
 def solve(diagram, target_diagram, target_rooms):
     w, h = len(diagram), len(diagram[0])
@@ -137,7 +151,7 @@ def solve(diagram, target_diagram, target_rooms):
             if not wall((i, j), diagram) and not empty((i, j), diagram):
                 amph = Amph((i, j), diagram[i][j])
                 amphs.append(amph)
-    
+
     min_e = float('inf')
     frontier = deque([(diagram, amphs, 0)])
     visited = {}
@@ -150,7 +164,7 @@ def solve(diagram, target_diagram, target_rooms):
             min_e = e
             continue
         # skip if already visited with higher energy
-        s = string_diagram(diagram) 
+        s = string_diagram(diagram)
         if s in visited and e >= visited[s]:
             continue
         visited[s] = e
@@ -184,8 +198,10 @@ def solve(diagram, target_diagram, target_rooms):
         frontier += new_frontier
     return min_e
 
+
 def part1(data):
     return solve(data, TARGET1, TARGET_ROOMS1)
+
 
 def part2(data):
     l1 = '  #D#C#B#A#  '
@@ -193,7 +209,8 @@ def part2(data):
     data = data[:3] + [list(l1)] + [list(l2)] + data[3:]
     return solve(data, TARGET2, TARGET_ROOMS2)
 
-def main(pretty_print = True):
+
+def main(pretty_print=True):
     def map_line(line):
         return list(line)
 
@@ -206,6 +223,7 @@ def main(pretty_print = True):
         aoc_output.print_result(2, part2, data)
     else:
         return part1(data), part2(data)
+
 
 if __name__ == "__main__":
     main()

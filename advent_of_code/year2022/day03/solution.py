@@ -29,7 +29,7 @@ def part2(v, k=3):
     assert len(v) % k == 0
     return sum(
         [
-            priority(reduce(lambda x, y: set(x) & set(y), v[i : i + k]).pop())
+            priority(reduce(lambda x, y: set(x) & set(y), v[i: i + k]).pop())
             for i in range(0, len(v), k)
         ]
     )

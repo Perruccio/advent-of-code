@@ -1,7 +1,9 @@
 import pathlib
+
 prj_path = str(pathlib.Path(__file__).parent.parent.parent.resolve())
 import advent_of_code.utils.output as aoc_output
 import advent_of_code.utils.parse as aoc_parse
+
 
 def get_neighoburs(i, j, h, w):
     for di in [-1, 0, 1]:
@@ -10,7 +12,8 @@ def get_neighoburs(i, j, h, w):
             if 0 <= i2 < h and 0 <= j2 < w and (di != 0 or dj != 0):
                 yield (i2, j2)
 
-def step(data, h , w):
+
+def step(data, h, w):
     flash = set()
     for i in range(h):
         for j in range(w):
@@ -32,6 +35,7 @@ def step(data, h , w):
 
     return len(flashed)
 
+
 def part1(data):
     h, w = len(data), len(data[0])
     res = 0
@@ -39,6 +43,7 @@ def part1(data):
     for _ in range(100):
         res += step(data_copy, h, w)
     return res
+
 
 def part2(data):
     h, w = len(data), len(data[0])
@@ -49,7 +54,8 @@ def part2(data):
         steps += 1
     return steps
 
-def main(pretty_print = True):
+
+def main(pretty_print=True):
     def map_line(line):
         return [int(x) for x in line]
 
@@ -60,6 +66,7 @@ def main(pretty_print = True):
         aoc_output.print_result(2, part2, data)
     else:
         return part1(data), part2(data)
+
 
 if __name__ == "__main__":
     main()

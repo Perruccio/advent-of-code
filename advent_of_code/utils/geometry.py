@@ -27,9 +27,9 @@ class Cuboid:
 
     def volume(self):
         return (
-            (self.xx[1] - self.xx[0] + 1)
-            * (self.yy[1] - self.yy[0] + 1)
-            * (self.zz[1] - self.zz[0] + 1)
+                (self.xx[1] - self.xx[0] + 1)
+                * (self.yy[1] - self.yy[0] + 1)
+                * (self.zz[1] - self.zz[0] + 1)
         )
 
     def intersect(self, other):
