@@ -7,19 +7,21 @@ from functools import reduce
 
 
 class Monkey:
+    # mcm common to every monkey
     mcm = None
     divide_worry = 1
 
-    def __init__(self, items, operation, mod, throw_to):
+    def __init__(self, items, operation, mod, get_to):
         self.items = items
         self.operation = operation
         self.mod = mod
-        self.throw_to = throw_to
+        self.get_to = get_to
         self.inspected = 0
-        self.cache = {}
+        self.cache = {}  # old:new, to
 
     @staticmethod
     def create_monkey(raw):
+        # NB assuming a lot about the structure of raw data
         assert len(raw) == 6
         items = deque(map(int, re.findall(aoc.RE["int"], raw[1])))
         operation = eval("lambda old : " + raw[2][len("  Operation: new = ") :])
@@ -29,13 +31,15 @@ class Monkey:
         return Monkey(items, operation, mod, lambda x: [to_if_false, to_if_true][x % mod == 0])
 
     def throw(self):
+        # take items from left
         old = self.items.popleft()
         self.inspected += 1
         if old not in self.cache:
+            # compute new worry level
             new = self.operation(old) // Monkey.divide_worry
             if Monkey.mcm:
                 new %= Monkey.mcm
-            self.cache[old] = (new, self.throw_to(new))
+            self.cache[old] = (new, self.get_to(new))
         return self.cache[old]
 
     def catch(self, item):
@@ -50,15 +54,18 @@ def get_input(file):
 def solve(monkeys, rounds):
     for _ in range(rounds):
         for monkey in monkeys:
+            # use all items for each monkey
             while monkey.items:
                 item, to = monkey.throw()
                 monkeys[to].catch(item)
+    # compute 2 greatest inspections and multiply
     most_inspection = sorted([monkey.inspected for monkey in monkeys], reverse=True)[:2]
     return most_inspection[0] * most_inspection[1]
 
 
 @aoc.pretty_solution(1)
 def part1(monkeys, rounds=20):
+    # NB avoid modifying monkeys, so that part 2 will begin from original state
     monkeys = copy.deepcopy(monkeys)
     Monkey.divide_worry = 3
     return solve(monkeys, rounds)

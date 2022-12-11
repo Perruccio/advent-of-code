@@ -4,5 +4,6 @@
     },
     "python.formatting.provider": "black",
     "python.testing.pytestEnabled": true,
-    "python.envFile": "${workspaceFolder}/.env"
+    "python.envFile": "${workspaceFolder}/.env",
+    "python.formatting.blackArgs": ["--line-length", "100"]
 }
