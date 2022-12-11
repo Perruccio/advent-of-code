@@ -1,8 +1,7 @@
 import pathlib
 
 prj_path = str(pathlib.Path(__file__).parent.parent.parent.resolve())
-import advent_of_code.utils.output as aoc_output
-import advent_of_code.utils.parse as aoc_parse
+from advent_of_code.utils import output as aoc_output, parse as aoc_parse
 from numpy import dot, round
 from math import sin, cos, pi
 from functools import reduce
@@ -113,7 +112,7 @@ def main(pretty_print=True):
 
     if pretty_print:
         aoc_output.print_result(1, part1, beacons)
-        aoc_output.print_result(2, part2, True, scanners)
+        aoc_output.print_result(2, part2, scanners)
     else:
         return part1(beacons), part2(scanners)
 

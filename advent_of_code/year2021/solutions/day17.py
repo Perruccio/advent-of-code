@@ -1,8 +1,7 @@
 import pathlib
 
 prj_path = str(pathlib.Path(__file__).parent.parent.parent.resolve())
-import advent_of_code.utils.output as aoc_output
-import advent_of_code.utils.parse as aoc_parse
+from advent_of_code.utils import output as aoc_output, parse as aoc_parse
 import re
 
 """
@@ -77,7 +76,7 @@ def main(pretty_print=True):
 
     if pretty_print:
         aoc_output.print_result(1, part1, x_min, x_max, y_min, y_max)
-        aoc_output.print_result(2, part2, True, x_min, x_max, y_min, y_max)
+        aoc_output.print_result(2, part2, x_min, x_max, y_min, y_max)
     else:
         return part1(x_min, x_max, y_min, y_max), part2(x_min, x_max, y_min, y_max)
 

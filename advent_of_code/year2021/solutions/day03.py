@@ -1,8 +1,7 @@
 import pathlib
 
 prj_path = str(pathlib.Path(__file__).parent.parent.parent.resolve())
-import advent_of_code.utils.output as aoc_output
-import advent_of_code.utils.parse as aoc_parse
+from advent_of_code.utils import output as aoc_output, parse as aoc_parse
 
 
 def find_most_common_bit(data, i):
@@ -18,7 +17,7 @@ def part1(data):
     gamma = sum(find_most_common_bit(data, i) << i for i in range(n))
 
     # bitwise xor
-    epsilon = gamma ^ int('1' * n, 2)
+    epsilon = gamma ^ int("1" * n, 2)
     return gamma * epsilon
 
 
@@ -48,7 +47,7 @@ def main(pretty_print=True):
     def map_line(line):
         return int(line, 2)
 
-    data = aoc_parse.map_input_lines(prj_path + '/year2021/input/day03.txt', map_line)
+    data = aoc_parse.map_input_lines(prj_path + "/year2021/input/day03.txt", map_line)
 
     if pretty_print:
         aoc_output.print_result(1, part1, data)

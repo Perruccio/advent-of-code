@@ -1,8 +1,7 @@
 import pathlib
 
 prj_path = str(pathlib.Path(__file__).parent.parent.parent.resolve())
-import advent_of_code.utils.output as aoc_output
-import advent_of_code.utils.parse as aoc_parse
+from advent_of_code.utils import output as aoc_output, parse as aoc_parse
 
 
 def get_info(data):
@@ -46,7 +45,7 @@ def main(pretty_print=True):
 
     if pretty_print:
         aoc_output.print_result(1, part1, dd, cc, oo)
-        aoc_output.print_result(2, part2, True, dd, cc, oo)
+        aoc_output.print_result(2, part2, dd, cc, oo)
     else:
         return part1(dd, cc, oo), part2(dd, cc, oo)
 

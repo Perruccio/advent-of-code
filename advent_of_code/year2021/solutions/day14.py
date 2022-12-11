@@ -1,8 +1,7 @@
 import pathlib
 
 prj_path = str(pathlib.Path(__file__).parent.parent.parent.resolve())
-import advent_of_code.utils.output as aoc_output
-import advent_of_code.utils.parse as aoc_parse
+from advent_of_code.utils import output as aoc_output, parse as aoc_parse
 from collections import Counter
 
 
@@ -45,7 +44,7 @@ def main(pretty_print=True):
 
     if pretty_print:
         aoc_output.print_result(1, part1, polymer, rules)
-        aoc_output.print_result(2, part2, True, polymer, rules)
+        aoc_output.print_result(2, part2, polymer, rules)
     else:
         return part1(polymer, rules), part2(polymer, rules)
 

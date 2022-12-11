@@ -1,8 +1,7 @@
 import pathlib
 
 prj_path = str(pathlib.Path(__file__).parent.parent.parent.resolve())
-import advent_of_code.utils.output as aoc_output
-import advent_of_code.utils.parse as aoc_parse
+from advent_of_code.utils import output as aoc_output, parse as aoc_parse
 
 
 def enhance(image, inf, alg):
@@ -56,7 +55,7 @@ def main(pretty_print=True):
 
     if pretty_print:
         aoc_output.print_result(1, part1, image, alg)
-        aoc_output.print_result(2, part2, True, image, alg)
+        aoc_output.print_result(2, part2, image, alg)
     else:
         return part1(image, alg), part2(image, alg)
 
