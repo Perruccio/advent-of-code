@@ -1,7 +1,6 @@
 import pathlib
 
-import advent_of_code.utils.output as aoc_output
-import advent_of_code.utils.parse as aoc_parse
+from advent_of_code.utils import output as aoc_output, parse as aoc_parse
 
 # rock:1, paper:2, scissors:3
 shape_points = {0: 1, 1: 2, 2: 3}

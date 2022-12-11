@@ -4,8 +4,7 @@ from collections import deque
 from math import prod
 from operator import attrgetter
 
-import advent_of_code.utils.output as aoc_output
-import advent_of_code.utils.parse as aoc_parse
+from advent_of_code.utils import output as aoc_output, parse as aoc_parse
 
 
 class Monkey:
