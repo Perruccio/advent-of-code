@@ -1,17 +1,19 @@
 import pathlib
 import advent_of_code.utils.aoc as aoc
+import advent_of_code.utils.output as aoc_output
+import advent_of_code.utils.parse as aoc_parse
 
 
 def get_input(file):
-    return aoc.input_as_lines(str(pathlib.Path(__file__).parent) + "/" + file)
+    return aoc_parse.input_as_lines(str(pathlib.Path(__file__).parent) + "/" + file)
 
 
-@aoc.pretty_solution(1)
+@aoc_output.pretty_solution(1)
 def part1(data):
     pass
 
 
-@aoc.pretty_solution(2)
+@aoc_output.pretty_solution(2)
 def part2(data):
     pass
 

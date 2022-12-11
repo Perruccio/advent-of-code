@@ -1,6 +1,6 @@
-import sys
 from solutions import *
 from collections import OrderedDict
+from advent_of_code.year2021.solutions import *
 
 answers = OrderedDict({
     'day01' : (1709, 1761),
@@ -30,23 +30,13 @@ answers = OrderedDict({
     'day25' : (295, None),
 })
 
-def print_test(day):
-    if len(day) == 4:
-        day = day[:3] + '0' + day[-1]
-    p1, p2 = globals()[day].main(pretty_print=False)
-    res1 = "OK" if p1 == answers[day][0] else "ERROR"
-    res2 = "OK" if p2 == answers[day][1] else "ERROR"
-    print('Day ' + day.replace('day', '') + f':\tpart 1 {res1}, part 2 {res2}')
-
-def main():
-    if not (len(sys.argv) == 1 or len(sys.argv) == 2):
-        print('Usage: py test.py [day1]')
-
-    if len(sys.argv) == 1:
-        for test in answers:
-            print_test(test)
-    else:
-        print_test(sys.argv[1])
+def test():
+    for day in answers:
+        p1, p2 = globals()[day].main(pretty_print=False)
+        assert p1, p2 == answers[day]
+        res1 = "OK" if p1 == answers[day][0] else "ERROR"
+        res2 = "OK" if p2 == answers[day][1] else "ERROR"
+        print('Day ' + day.replace('day', '') + f':\tpart 1 {res1}, part 2 {res2}')
 
 if __name__ == "__main__":
-    main()
+    test()

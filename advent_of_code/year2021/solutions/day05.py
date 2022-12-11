@@ -1,8 +1,8 @@
-import sys
 import pathlib
 prj_path = str(pathlib.Path(__file__).parent.parent.parent.resolve())
-sys.path.append(prj_path)
-from utils.aoc import *
+import advent_of_code.utils.output as aoc_output
+import advent_of_code.utils.parse as aoc_parse
+import advent_of_code.utils.math as aoc_math
 from collections import defaultdict
 
 def straight(p1, p2):
@@ -22,7 +22,7 @@ def get_overlaps(data, can_overlap):
         if can_overlap(vertices):
             (x1, y1), (x2, y2) = vertices[0], vertices[1]
             # compute directions (without step size)
-            x_dir, y_dir = sign(x2 - x1), sign(y2 - y1)
+            x_dir, y_dir = aoc_math.sign(x2 - x1), aoc_math.sign(y2 - y1)
             n_steps = max(abs(x2 - x1), abs(y2 - y1))
             # add visited steps
             for i in range(0, n_steps + 1):
@@ -41,11 +41,11 @@ def main(pretty_print = True):
         (x1, y1), (x2, y2) = map(lambda s: map(int, s.split(',')), line.split('->'))
         return (x1, y1), (x2, y2)
 
-    data = map_input_lines(prj_path + '/year2021/input/day05.txt', map_line)
+    data = aoc_parse.map_input_lines(prj_path + '/year2021/input/day05.txt', map_line)
 
     if (pretty_print):
-        print_result(1, part1, data)
-        print_result(2, part2, data)
+        aoc_output.print_result(1, part1, data)
+        aoc_output.print_result(2, part2, data)
     else:
         return part1(data), part2(data)
 

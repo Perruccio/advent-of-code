@@ -1,12 +1,13 @@
 import pathlib
-import advent_of_code.utils.aoc as aoc
+import advent_of_code.utils.output as aoc_output
+import advent_of_code.utils.parse as aoc_parse
 
 
 def get_input(file):
     def get_ranges(line):
         return [list(map(int, range.split("-"))) for range in line.split(",")]
 
-    return aoc.map_input_lines(str(pathlib.Path(__file__).parent) + "/" + file, get_ranges)
+    return aoc_parse.map_input_lines(str(pathlib.Path(__file__).parent) + "/" + file, get_ranges)
 
 
 def part1(v):
@@ -27,8 +28,8 @@ def part2(v):
 
 def main():
     data = get_input("input.txt")
-    aoc.print_result(1, part1, data)
-    aoc.print_result(2, part2, data)
+    aoc_output.print_result(1, part1, data)
+    aoc_output.print_result(2, part2, data)
 
 
 def test():

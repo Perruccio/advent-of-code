@@ -1,8 +1,7 @@
-import sys
 import pathlib
 prj_path = str(pathlib.Path(__file__).parent.parent.parent.resolve())
-sys.path.append(prj_path)
-from utils.aoc import *
+import advent_of_code.utils.output as aoc_output
+import advent_of_code.utils.parse as aoc_parse
 
 def print_points(points):
     h, w = max(p[0] for p in points), max(p[1] for p in points)
@@ -27,14 +26,14 @@ def part2(points, foldings, pretty_print = True):
 
 def main(pretty_print = True):
 
-    raw = input_as_lines(prj_path + '/year2021/input/day13.txt')
+    raw = aoc_parse.input_as_lines(prj_path + '/year2021/input/day13.txt')
     i = raw.index('')
     points = set(map(lambda s: tuple(map(int, s.split(','))), raw[:i]))
     foldings = list(map(lambda s: (s[0], int(s[1])), map(lambda s: s.split()[-1].split('='), raw[i+1:])))
 
     if (pretty_print):
-        output_procedure(1, part1, True, points, foldings)
-        output_procedure(2, part2, True, points, foldings)
+         aoc_output.output_procedure(1, part1, True, points, foldings)
+         aoc_output.output_procedure(2, part2, True, points, foldings)
     else:
         return part1(points, foldings), part2(points, foldings, False)
 

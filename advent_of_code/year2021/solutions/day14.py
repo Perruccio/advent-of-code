@@ -1,8 +1,7 @@
-import sys
 import pathlib
 prj_path = str(pathlib.Path(__file__).parent.parent.parent.resolve())
-sys.path.append(prj_path)
-from utils.aoc import *
+import advent_of_code.utils.output as aoc_output
+import advent_of_code.utils.parse as aoc_parse
 from collections import Counter
 
 def insert(polymer, rules):
@@ -33,14 +32,14 @@ def part2(polymer, rules):
     return solve(polymer, rules, 40)
 
 def main(pretty_print = True):
-    data = input_as_lines(prj_path + '/year2021/input/day14.txt')
+    data = aoc_parse.input_as_lines(prj_path + '/year2021/input/day14.txt')
 
     polymer = data[0]
     rules = dict(rule.split(' -> ') for rule in data[2:])
 
     if (pretty_print):
-        output_procedure(1, part1, True, polymer, rules)
-        output_procedure(2, part2, True, polymer, rules)
+         aoc_output.output_procedure(1, part1, True, polymer, rules)
+         aoc_output.output_procedure(2, part2, True, polymer, rules)
     else:
         return part1(polymer, rules), part2(polymer, rules)
 

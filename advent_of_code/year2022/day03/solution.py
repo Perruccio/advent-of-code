@@ -1,10 +1,12 @@
 import pathlib
-import advent_of_code.utils.aoc as aoc
 from functools import reduce
+
+import advent_of_code.utils.output as aoc_output
+import advent_of_code.utils.parse as aoc_parse
 
 
 def get_input(file):
-    return aoc.input_as_lines(str(pathlib.Path(__file__).parent) + "/" + file)
+    return aoc_parse.input_as_lines(str(pathlib.Path(__file__).parent) + "/" + file)
 
 
 def priority(x):
@@ -35,8 +37,8 @@ def part2(v, k=3):
 
 def main():
     data = get_input("input.txt")
-    aoc.print_result(1, part1, data)
-    aoc.print_result(2, part2, data)
+    aoc_output.print_result(1, part1, data)
+    aoc_output.print_result(2, part2, data)
 
 
 def test():

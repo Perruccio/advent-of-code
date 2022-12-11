@@ -1,9 +1,9 @@
-import sys
 import pathlib
 from typing import Literal
 prj_path = str(pathlib.Path(__file__).parent.parent.parent.resolve())
-sys.path.append(prj_path)
-from utils.aoc import *
+import advent_of_code.utils.output as aoc_output
+import advent_of_code.utils.parse as aoc_parse
+import advent_of_code.utils.math as aoc_math
 from math import prod
 
 class Packet:
@@ -75,7 +75,7 @@ def get_packet(b, i):
         return Packet(version, type, sub_packets=sub_packets), i
 
 def decode(data):
-    b = hex2bin(data)
+    b = aoc_math.hex2bin(data)
     i = 0
     while i < len(b):
         packet, i = get_packet(b, i)
@@ -91,11 +91,11 @@ def part2(data):
 
 def main(pretty_print = True):
 
-    data = input_as_string(prj_path + '/year2021/input/day16.txt')
+    data = aoc_parse.input_as_string(prj_path + '/year2021/input/day16.txt')
 
     if (pretty_print):
-        print_result(1, part1, data)
-        print_result(2, part2, data)
+        aoc_output.print_result(1, part1, data)
+        aoc_output.print_result(2, part2, data)
     else:
         return part1(data), part2(data)
 

@@ -1,8 +1,7 @@
-import sys
 import pathlib
 prj_path = str(pathlib.Path(__file__).parent.parent.parent.resolve())
-sys.path.append(prj_path)
-from utils.aoc import *
+import advent_of_code.utils.output as aoc_output
+import advent_of_code.utils.parse as aoc_parse
 
 def part1(data):
     horizontal = sum(x[1] for x in data if x[0] == 'forward')
@@ -33,11 +32,11 @@ def main(pretty_print = True):
         a, b = line.split()
         return a, int(b)
 
-    data = map_input_lines(prj_path + '/year2021/input/day02.txt', map_line)
+    data = aoc_parse.map_input_lines(prj_path + '/year2021/input/day02.txt', map_line)
 
     if (pretty_print):
-        print_result(1, part1, data)
-        print_result(2, part2, data)
+        aoc_output.print_result(1, part1, data)
+        aoc_output.print_result(2, part2, data)
     else:
         return part1(data), part2(data)
 

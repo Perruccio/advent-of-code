@@ -1,8 +1,7 @@
-import sys
 import pathlib
 prj_path = str(pathlib.Path(__file__).parent.parent.parent.resolve())
-sys.path.append(prj_path)
-from utils.aoc import *
+import advent_of_code.utils.output as aoc_output
+import advent_of_code.utils.parse as aoc_parse
 import re
 
 """
@@ -68,13 +67,13 @@ def part2(x_min, x_max, y_min, y_max):
 
 def main(pretty_print = True):
 
-    data = input_as_string(prj_path + '/year2021/input/day17.txt')
+    data = aoc_parse.input_as_string(prj_path + '/year2021/input/day17.txt')
 
-    x_min, x_max, y_min, y_max = map(int, re.findall(RE['int'], data))
+    x_min, x_max, y_min, y_max = map(int, re.findall(aoc_parse.RE['int'], data))
 
     if (pretty_print):
-        output_procedure(1, part1, True, x_min, x_max, y_min, y_max)
-        output_procedure(2, part2, True, x_min, x_max, y_min, y_max)
+         aoc_output.output_procedure(1, part1, True, x_min, x_max, y_min, y_max)
+         aoc_output.output_procedure(2, part2, True, x_min, x_max, y_min, y_max)
     else:
         return part1(x_min, x_max, y_min, y_max), part2(x_min, x_max, y_min, y_max)
 

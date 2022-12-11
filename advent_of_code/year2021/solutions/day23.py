@@ -1,8 +1,8 @@
-import sys
 import pathlib
 prj_path = str(pathlib.Path(__file__).parent.parent.parent.resolve())
-sys.path.append(prj_path)
-from utils.aoc import *
+import advent_of_code.utils.output as aoc_output
+import advent_of_code.utils.parse as aoc_parse
+import advent_of_code.utils.math as aoc_math
 from collections import deque
 import copy
 
@@ -110,7 +110,7 @@ class Amph():
             # can only go to target
             # go left xor right then down
             tc = TARGET_COLS[self.type]
-            dir = sign(tc - self.pos[1])
+            dir = aoc_math.sign(tc - self.pos[1])
             # follow dir until door of target room
             while empty((i, j + dir), diagram):
                 j += dir
@@ -197,13 +197,13 @@ def main(pretty_print = True):
     def map_line(line):
         return list(line)
 
-    data = map_input_lines(prj_path + '/year2021/input/day23.txt', map_line)
+    data = aoc_parse.map_input_lines(prj_path + '/year2021/input/day23.txt', map_line)
     data[-2] += [' '] * 2
     data[-1] += [' '] * 2
 
     if (pretty_print):
-        print_result(1, part1, data)
-        print_result(2, part2, data)
+        aoc_output.print_result(1, part1, data)
+        aoc_output.print_result(2, part2, data)
     else:
         return part1(data), part2(data)
 

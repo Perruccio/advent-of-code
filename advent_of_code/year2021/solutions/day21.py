@@ -1,8 +1,7 @@
-import sys
 import pathlib
 prj_path = str(pathlib.Path(__file__).parent.parent.parent.resolve())
-sys.path.append(prj_path)
-from utils.aoc import *
+import advent_of_code.utils.output as aoc_output
+import advent_of_code.utils.parse as aoc_parse
 from functools import lru_cache, reduce
 from itertools import product
 from collections import Counter
@@ -57,11 +56,11 @@ def main(pretty_print = True):
     def map_line(line):
         return int(line.split(': ')[1])
 
-    p1, p2 = map_input_lines(prj_path + '/year2021/input/day21.txt', map_line)
+    p1, p2 = aoc_parse.map_input_lines(prj_path + '/year2021/input/day21.txt', map_line)
 
     if (pretty_print):
-        output_procedure(1, part1, True, p1, p2)
-        output_procedure(2, part2, True, p1, p2)
+         aoc_output.output_procedure(1, part1, True, p1, p2)
+         aoc_output.output_procedure(2, part2, True, p1, p2)
     else:
         return part1(p1, p2), part2(p1, p2)
 

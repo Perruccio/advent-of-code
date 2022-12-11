@@ -1,5 +1,6 @@
 import pathlib
-import advent_of_code.utils.aoc as aoc
+import advent_of_code.utils.output as aoc_output
+import advent_of_code.utils.parse as aoc_parse
 
 # rock:1, paper:2, scissors:3
 shape_points = {0: 1, 1: 2, 2: 3}
@@ -54,13 +55,13 @@ def part2(v):
 
 
 def get_input(file):
-    return aoc.map_input_lines(str(pathlib.Path(__file__).parent) + "/" + file, lambda line: line.split())
+    return aoc_parse.map_input_lines(str(pathlib.Path(__file__).parent) + "/" + file, lambda line: line.split())
 
 
 def main():
     data = get_input("input.txt")
-    aoc.print_result(1, part1, data)
-    aoc.print_result(2, part2, data)
+    aoc_output.print_result(1, part1, data)
+    aoc_output.print_result(2, part2, data)
 
 
 def test():

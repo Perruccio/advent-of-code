@@ -1,9 +1,10 @@
 import pathlib
-import advent_of_code.utils.aoc as aoc
+import advent_of_code.utils.output as aoc_output
+import advent_of_code.utils.parse as aoc_parse
 
 
 def get_input(file):
-    return aoc.input_as_string(str(pathlib.Path(__file__).parent) + "/" + file)
+    return aoc_parse.input_as_string(str(pathlib.Path(__file__).parent) + "/" + file)
 
 
 def check_different_chars(s):
@@ -23,8 +24,8 @@ def part2(input):
 
 def main():
     input = get_input("input.txt")
-    aoc.print_result(1, part1, input)
-    aoc.print_result(2, part2, input)
+    aoc_output.print_result(1, part1, input)
+    aoc_output.print_result(2, part2, input)
 
 
 def test():

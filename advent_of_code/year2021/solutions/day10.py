@@ -1,8 +1,7 @@
-import sys
 import pathlib
 prj_path = str(pathlib.Path(__file__).parent.parent.parent.resolve())
-sys.path.append(prj_path)
-from utils.aoc import *
+import advent_of_code.utils.output as aoc_output
+import advent_of_code.utils.parse as aoc_parse
 from statistics import median
 
 def is_open(p):
@@ -49,11 +48,11 @@ def main(pretty_print = True):
     def map_line(line):
         return line
 
-    data = map_input_lines(prj_path + '/year2021/input/day10.txt', map_line)
+    data = aoc_parse.map_input_lines(prj_path + '/year2021/input/day10.txt', map_line)
 
     if (pretty_print):
-        print_result(1, part1, data)
-        print_result(2, part2, data)
+        aoc_output.print_result(1, part1, data)
+        aoc_output.print_result(2, part2, data)
     else:
         return part1(data), part2(data)
 

@@ -1,9 +1,10 @@
 import pathlib
-import advent_of_code.utils.aoc as aoc
+import advent_of_code.utils.output as aoc_output
+import advent_of_code.utils.parse as aoc_parse
 
 
 def get_input(file):
-    return aoc.input_as_list_of_lists(str(pathlib.Path(__file__).parent) + "/" + file, "")
+    return aoc_parse.input_as_list_of_lists(str(pathlib.Path(__file__).parent) + "/" + file, "")
 
 
 def part1(v):
@@ -16,8 +17,8 @@ def part2(v, top=3):
 
 def main():
     data = get_input("input.txt")
-    aoc.print_result(1, part1, data)
-    aoc.print_result(2, part2, data)
+    aoc_output.print_result(1, part1, data)
+    aoc_output.print_result(2, part2, data)
 
 
 def test():
@@ -28,4 +29,4 @@ def test():
 
 
 if __name__ == "__main__":
-    test()
+    main()

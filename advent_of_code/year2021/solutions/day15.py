@@ -1,8 +1,8 @@
-import sys
 import pathlib
 prj_path = str(pathlib.Path(__file__).parent.parent.parent.resolve())
-sys.path.append(prj_path)
-from utils.aoc import *
+import advent_of_code.utils.output as aoc_output
+import advent_of_code.utils.parse as aoc_parse
+import advent_of_code.utils.geometry as aoc_geometry
 from collections import defaultdict
 import heapq
 
@@ -44,7 +44,7 @@ def dijkstra(grid, scale=1):
         visited.add(node)
 
         # get neighbours of current node and update their distances
-        for neigh in get_neighbours(node, (h * scale, w * scale), exclude_diag=True):
+        for neigh in aoc_geometry.get_neighbours(node, (h * scale, w * scale), exclude_diag=True):
             # already solved
             if neigh in visited:
                 continue
@@ -67,11 +67,11 @@ def main(pretty_print = True):
     def map_line(line):
         return list(map(int, line))
 
-    data = map_input_lines(prj_path + '/year2021/input/day15.txt', map_line)
+    data = aoc_parse.map_input_lines(prj_path + '/year2021/input/day15.txt', map_line)
 
     if (pretty_print):
-        print_result(1, part1, data)
-        print_result(2, part2, data)
+        aoc_output.print_result(1, part1, data)
+        aoc_output.print_result(2, part2, data)
     else:
         return part1(data), part2(data)
 

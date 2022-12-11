@@ -1,6 +1,8 @@
 import pathlib
 
-import advent_of_code.utils.aoc as aoc
+import advent_of_code.utils.math
+import advent_of_code.utils.output as aoc_output
+import advent_of_code.utils.parse as aoc_parse
 
 # model points in grid as complex (integer) numbers to ease moving
 direction_step = {"R": 1, "L": -1, "U": 1j, "D": -1j}
@@ -13,14 +15,14 @@ def get_input(file):
         direction, steps = line.split()
         return direction, int(steps)
 
-    return aoc.map_input_lines(file_path, get_step)
+    return aoc_parse.map_input_lines(file_path, get_step)
 
 
 def follow(tail, head):
     """Move tail horizontal/vertical/diagonal by 1 to follow head if not adjacent,
     where head and tail are point in the complex integer plane"""
     if abs(tail - head) >= 2:
-        tail += aoc.complex_sign(head - tail)
+        tail += advent_of_code.utils.math.complex_sign(head - tail)
     return tail
 
 
@@ -41,12 +43,12 @@ def solve(data, n):
     return len(visited)
 
 
-@aoc.pretty_solution(1)
+@aoc_output.pretty_solution(1)
 def part1(data):
     return solve(data, 2)
 
 
-@aoc.pretty_solution(2)
+@aoc_output.pretty_solution(2)
 def part2(data):
     return solve(data, 10)
 

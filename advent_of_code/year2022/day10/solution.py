@@ -1,9 +1,11 @@
 import pathlib
 import advent_of_code.utils.aoc as aoc
+import advent_of_code.utils.output as aoc_output
+import advent_of_code.utils.parse as aoc_parse
 
 
 def get_input(file):
-    return aoc.input_as_lines(str(pathlib.Path(__file__).parent) + "/" + file)
+    return aoc_parse.input_as_lines(str(pathlib.Path(__file__).parent) + "/" + file)
 
 
 def solve(data, width=40, height=6):
@@ -23,15 +25,15 @@ def solve(data, width=40, height=6):
     return res, display
 
 
-@aoc.pretty_solution(1)
+@aoc_output.pretty_solution(1)
 def part1(data):
     return solve(data)[0]
 
 
-@aoc.pretty_solution(2)
+@aoc_output.pretty_solution(2)
 def part2(data):
     display = solve(data)[1]
-    aoc.print_image(display)
+    aoc_output.print_image(display)
     # use sum of lit pixels for tests
     return aoc.sum_grid(display)
 

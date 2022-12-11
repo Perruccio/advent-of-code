@@ -1,8 +1,7 @@
-import sys
 import pathlib
 prj_path = str(pathlib.Path(__file__).parent.parent.parent.resolve())
-sys.path.append(prj_path)
-from utils.aoc import *
+import advent_of_code.utils.output as aoc_output
+import advent_of_code.utils.parse as aoc_parse
 
 def get_info(data):
     dd, cc, oo = [], [], []
@@ -36,12 +35,12 @@ def main(pretty_print = True):
         l = line.split()
         return (l[0], tuple([int(x) if x[0] == '-' or x.isnumeric() else x for x in l[1:]]))
 
-    data = map_input_lines(prj_path + '/year2021/input/day24.txt', map_line)
+    data = aoc_parse.map_input_lines(prj_path + '/year2021/input/day24.txt', map_line)
     dd, cc, oo = get_info(data)
 
     if (pretty_print):
-        output_procedure(1, part1, True, dd, cc, oo)
-        output_procedure(2, part2, True, dd, cc, oo)
+         aoc_output.output_procedure(1, part1, True, dd, cc, oo)
+         aoc_output.output_procedure(2, part2, True, dd, cc, oo)
     else:
         return part1(dd, cc, oo), part2(dd, cc, oo)
 

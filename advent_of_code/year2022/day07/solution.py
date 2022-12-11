@@ -1,10 +1,12 @@
 import pathlib
-import advent_of_code.utils.aoc as aoc
 from collections import defaultdict
+
+import advent_of_code.utils.output as aoc_output
+import advent_of_code.utils.parse as aoc_parse
 
 
 def get_input(file):
-    return aoc.input_as_lines(str(pathlib.Path(__file__).parent) + "/" + file)
+    return aoc_parse.input_as_lines(str(pathlib.Path(__file__).parent) + "/" + file)
 
 
 class Directory:
@@ -53,13 +55,13 @@ def compute_tree(input):
     return tree
 
 
-@aoc.pretty_solution(1)
+@aoc_output.pretty_solution(1)
 def part1(input, max_size=100000):
     tree = compute_tree(input)
     return sum([dir.get_size() for dir in tree.values() if dir.get_size() <= max_size])
 
 
-@aoc.pretty_solution(2)
+@aoc_output.pretty_solution(2)
 def part2(input, tot_space=70000000, need=30000000):
     # compute single smallest directory that can be deleted to have at least
     # "need" free space

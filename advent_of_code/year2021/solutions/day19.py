@@ -1,8 +1,7 @@
-import sys
 import pathlib
 prj_path = str(pathlib.Path(__file__).parent.parent.parent.resolve())
-sys.path.append(prj_path)
-from utils.aoc import *
+import advent_of_code.utils.output as aoc_output
+import advent_of_code.utils.parse as aoc_parse
 from numpy import dot, round
 from math import sin, cos, pi
 from functools import reduce
@@ -91,7 +90,7 @@ def part2(scanners):
 
 def main(pretty_print = True):
 
-    raw = input_as_lines(prj_path + '/year2021/input/day19.txt')
+    raw = aoc_parse.input_as_lines(prj_path + '/year2021/input/day19.txt')
 
     data = []
     i = 0
@@ -107,8 +106,8 @@ def main(pretty_print = True):
     beacons, scanners = scan(data)
 
     if (pretty_print):
-        output_procedure(1, part1, True, beacons)
-        output_procedure(2, part2, True, scanners)
+         aoc_output.output_procedure(1, part1, True, beacons)
+         aoc_output.output_procedure(2, part2, True, scanners)
     else:
         return part1(beacons), part2(scanners)
 

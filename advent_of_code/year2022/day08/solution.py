@@ -1,10 +1,11 @@
 import pathlib
-import advent_of_code.utils.aoc as aoc
+import advent_of_code.utils.output as aoc_output
+import advent_of_code.utils.parse as aoc_parse
 
 
 def get_input(file):
     file_path = str(pathlib.Path(__file__).parent) + "/" + file
-    return aoc.map_input_lines(file_path, lambda line: [int(x) for x in line])
+    return aoc_parse.map_input_lines(file_path, lambda line: [int(x) for x in line])
 
 
 def get_directions(grid, r, c):
@@ -18,7 +19,7 @@ def get_directions(grid, r, c):
     return east, west, south, north
 
 
-@aoc.pretty_solution(1)
+@aoc_output.pretty_solution(1)
 def part1(grid):
     visible = 0
     for r in range(len(grid)):
@@ -28,7 +29,7 @@ def part1(grid):
     return visible
 
 
-@aoc.pretty_solution(2)
+@aoc_output.pretty_solution(2)
 def part2(grid):
     max_score = 0
     for r in range(len(grid)):

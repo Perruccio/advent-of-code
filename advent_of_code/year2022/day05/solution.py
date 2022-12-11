@@ -1,6 +1,8 @@
 import pathlib
-import advent_of_code.utils.aoc as aoc
 import copy
+
+import advent_of_code.utils.output as aoc_output
+import advent_of_code.utils.parse as aoc_parse
 
 
 class CraneStep:
@@ -12,7 +14,7 @@ class CraneStep:
 
 def get_input(file):
     # read from file as list of strings
-    lines = aoc.input_as_lines(str(pathlib.Path(__file__).parent) + "/" + file)
+    lines = aoc_parse.input_as_lines(str(pathlib.Path(__file__).parent) + "/" + file)
 
     ## first parse crates
     # stop at first empty line
@@ -58,8 +60,8 @@ def part2(crates, steps):
 
 def main():
     crates, steps = get_input("input.txt")
-    aoc.print_result(1, part1, crates, steps)
-    aoc.print_result(2, part2, crates, steps)
+    aoc_output.print_result(1, part1, crates, steps)
+    aoc_output.print_result(2, part2, crates, steps)
 
 
 def test():
