@@ -13,23 +13,18 @@ def get_input(file):
     return list(map(loads, lines))
 
 
-def compare(a, b):
-    """Return a - b in given sense"""
-    a_int = isinstance(a, int)
-    b_int = isinstance(b, int)
-    # both integers
-    if a_int and b_int:
-        return a - b
-    # only one integer (xor)
-    if a_int ^ b_int:
-        return compare([a], b) if a_int else compare(a, [b])
-
-    # both lists
-    for x, y in zip(a, b):
-        res = compare(x, y)
-        if res != 0:
-            return res
-    return len(a) - len(b)
+def compare(l, r):
+    """Return l - r in given sense"""
+    # fmt: off
+    match l, r:
+        case int(), int(): return l - r
+        case int(), list(): return compare([l], r)
+        case list(), int(): return compare(l, [r])
+        case list(), list():
+            for res in map(compare, l, r):
+                if res != 0: return res
+            return len(l) - len(r)
+    # fmt: on
 
 
 @aoc_output.pretty_solution(1)
