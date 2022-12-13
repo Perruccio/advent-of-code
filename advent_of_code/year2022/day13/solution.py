@@ -2,28 +2,26 @@ import pathlib
 
 from advent_of_code.utils import output as aoc_output
 from advent_of_code.utils import parse as aoc_parse
-from functools import cmp_to_key
-from json import loads
+from ast import literal_eval
 
 
 def get_input(file):
     raw = aoc_parse.input_as_string(str(pathlib.Path(__file__).parent) + "/" + file)
+    # get rid of empty lines
     lines = raw.replace("\n\n", "\n").split()
-    # use json.loads instead of eval for safety
-    return list(map(loads, lines))
+    return list(map(literal_eval, lines))
 
 
 def compare(l, r):
     """Return l - r in given sense"""
-    # fmt: off
+    # fmt: odff
     match l, r:
         case int(), int(): return l - r
-        case int(), list(): return compare([l], r)
-        case list(), int(): return compare(l, [r])
-        case list(), list():
-            for res in map(compare, l, r):
-                if res != 0: return res
-            return len(l) - len(r)
+        case int(), list(): l = [l]
+        case list(), int(): r = [r]
+    # map performes compare parallel to iterables l and r (like zip)
+    # next takes greedily first element available, otherwise default
+    return next((res for res in map(compare, l, r) if res), len(l) - len(r))
     # fmt: on
 
 
@@ -36,11 +34,10 @@ def part1(data):
 @aoc_output.pretty_solution(2)
 def part2(data):
     x, y = [[2]], [[6]]
-    data.extend([x, y])
-    data.sort(key=cmp_to_key(compare))
-    p1 = data.index(x) + 1
-    p2 = data.index(y) + 1
-    return p1 * p2
+    px = 1 + len([1 for i in data if compare(i, x) < 0])
+    # NB add also the [[2]] before [[6]]
+    py = 2 + len([1 for i in data if compare(i, y) < 0])
+    return px * py
 
 
 def main():

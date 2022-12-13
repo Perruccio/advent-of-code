@@ -33,9 +33,7 @@ def part1(data):
 @aoc_output.pretty_solution(2)
 def part2(data):
     display = solve(data)[1]
-    aoc_output.print_image(display)
-    # use sum of lit pixels for tests
-    return aoc.sum_grid(display)
+    return ["".join("* " if pixel else "  " for pixel in row) for row in display]
 
 
 def main():
@@ -47,11 +45,25 @@ def main():
 def test():
     example = get_input("example.txt")
     assert part1(example) == 13140
-    assert part2(example) == 124
+    assert part2(example) == [
+        "* *     * *     * *     * *     * *     * *     * *     * *     * *     * *     ",
+        "* * *       * * *       * * *       * * *       * * *       * * *       * * *   ",
+        "* * * *         * * * *         * * * *         * * * *         * * * *         ",
+        "* * * * *           * * * * *           * * * * *           * * * * *           ",
+        "* * * * * *             * * * * * *             * * * * * *             * * * * ",
+        "* * * * * * *               * * * * * * *               * * * * * * *           ",
+    ]
 
     data = get_input("input.txt")
     assert part1(data) == 13920
-    assert part2(data) == 94
+    assert part2(data) == [
+        "* * * *     * *     *         *     *   * * *     *         * * * *       * *   ",
+        "*         *     *   *         *     *   *     *   *         *               *   ",
+        "* * *     *         *         * * * *   * * *     *         * * *           *   ",
+        "*         *   * *   *         *     *   *     *   *         *               *   ",
+        "*         *     *   *         *     *   *     *   *         *         *     *   ",
+        "* * * *     * * *   * * * *   *     *   * * *     * * * *   *           * *     ",
+    ]
 
     print("Test OK")
 

@@ -15,7 +15,12 @@ def pretty_solution(part):
             t = time.time_ns()
             ans = func(*arg, **kw)
             ns = time.time_ns() - t  # nanoseconds
-            print(f"Part {part}: {ans} \t({time_measure(ns)})")
+            if isinstance(ans, list):
+                print(f"Part {part}: \t({time_measure(ns)})")
+                for line in ans:
+                    print(line)
+            else:
+                print(f"Part {part}: {ans} \t({time_measure(ns)})")
             return ans
 
         return wrapper
@@ -36,7 +41,7 @@ def print_image(image):
     for line in image:
         for c in line:
             if c:
-                print("⬛ ", end="")
+                print("* ", end="")
             else:
                 print("  ", end="")
         print()
