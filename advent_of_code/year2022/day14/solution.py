@@ -7,7 +7,8 @@ from advent_of_code.utils import math as aoc_math
 
 def get_input(file):
     def parse_wall(line):
-        return [complex(*map(int, pair.split(","))) for pair in line.split(" -> ")]
+        ints = aoc_parse.get_ints(line)
+        return [complex(*ints[i:i+2]) for i in range(0, len(ints), 2)]
 
     return aoc_parse.map_input_lines(str(pathlib.Path(__file__).parent) + "/" + file, parse_wall)
 
