@@ -9,7 +9,33 @@ def get_neighbours(pos, ends, exclude_diag=False):
             yield i2, j2
 
 
+def expand1d(v, xx):
+    """
+    In-place expand vector of non-intersecting sorted ranges v with
+    another range xx.
+    Example expand1d([(0, 1), (5, 7), (10, 12)], (6, 11)) -> [(0, 1), (5, 12)]
+    """
+    intersections_i = []
+    for i in range(len(v)):
+        if intersect1d(v[i], xx) is not None:
+            intersections_i.append(i)
+    if not intersections_i:
+        new_i = len(v)
+        for i in range(len(v)):
+            if xx[0] < v[i][0]:
+                new_i = i
+                break
+        
+        v.insert(new_i, xx)
+        return
+    new = min(xx[0], v[intersections_i[0]][0]), max(xx[1], v[intersections_i[-1]][1])
+    del v[intersections_i[0] : intersections_i[-1] + 1]
+    v.insert(intersections_i[0], new)
+
+
 def intersect1d(aa, bb):
+    if aa is None or bb is None:
+        return None
     l = max(aa[0], bb[0])
     r = min(aa[1], bb[1])
     return (l, r) if l <= r else None
@@ -27,9 +53,9 @@ class Cuboid:
 
     def volume(self):
         return (
-                (self.xx[1] - self.xx[0] + 1)
-                * (self.yy[1] - self.yy[0] + 1)
-                * (self.zz[1] - self.zz[0] + 1)
+            (self.xx[1] - self.xx[0] + 1)
+            * (self.yy[1] - self.yy[0] + 1)
+            * (self.zz[1] - self.zz[0] + 1)
         )
 
     def intersect(self, other):
@@ -39,3 +65,9 @@ class Cuboid:
         if any([t is None for t in [xx, yy, zz]]):
             return None
         return Cuboid(xx, yy, zz)
+
+
+if __name__ == "__main__":
+    v = [(1,2), ]
+    expand1d(v, (3,5))
+    print(v)
