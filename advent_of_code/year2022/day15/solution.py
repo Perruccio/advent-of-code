@@ -42,12 +42,14 @@ def part1(data, y):
 def part2(data, limit):
 
     empty_range = defaultdict(list)
+    empty_n = defaultdict(int)
     for sensor, beacon in data:
         xs, ys = sensor
         dist_sb = manhattan_distance(sensor, beacon)
         for dx in range(-dist_sb, dist_sb + 1):
             if 0 <= xs + dx <= limit:
-                yy = [max(0, ys - (dist_sb - abs(dx))), min(limit, ys + dist_sb - abs(dx))]
+                yy = max(0, ys - (dist_sb - abs(dx))), min(limit, ys + dist_sb - abs(dx))
+                empty_range[xs + dx].append(yy)
                 aoc_geometry.expand1d(empty_range[xs + dx], yy)
     for x in range(limit + 1):
         if len(empty_range[x]) > 1:

@@ -1,6 +1,7 @@
 import pathlib
 
-from advent_of_code.utils import output as aoc_output, parse as aoc_parse
+from advent_of_code.utils import output as aoc_output
+from advent_of_code.utils import parse as aoc_parse
 
 
 def get_input(file):
