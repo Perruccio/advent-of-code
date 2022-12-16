@@ -9,28 +9,35 @@ def get_neighbours(pos, ends, exclude_diag=False):
             yield i2, j2
 
 
-def expand1d(v, xx):
+def merge_intervals(v: list[int]):
     """
-    In-place expand vector of non-intersecting sorted ranges v with
-    another range xx.
-    Example expand1d([(0, 1), (5, 7), (10, 12)], (6, 11)) -> [(0, 1), (5, 12)]
+    Return sorted list of lists where overlapping intervals are merged.
+    Example expand1d([(0, 1), (5, 7), (10, 12)], (6, 11)) -> [[0, 1], [5, 12]]
     """
-    intersections_i = []
-    for i in range(len(v)):
-        if intersect1d(v[i], xx) is not None:
-            intersections_i.append(i)
-    if not intersections_i:
-        new_i = len(v)
-        for i in range(len(v)):
-            if xx[0] < v[i][0]:
-                new_i = i
-                break
+    # sort alphabetically
+    v.sort()
+
+    merged = []
+    for lo, hi in v:
+        # nothing to merge
+        if not merged:
+            merged.append([lo, hi])
+            continue
         
-        v.insert(new_i, xx)
-        return
-    new = min(xx[0], v[intersections_i[0]][0]), max(xx[1], v[intersections_i[-1]][1])
-    del v[intersections_i[0] : intersections_i[-1] + 1]
-    v.insert(intersections_i[0], new)
+        last_lo, last_hi = merged[-1]
+
+        # intervals not intersecting (and not touching). merge touching integer intervals like
+        # (1, 2), (2, 3) -> [1, 3] even if not intersecting
+        if lo > last_hi + 1:
+            merged.append([lo, hi])
+            continue
+
+        # intervals are intersecting, just compute upper bound
+        merged[-1][1] = max(hi, last_hi)
+    return merged
+
+
+    
 
 
 def intersect1d(aa, bb):
