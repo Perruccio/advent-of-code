@@ -23,7 +23,7 @@ def merge_intervals(v: list[int]):
         if not merged:
             merged.append([lo, hi])
             continue
-        
+
         last_lo, last_hi = merged[-1]
 
         # intervals not intersecting (and not touching). merge touching integer intervals like
@@ -37,7 +37,8 @@ def merge_intervals(v: list[int]):
     return merged
 
 
-    
+def manhattan_distance(a, b):
+    return sum(abs(ca - cb) for ca, cb in zip(a, b))
 
 
 def intersect1d(aa, bb):
@@ -75,6 +76,8 @@ class Cuboid:
 
 
 if __name__ == "__main__":
-    v = [(1,2), ]
-    expand1d(v, (3,5))
+    v = [
+        (1, 2),
+    ]
+    expand1d(v, (3, 5))
     print(v)

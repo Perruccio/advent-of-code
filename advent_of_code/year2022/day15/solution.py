@@ -13,10 +13,6 @@ def get_input(file):
     return aoc_parse.map_input_lines(str(pathlib.Path(__file__).parent) + "/" + file, get_info)
 
 
-def manhattan_distance(a, b):
-    return sum(abs(ca - cb) for ca, cb in zip(a, b))
-
-
 @aoc_output.pretty_solution(1)
 def part1(data, y):
     beacons_in_y = set()
@@ -25,7 +21,7 @@ def part1(data, y):
         x_sensor, y_sensor = sensor
         x_beacon, y_beacon = beacon
         # compute radius of empty interval around xs
-        radius = manhattan_distance(sensor, beacon) - abs(y - y_sensor)
+        radius = aoc_geometry.manhattan_distance(sensor, beacon) - abs(y - y_sensor)
         # if empty space doesn't intersect y continue
         if radius <= 0:
             continue
@@ -42,7 +38,7 @@ def part1(data, y):
 @aoc_output.pretty_solution(2)
 def part2(data, limit):
     # remap data as sensor, radius
-    data = [(sensor, manhattan_distance(sensor, beacon)) for sensor, beacon in data]
+    data = [(sensor, aoc_geometry.manhattan_distance(sensor, beacon)) for sensor, beacon in data]
 
     # NB the trick is that since we know there is exactly one possible point,
     # this must be exactly inside a 1-square regione insiede 4 lines, parallell and perpendicular 2 by 2.
@@ -75,7 +71,7 @@ def part2(data, limit):
             # check inside limit
             if all(0 <= coordinate <= limit for coordinate in intersection):
                 # check candidate is actually the solution
-                if all(manhattan_distance(intersection, sensor) > r for sensor, r in data):
+                if all(aoc_geometry.manhattan_distance(intersection, sensor) > r for sensor, r in data):
                     return intersection[0] * 4000000 + intersection[1]
     return None
 
