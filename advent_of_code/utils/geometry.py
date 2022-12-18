@@ -76,8 +76,4 @@ class Cuboid:
 
 
 if __name__ == "__main__":
-    v = [
-        (1, 2),
-    ]
-    expand1d(v, (3, 5))
-    print(v)
+    pass
