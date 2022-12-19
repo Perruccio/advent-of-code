@@ -28,6 +28,29 @@ def spawn_rock(rock_type, height, pad_left):
     return rock
 
 
+def simulate_rock(rock, data, i, full, limits, floor):
+    while True:
+        # move rock: first push then fall
+        step = 1 if data[i] == ">" else -1
+        new_rock = set(point + step for point in rock)
+        # check if moved rock collides with something (wall or other rocks)
+        if all(not full[point] and limits[0] <= point.real <= limits[1] for point in new_rock):
+            rock = new_rock
+
+        # advance and loop i
+        i = (i + 1) % len(data)
+
+        # fall
+        new_rock = set(point - 1j for point in rock)
+        # check if rock stops, don't need to check walls but floor
+        if all(not full[point] and point.imag > floor for point in new_rock):
+            rock = new_rock
+        else:
+            # rock has stopped
+            break
+    return rock, i
+
+
 def simulate_tetris(data, max_rocks):
     # data
     rock_types = ["-", "+", "L", "I", "square"]
@@ -37,9 +60,8 @@ def simulate_tetris(data, max_rocks):
     n_rocks = 0
     rock_type = 0
     height = floor
-    full = defaultdict(int)
-    # i is data's index (data[i] = "<" or ">")
-    i = 0
+    full = defaultdict(bool)  # {position:occupied by rock}
+    i = 0  # i is data's index (data[i] = "<" or ">")
     # store index when rock_type = 0 to identif cycles
     i_with_rock_0 = {}
     # {n_rocks:height}
@@ -66,33 +88,24 @@ def simulate_tetris(data, max_rocks):
                 # basically removing all cycles from max_rocks
                 remaining = heights[max_rocks % rocks_in_cycle]
                 return remaining + cycles_height
+
+        # main part
         # spawn new rock at
         rock = spawn_rock(rock_types[rock_type], height + 4, pad_left=2)
         rock_type = (rock_type + 1) % len(rock_types)
-        while True:
-            # move rock: first push then fall
-            step = 1 if data[i] == ">" else -1
-            new_rock = set(point + step for point in rock)
-            # check if moved rock collides with something (wall or other rocks)
-            if all(
-                not full[point] and left_limit <= point.real <= right_limit for point in new_rock
-            ):
-                rock = new_rock
-            i = (i + 1) % len(data)
 
-            # fall
-            new_rock = set(point - 1j for point in rock)
-            # check if rock stops, don't need to check walls but floor
-            if all(not full[point] and point.imag > floor for point in new_rock):
-                rock = new_rock
-            else:
-                # rock has stopped
-                break
+        # push left/right and let fall until stops
+        rock, i = simulate_rock(rock, data, i, full, (left_limit, right_limit), floor)
 
+        # update state
         n_rocks += 1
         full.update({point: True for point in rock})
         height = int(max(height, max(point.imag for point in rock)))
+
+        # store also heights depending on number of rocks for correcly computing height with cycles
         heights[n_rocks] = height
+
+        # base case for part 1
         if n_rocks == max_rocks:
             break
 
