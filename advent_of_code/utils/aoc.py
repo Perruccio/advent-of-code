@@ -14,3 +14,15 @@ def map_grid(func, grid):
         for c in range(len(grid[r])):
             grid[r][c] = func(grid[r][c])
     return grid
+
+
+def advance_in_linked_list(node, steps):
+    # NB factorizing the for loop with node = node.right if steps > 0 else node.left
+    # would deteriorate performance
+    if steps > 0:
+        for _ in range(steps):
+            node = node.right
+    else:
+        for _ in range(-steps):
+            node = node.left
+    return node

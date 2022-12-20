@@ -45,3 +45,11 @@ def print_image(image):
             else:
                 print("  ", end="")
         print()
+
+def print_linked_list(node, end=' ', file=None):
+    visited = set()
+    while node and node not in visited:
+        print(node.x, end=end, file=file)
+        visited.add(node)
+        node = node.right
+    print()
