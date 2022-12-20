@@ -122,11 +122,11 @@ def main():
 def test():
     example = get_input("example.txt")
     assert part1(example) == 1651
-    assert part2(example) == 1707
+    # assert part2(example) == 1707
 
     data = get_input("input.txt")
     assert part1(data) == 2114
-    assert part2(data) == None
+    # assert part2(data) == None
 
     print("Test OK")
 

@@ -25,16 +25,17 @@ def spawn_rock(rock_type, height, pad_left):
         case "square":
             rock = set(pad_left + x + height * 1j for x in range(2))
             rock.update(pad_left + x + (height + 1) * 1j for x in range(2))
+        case _:
+            raise "Rock type"
     return rock
 
 
-def simulate_rock(rock, data, i, full, limits, floor):
+def simulate_rock(rock, data, i, solid, limits):
     while True:
         # move rock: first push then fall
-        step = 1 if data[i] == ">" else -1
-        new_rock = set(point + step for point in rock)
+        new_rock = set(point + data[i] for point in rock)
         # check if moved rock collides with something (wall or other rocks)
-        if all(not full[point] and limits[0] <= point.real <= limits[1] for point in new_rock):
+        if not (new_rock & solid) and all(limits[0] <= point.real <= limits[1] for point in new_rock):
             rock = new_rock
 
         # advance and loop i
@@ -42,38 +43,40 @@ def simulate_rock(rock, data, i, full, limits, floor):
 
         # fall
         new_rock = set(point - 1j for point in rock)
-        # check if rock stops, don't need to check walls but floor
-        if all(not full[point] and point.imag > floor for point in new_rock):
-            rock = new_rock
-        else:
-            # rock has stopped
+        # check if rock stops (intersect with solid after fall)
+        if solid & new_rock:
             break
+        rock = new_rock
     return rock, i
 
 
 def simulate_tetris(data, max_rocks):
-    # data
+    # known data
     rock_types = ["-", "+", "L", "I", "square"]
     floor = 0
-    left_limit, right_limit = 0, 6
-    # initialization to zero
+    data = [-1 if jet == "<" else 1 for jet in data]
+    # left, right limits
+    limits = 0, 6
+    # initialization to start position
     n_rocks = 0
     rock_type = 0
     height = floor
-    full = defaultdict(bool)  # {position:occupied by rock}
-    i = 0  # i is data's index (data[i] = "<" or ">")
-    # store index when rock_type = 0 to identif cycles
+    # add flor to solid
+    solid = set(range(limits[0], limits[1] + 1))
+    i = 0  # i is data's index (data[i] = -1 or +1)
+    # store index when rock_type = 0 to identify cycles
     i_with_rock_0 = {}
     # {n_rocks:height}
     heights = {0: floor}
-    while True:
+    while n_rocks < max_rocks:
         # rock types are over, store index to identify cycles
         if rock_type == 0:
             if i not in i_with_rock_0:
+                # go on
                 i_with_rock_0[i] = height, n_rocks
             else:
                 # cycle is identified (i already visited with rock_type = 0)
-                # this is actually a particular case?
+                # is this actually a particular case?
 
                 # get height and n_rocks when we visited this index i with rock_type 0.
                 # this is becase we're going to add last height + cycle_height * n_cycle + remaining
@@ -90,24 +93,20 @@ def simulate_tetris(data, max_rocks):
                 return remaining + cycles_height
 
         # main part
-        # spawn new rock at
+        # spawn new rock
         rock = spawn_rock(rock_types[rock_type], height + 4, pad_left=2)
         rock_type = (rock_type + 1) % len(rock_types)
 
         # push left/right and let fall until stops
-        rock, i = simulate_rock(rock, data, i, full, (left_limit, right_limit), floor)
+        rock, i = simulate_rock(rock, data, i, solid, limits)
 
         # update state
         n_rocks += 1
-        full.update({point: True for point in rock})
+        solid |= rock
         height = int(max(height, max(point.imag for point in rock)))
 
         # store also heights depending on number of rocks for correcly computing height with cycles
         heights[n_rocks] = height
-
-        # base case for part 1
-        if n_rocks == max_rocks:
-            break
 
     return height
 
