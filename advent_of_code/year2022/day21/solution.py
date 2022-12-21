@@ -12,13 +12,13 @@ def get_input(file):
         return monkey, (int(yell) if yell.isnumeric() else tuple(yell.split()))
 
     lines = aoc_parse.input_as_lines(str(pathlib.Path(__file__).parent) + "/" + file)
-    return {monkey: yell for monkey, yell in map(get_monkey_info, lines)}
+    return dict(map(get_monkey_info, lines))
 
 
 def compute_monkey(monkey, data):
     # recursively compute what monkey yells
     yell = data[monkey]
-    if isinstance(yell, int) or isinstance(yell, float):
+    if not isinstance(yell, tuple):
         return yell
     # monkey must perform operation first
     monkey1, op, monkey2 = yell
