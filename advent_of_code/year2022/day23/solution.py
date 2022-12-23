@@ -2,8 +2,8 @@ import pathlib
 
 from advent_of_code.utils import output as aoc_output
 from advent_of_code.utils import parse as aoc_parse
+from collections import defaultdict
 from copy import copy
-import cProfile
 
 
 def get_input(file):
@@ -11,15 +11,13 @@ def get_input(file):
     return {c - r * 1j for r, row in enumerate(raw) for c, point in enumerate(row) if point == "#"}
 
 
-def complex_neighbours(x):
-    for dx in [-1, 0, 1]:
-        for dy in [-1, 0, 1]:
-            if dx != 0 or dy != 0:
-                yield complex(x.real + dx, x.imag + dy)
-
-
 def simulate(elves, rounds=None, until_stationary=None):
+    elves = copy(elves)
+
+    # north, south, west, east
     directions = [1j, -1j, -1, 1]
+
+    # for each direction (nswe) check the corresponding three points in space
     # fmt: off
     direction_shifts = {
          1j:[-1,  0, 1 ],
@@ -29,41 +27,50 @@ def simulate(elves, rounds=None, until_stationary=None):
     }
     # fmt: on
 
+    # compute directyly the 8 neighbours for complex points
+    shifts_1d = [-1, 0, 1]
+    complex_neighbours = set(
+        complex(dx, dy) for dx in shifts_1d for dy in shifts_1d if dx != 0 or dy != 0
+    )
+
     round = 0
     while until_stationary or (rounds and round < rounds):
-        # remember for each destination the elf that tried to go there
-        try_positions = {}
-        new_elves = copy(elves)
+        # remember for each destination the elves that tried to go there
+        # {position:[list of candidates]}
+        candidates = defaultdict(lambda: [])
         for elf in elves:
-            # if alone don't move, already included in new_elves
-            if all(neigh not in elves for neigh in complex_neighbours(elf)):
+            # if alone don't move
+            if all(elf + step not in elves for step in complex_neighbours):
                 continue
             # check first possible direction
             for direction in directions:
+                # fmt: off
                 if all(elf + direction + shift not in elves for shift in direction_shifts[direction]):
+                    # fmt:on
                     # try this new position
-                    try_pos = elf + direction
-                    if try_pos not in try_positions:
-                        try_positions[try_pos] = elf
-                        new_elves.remove(elf)
-                    else:
-                        # another elf tried to go there. both elves return to original position
-                        new_elves.add(try_positions[try_pos])
-                        try_positions[try_pos] = None
+                    candidates[elf + direction].append(elf)
                     break
 
         round += 1
-        if until_stationary and len(elves) == len(new_elves):
+
+        # check stationarity
+        if not candidates and until_stationary:
             return round
 
-        elves = new_elves
-        elves.update(elf for elf, old_elf in try_positions.items() if old_elf is not None)
-        directions = directions[1:] + [directions[0]]
+        # for each position, if only one elf is trying to move to a place, do it
+        for position, elf_queue in candidates.items():
+            if len(elf_queue) == 1:
+                # remove elf from old position
+                elves.remove(elf_queue[0])
+                # add elf in new position
+                elves.add(position)
 
-    min_x, max_x = int(min(elf.real for elf in elves)), int(max(elf.real for elf in elves))
-    min_y, max_y = int(min(elf.imag for elf in elves)), int(max(elf.imag for elf in elves))
-    universe = {x + 1j * y for x in range(min_x, max_x + 1) for y in range(min_y, max_y + 1)}
-    return len(universe - elves)
+        # rotate directions
+        directions.append(directions.pop(0))
+
+    xx = {elf.real for elf in elves}
+    yy = {elf.imag for elf in elves}
+    return int((max(xx) - min(xx) + 1) * (max(yy) - min(yy) + 1) - len(elves))
 
 
 @aoc_output.pretty_solution(1)
@@ -77,7 +84,7 @@ def part2(data):
 
 
 def main():
-    data = get_input("input.txt")
+    data = get_input("example2.txt")
     part1(data)
     part2(data)
 
@@ -98,5 +105,5 @@ def test():
 
 
 if __name__ == "__main__":
-    main()
+    test()
     # cProfile.run("main()")
