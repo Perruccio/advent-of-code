@@ -4,6 +4,7 @@ from advent_of_code.utils import output as aoc_output
 from advent_of_code.utils import parse as aoc_parse
 import re
 from collections import defaultdict
+import copy
 
 
 class Valve:
@@ -31,85 +32,58 @@ def get_input(file):
         )
     }
 
-def solve(graph, time_left, pressure=0, start_open=frozenset()):
-    # dfs
-    # node = (valve, time left, pressure, set of open valves)
-    start = ("AA", time_left, pressure, start_open)
-    stack = [start]
-    max_pressure = pressure
-    # store also time left for each visited node, to avoid checking same positions with less time
-    visited = defaultdict(int)
-    last_open = None
-    while stack:
-        valve, time, pressure, open = stack.pop()
-        if time <= 1:
-            if pressure > max_pressure:
-                max_pressure = pressure
-                last_open = open
-            continue
-        # any move will cost 1 minute
-        new_time = time - 1
-        # first choose to open valve if closed (greedy, optimal)
-        if valve not in open and graph[valve].flow_rate > 0:
-            new_pressure = pressure + new_time * graph[valve].flow_rate
-            new_open = open | {valve}
-            new_node = valve, new_pressure, new_open
-            # node is useful only if never visited or already visited but now we've more time left
-            if new_time > visited[new_node]:
-                stack.append((valve, new_time, new_pressure, new_open))
-                visited[new_node] = new_time
-        # move to other valves
-        for new_valve in graph[valve].links:
-            # node is useful only if never visited or already visited but now we've more time left
-            if new_time > visited[(new_node := (new_valve, pressure, open))]:
-                stack.append((new_valve, new_time, pressure, open))
-                visited[new_node] = new_time
 
-    return max_pressure, last_open
+def compute_solutions(graph, time):
+    # res is a dictionary {set of open valves: greatest pressure achievable}
+    res = defaultdict(int)
+    # position, time left, open valves, pressure
+    start = "AA", time, frozenset(), 0
+    todo = [start]
+    # {node : time left}
+    visited = defaultdict(int)
+    while todo:
+        valve, time, open, pressure = todo.pop()
+
+        res[open] = max(res[open], pressure)
+        new_time = time - 1
+
+        if new_time <= 0:
+            continue
+
+        # if valve is closed and has flow rate > 0, open it
+        if graph[valve].flow_rate > 0 and valve not in open:
+            new_open = open | {valve}
+            new_pressure = pressure + new_time * graph[valve].flow_rate
+            # this state is useful only if not already seen or have more time left
+            if visited[(new := (valve, new_open, new_pressure))] < new_time:
+                visited[new] = new_time
+                todo.append((valve, new_time, new_open, new_pressure))
+
+        # move to next valves
+        for new_valve in graph[valve].links:
+            new_open = copy.copy(open)
+            if visited[(new := (new_valve, new_open, pressure))] < new_time:
+                visited[new] = new_time
+                todo.append((new_valve, new_time, new_open, pressure))
+    return res
 
 
 @aoc_output.pretty_solution(1)
 def part1(graph):
-    return solve(graph, 30)[0]
+    solutions = compute_solutions(graph, 30)
+    return max(solutions.values())
+
 
 @aoc_output.pretty_solution(2)
 def part2(graph):
-    # dfs
-    # node = (valve, time left, pressure, set of open valves)
-    start = ("AA", 26, 0, frozenset(), 0)
-    stack = [start]
+    solutions = compute_solutions(graph, 26)
     max_pressure = 0
-    # store also time left for each visited node, to avoid checking same positions with less time
-    visited = defaultdict(int)
-    last_open = None
-    while stack:
-        valve, time, pressure, open, round = stack.pop()
-        if time <= 1:
-            if pressure > max_pressure:
-                max_pressure = pressure
-                last_open = open
-            if time == 0 and round == 0:
-                stack.append(("AA", 26, pressure, open, 1))
-            continue
-        # any move will cost 1 minute
-        new_time = time - 1
-        # first choose to open valve if closed (greedy, optimal)
-        if valve not in open and graph[valve].flow_rate > 0:
-            new_pressure = pressure + new_time * graph[valve].flow_rate
-            new_open = open | {valve}
-            new_node = valve, new_pressure, new_open, round
-            # node is useful only if never visited or already visited but now we've more time left
-            if new_time > visited[new_node]:
-                stack.append((valve, new_time, new_pressure, new_open, round))
-                visited[new_node] = new_time
-        # move to other valves
-        for new_valve in graph[valve].links:
-            # node is useful only if never visited or already visited but now we've more time left
-            if new_time > visited[(new_node := (new_valve, pressure, open, round))]:
-                stack.append((new_valve, new_time, pressure, open, round))
-                visited[new_node] = new_time
-
+    for solution1, pressure1 in solutions.items():
+        for solution2, pressure2 in solutions.items():
+            if not (solution1 & solution2):
+                max_pressure = max(pressure1 + pressure2, max_pressure)
     return max_pressure
+
 
 def main():
     data = get_input("example.txt")
@@ -122,11 +96,11 @@ def main():
 def test():
     example = get_input("example.txt")
     assert part1(example) == 1651
-    # assert part2(example) == 1707
+    assert part2(example) == 1707
 
     data = get_input("input.txt")
     assert part1(data) == 2114
-    # assert part2(data) == None
+    assert part2(data) == 2666
 
     print("Test OK")
 

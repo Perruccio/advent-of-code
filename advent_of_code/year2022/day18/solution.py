@@ -6,6 +6,8 @@ from advent_of_code.utils import parse as aoc_parse
 
 @dataclass(frozen=True)
 class IntegerPoint3D:
+    """Represent a point with integer coordinates in the 3D space.
+    NB can also be used to represent unitary cube"""
     x: int
     y: int
     z: int

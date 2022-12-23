@@ -35,9 +35,17 @@ def solve(data, key=1, times=1):
                 continue
 
             # advance (left or right) until new position is reached
-            # NB if node.x is negative, do one step more, so that new is always
-            # at the left of where we should insert node (it's just -((abs(node.x) + 1) % mod)
-            new = aoc.advance_in_linked_list(node, node.x % mod if node.x > 0 else -((1 - node.x) % mod))
+            # instead of just performing node.x jumps, check which direction
+            # is shorter (nice performance gain)
+            # NB we're making jumps to the left, do one more jump, so that new is always
+            # at the left of where we should insert node
+
+            # first compute right jumps
+            jumps = (node.x % mod + mod) % mod
+            # check if going left would be better (remember to do one jump more)
+            if mod - jumps + 1 < jumps:
+                jumps -= mod + 1
+            new = aoc.advance_in_linked_list(node, jumps)
 
             if new == node:
                 continue
