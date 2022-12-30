@@ -1,4 +1,4 @@
-from attr import dataclass
+from dataclasses import dataclass
 from advent_of_code.lib import parse as aoc_parse
 from advent_of_code.lib import aoc
 

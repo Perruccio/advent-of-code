@@ -1,6 +1,5 @@
 from advent_of_code.lib import parse as aoc_parse
 from advent_of_code.lib import aoc
-from collections import defaultdict
 from copy import copy
 
 
@@ -33,35 +32,39 @@ def simulate(elves, rounds=None, until_stationary=None):
 
     round = 0
     while until_stationary or (rounds and round < rounds):
-        # remember for each destination the elves that tried to go there
-        # {position:[list of candidates]}
-        candidates = defaultdict(lambda: [])
+        # compute new set of elves
+        new_elves = set()
         for elf in elves:
             # if alone don't move
             if all(elf + step not in elves for step in complex_neighbours):
+                new_elves.add(elf)
                 continue
             # check first possible direction
             for direction in directions:
                 # fmt: off
                 if all(elf + direction + shift not in elves for shift in direction_shifts[direction]):
                     # fmt:on
-                    # try this new position
-                    candidates[elf + direction].append(elf)
+                    # move if nobody has already tried to move there
+                    if (new_elf := elf + direction) not in new_elves:
+                        new_elves.add(new_elf)
+                    # only possible collision is from opposite elves! just replace both at original
+                    # positions
+                    else:
+                        new_elves.add(elf)
+                        # remove collision and put elf back
+                        new_elves.remove(new_elf)
+                        new_elves.add(elf + 2*direction)
                     break
+            else:
+                new_elves.add(elf)
 
         round += 1
 
         # check stationarity
-        if not candidates and until_stationary:
+        if new_elves == elves and until_stationary:
             return round
 
-        # for each position, if only one elf is trying to move to a place, do it
-        for position, elf_queue in candidates.items():
-            if len(elf_queue) == 1:
-                # remove elf from old position
-                elves.remove(elf_queue[0])
-                # add elf in new position
-                elves.add(position)
+        elves = new_elves
 
         # rotate directions
         directions.append(directions.pop(0))
@@ -104,4 +107,3 @@ def test():
 
 if __name__ == "__main__":
     test()
-    # cProfile.run("main()")
