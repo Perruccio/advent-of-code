@@ -1,9 +1,10 @@
 import pathlib
 
 prj_path = str(pathlib.Path(__file__).parent.parent.parent.resolve())
-from advent_of_code.utils import output as aoc_output, parse as aoc_parse
+from advent_of_code.lib import parse as aoc_parse
+from advent_of_code.lib import aoc
 
-
+@aoc.pretty_solution(1)
 def part1(data):
     def next(i, j, h, w, right):
         next_i = i if right else (i + 1) % h
@@ -31,24 +32,16 @@ def part1(data):
         data, moved_r = move(data, h, w, right=True)
         data, moved_d = move(data, h, w, right=False)
         i += 1
-        if not moved_r and not moved_d:
+        if moved_r == moved_d == False:
             return i
 
 
-def part2():
-    return None
-
-
-def main(pretty_print=True):
+def main():
     def map_line(line):
         return list(line)
 
     data = aoc_parse.map_input_lines(prj_path + '/year2021/input/day25.txt', map_line)
-
-    if pretty_print:
-        aoc_output.print_result(1, part1, data)
-    else:
-        return part1(data), part2()
+    return part1(data), None
 
 
 if __name__ == "__main__":

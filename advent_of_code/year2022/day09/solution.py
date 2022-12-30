@@ -1,19 +1,14 @@
-import pathlib
-
-from advent_of_code.utils import output as aoc_output, parse as aoc_parse, math as aoc_math
-
-# model points in grid as complex (integer) numbers to ease moving
-direction_step = {"R": 1, "L": -1, "U": 1j, "D": -1j}
+from advent_of_code.lib import math as aoc_math
+from advent_of_code.lib import parse as aoc_parse
+from advent_of_code.lib import aoc
 
 
 def get_input(file):
-    file_path = str(pathlib.Path(__file__).parent) + "/" + file
-
     def get_step(line):
         direction, steps = line.split()
         return direction, int(steps)
 
-    return aoc_parse.map_input_lines(file_path, get_step)
+    return aoc_parse.map_by_line(aoc.read_input(2022, 9, file), get_step)
 
 
 def follow(tail, head):
@@ -25,6 +20,8 @@ def follow(tail, head):
 
 
 def solve(data, n):
+    # model points in grid as complex (integer) numbers to ease moving
+    direction_step = {"R": 1, "L": -1, "U": 1j, "D": -1j}
     # init all knots to 0
     knots = [0] * n
     # use set for visited points
@@ -41,12 +38,12 @@ def solve(data, n):
     return len(visited)
 
 
-@aoc_output.pretty_solution(1)
+@aoc.pretty_solution(1)
 def part1(data):
     return solve(data, 2)
 
 
-@aoc_output.pretty_solution(2)
+@aoc.pretty_solution(2)
 def part2(data):
     return solve(data, 10)
 

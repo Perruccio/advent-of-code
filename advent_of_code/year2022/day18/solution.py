@@ -1,13 +1,13 @@
-import pathlib
 from attr import dataclass
-from advent_of_code.utils import output as aoc_output
-from advent_of_code.utils import parse as aoc_parse
+from advent_of_code.lib import parse as aoc_parse
+from advent_of_code.lib import aoc
 
 
 @dataclass(frozen=True)
 class IntegerPoint3D:
     """Represent a point with integer coordinates in the 3D space.
-    NB can also be used to represent unitary cube"""
+    NB can also be used to represent unitary cubes"""
+
     x: int
     y: int
     z: int
@@ -32,8 +32,8 @@ class IntegerPoint3D:
 
 def get_input(file):
     return set(
-        aoc_parse.map_input_lines(
-            str(pathlib.Path(__file__).parent) + "/" + file, IntegerPoint3D.create_integer_point_3d
+        aoc_parse.map_by_line(
+            aoc.read_input(2022, 18, file), IntegerPoint3D.create_integer_point_3d
         )
     )
 
@@ -43,12 +43,12 @@ def tot_surface(cubes):
     return sum((side not in cubes) for cube in cubes for side in cube.sides())
 
 
-@aoc_output.pretty_solution(1)
+@aoc.pretty_solution(1)
 def part1(cubes):
     return tot_surface(cubes)
 
 
-@aoc_output.pretty_solution(2)
+@aoc.pretty_solution(2)
 def part2(data):
     # compute "all" data of cuboid enclosing data, then remove outer and surface (leaving us
     # with the inside space inside obsidian) then compute surface of inside space inside

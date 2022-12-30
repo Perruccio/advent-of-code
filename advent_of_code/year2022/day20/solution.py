@@ -1,8 +1,6 @@
-import pathlib
-
-from advent_of_code.utils import output as aoc_output
-from advent_of_code.utils import parse as aoc_parse
-from advent_of_code.utils import aoc
+from advent_of_code.lib import parse as aoc_parse
+from advent_of_code.lib import algorithm as aoc_algo
+from advent_of_code.lib import aoc
 
 
 class Node:
@@ -13,7 +11,7 @@ class Node:
 
 
 def get_input(file):
-    return aoc_parse.map_input_lines(str(pathlib.Path(__file__).parent) + "/" + file, int)
+    return aoc_parse.map_by_line(aoc.read_input(2022, 20, file), int)
 
 
 def solve(data, key=1, times=1):
@@ -45,7 +43,7 @@ def solve(data, key=1, times=1):
             # check if going left would be better (remember to do one jump more)
             if mod - jumps + 1 < jumps:
                 jumps -= mod + 1
-            new = aoc.advance_in_linked_list(node, jumps)
+            new = aoc_algo.advance_in_linked_list(node, jumps)
 
             if new == node:
                 continue
@@ -69,12 +67,12 @@ def solve(data, key=1, times=1):
     return res
 
 
-@aoc_output.pretty_solution(1)
+@aoc.pretty_solution(1)
 def part1(data):
     return solve(data)
 
 
-@aoc_output.pretty_solution(2)
+@aoc.pretty_solution(2)
 def part2(data):
     return solve(data, key=811589153, times=10)
 

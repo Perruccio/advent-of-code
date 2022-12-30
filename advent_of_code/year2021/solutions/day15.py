@@ -1,8 +1,9 @@
 import pathlib
 
 prj_path = str(pathlib.Path(__file__).parent.parent.parent.resolve())
-from advent_of_code.utils import output as aoc_output, parse as aoc_parse
-import advent_of_code.utils.geometry as aoc_geometry
+from advent_of_code.lib import parse as aoc_parse
+from advent_of_code.lib import aoc
+import advent_of_code.lib.geometry as aoc_geometry
 from collections import defaultdict
 import heapq
 
@@ -59,25 +60,22 @@ def dijkstra(grid, scale=1):
     return dist[end]  # , prev
 
 
+@aoc.pretty_solution(1)
 def part1(data):
     return dijkstra(data)
 
 
+@aoc.pretty_solution(2)
 def part2(data):
     return dijkstra(data, 5)
 
 
-def main(pretty_print=True):
+def main():
     def map_line(line):
         return list(map(int, line))
 
     data = aoc_parse.map_input_lines(prj_path + '/year2021/input/day15.txt', map_line)
-
-    if pretty_print:
-        aoc_output.print_result(1, part1, data)
-        aoc_output.print_result(2, part2, data)
-    else:
-        return part1(data), part2(data)
+    return part1(data), part2(data)
 
 
 if __name__ == "__main__":

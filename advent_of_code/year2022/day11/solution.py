@@ -1,10 +1,10 @@
 import copy
-import pathlib
 from collections import deque
 from math import prod
-from operator import attrgetter, add, mul
+from operator import add, attrgetter, mul
 
-from advent_of_code.utils import output as aoc_output, parse as aoc_parse
+from advent_of_code.lib import parse as aoc_parse
+from advent_of_code.lib import aoc
 
 
 class Monkey:
@@ -32,11 +32,15 @@ class Monkey:
         operator, val = lines[2].split()[-2:]
         assert operator == "*" or operator == "+"
         op = {"*": mul, "+": add}[operator]
-        operation = lambda old: op(old, old if val == "old" else int(val))
         mod = aoc_parse.get_ints(lines[3])[0]
         to_if_true = aoc_parse.get_ints(lines[4])[0]
         to_if_false = aoc_parse.get_ints(lines[5])[0]
-        return cls(items, operation, mod, lambda x: [to_if_false, to_if_true][x % mod == 0])
+        return cls(
+            items,
+            lambda old: op(old, old if val == "old" else int(val)),
+            mod,
+            lambda x: [to_if_false, to_if_true][x % mod == 0],
+        )
 
     def throw(self):
         # take items from left
@@ -55,7 +59,7 @@ class Monkey:
 
 
 def get_input(file):
-    raw = aoc_parse.input_as_string(str(pathlib.Path(__file__).parent) + "/" + file)
+    raw = aoc.read_input(2022, 11, file)
     # split in \n\n to get each raw monkey, then split in \n to get lines
     return [Monkey.create_monkey(raw_monkey.split("\n")) for raw_monkey in raw.split("\n\n")]
 
@@ -72,7 +76,7 @@ def solve(monkeys, rounds):
     return insp1 * insp2
 
 
-@aoc_output.pretty_solution(1)
+@aoc.pretty_solution(1)
 def part1(monkeys, rounds=20):
     # NB avoid modifying monkeys, so that part 2 will begin from original state
     monkeys = copy.deepcopy(monkeys)
@@ -80,7 +84,7 @@ def part1(monkeys, rounds=20):
     return solve(monkeys, rounds)
 
 
-@aoc_output.pretty_solution(2)
+@aoc.pretty_solution(2)
 def part2(monkeys, rounds=10000):
     # not really a lcm
     Monkey.lcm = prod(monkey.mod for monkey in monkeys)

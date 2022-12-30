@@ -1,7 +1,8 @@
 import pathlib
 
 prj_path = str(pathlib.Path(__file__).parent.parent.parent.resolve())
-from advent_of_code.utils import output as aoc_output, parse as aoc_parse
+from advent_of_code.lib import parse as aoc_parse
+from advent_of_code.lib import aoc
 from collections import Counter
 
 
@@ -28,25 +29,22 @@ def solve(polymer, rules, n):
     return max(occurrences.values()) - min(occurrences.values())
 
 
+@aoc.pretty_solution(1)
 def part1(polymer, rules):
     return solve(polymer, rules, 10)
 
 
+@aoc.pretty_solution(2)
 def part2(polymer, rules):
     return solve(polymer, rules, 40)
 
 
-def main(pretty_print=True):
+def main():
     data = aoc_parse.input_as_lines(prj_path + '/year2021/input/day14.txt')
 
     polymer = data[0]
     rules = dict(rule.split(' -> ') for rule in data[2:])
-
-    if pretty_print:
-        aoc_output.print_result(1, part1, polymer, rules)
-        aoc_output.print_result(2, part2, polymer, rules)
-    else:
-        return part1(polymer, rules), part2(polymer, rules)
+    return part1(polymer, rules), part2(polymer, rules)
 
 
 if __name__ == "__main__":

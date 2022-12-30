@@ -1,11 +1,11 @@
-import pathlib
 from collections import defaultdict
 
-from advent_of_code.utils import output as aoc_output, parse as aoc_parse
+from advent_of_code.lib import parse as aoc_parse
+from advent_of_code.lib import aoc
 
 
 def get_input(file):
-    return aoc_parse.input_as_lines(str(pathlib.Path(__file__).parent) + "/" + file)
+    return aoc_parse.as_lines(aoc.read_input(2022, 7, file))
 
 
 class Directory:
@@ -34,8 +34,8 @@ def change_dir(dir, subdir):
 def compute_tree(input):
     """Compute the tree of folders structure as a dictionary {path:Directory}"""
 
-    # first step: compute folders tree with marginal size (contained files but not contained folders)
-    # by executing one command at a time. Use tuples for paths
+    # first step: compute folders tree with marginal size (contained files but not contained
+    # folders) by executing one command at a time. Use tuples for paths
     tree = defaultdict(Directory)
     current = tuple()  # current path as tuple
     for line in input:
@@ -54,21 +54,19 @@ def compute_tree(input):
     return tree
 
 
-@aoc_output.pretty_solution(1)
+@aoc.pretty_solution(1)
 def part1(input, max_size=100000):
     tree = compute_tree(input)
     return sum([dir.get_size() for dir in tree.values() if dir.get_size() <= max_size])
 
 
-@aoc_output.pretty_solution(2)
+@aoc.pretty_solution(2)
 def part2(input, tot_space=70000000, need=30000000):
     # compute single smallest directory that can be deleted to have at least
     # "need" free space
     tree = compute_tree(input)
     need_to_free = need - (tot_space - tree[("/",)].get_size())
-    return min(
-        [dir.get_size() for dir in tree.values() if dir.get_size() >= need_to_free]
-    )
+    return min([dir.get_size() for dir in tree.values() if dir.get_size() >= need_to_free])
 
 
 def main():

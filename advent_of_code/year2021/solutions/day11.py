@@ -1,7 +1,8 @@
 import pathlib
 
 prj_path = str(pathlib.Path(__file__).parent.parent.parent.resolve())
-from advent_of_code.utils import output as aoc_output, parse as aoc_parse
+from advent_of_code.lib import parse as aoc_parse
+from advent_of_code.lib import aoc
 
 
 def get_neighoburs(i, j, h, w):
@@ -35,6 +36,7 @@ def step(data, h, w):
     return len(flashed)
 
 
+@aoc.pretty_solution(1)
 def part1(data):
     h, w = len(data), len(data[0])
     res = 0
@@ -44,6 +46,7 @@ def part1(data):
     return res
 
 
+@aoc.pretty_solution(2)
 def part2(data):
     h, w = len(data), len(data[0])
     all_flash = False
@@ -54,17 +57,12 @@ def part2(data):
     return steps
 
 
-def main(pretty_print=True):
+def main():
     def map_line(line):
         return [int(x) for x in line]
 
     data = aoc_parse.map_input_lines(prj_path + '/year2021/input/day11.txt', map_line)
-
-    if pretty_print:
-        aoc_output.print_result(1, part1, data)
-        aoc_output.print_result(2, part2, data)
-    else:
-        return part1(data), part2(data)
+    return part1(data), part2(data)
 
 
 if __name__ == "__main__":

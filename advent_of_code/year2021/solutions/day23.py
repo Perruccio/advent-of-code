@@ -1,8 +1,9 @@
 import pathlib
 
 prj_path = str(pathlib.Path(__file__).parent.parent.parent.resolve())
-from advent_of_code.utils import output as aoc_output, parse as aoc_parse
-import advent_of_code.utils.math as aoc_math
+from advent_of_code.lib import parse as aoc_parse
+from advent_of_code.lib import aoc
+import advent_of_code.lib.math as aoc_math
 from collections import deque
 import copy
 
@@ -199,10 +200,12 @@ def solve(diagram, target_diagram, target_rooms):
     return min_e
 
 
+@aoc.pretty_solution(1)
 def part1(data):
     return solve(data, TARGET1, TARGET_ROOMS1)
 
 
+@aoc.pretty_solution(2)
 def part2(data):
     l1 = '  #D#C#B#A#  '
     l2 = '  #D#B#A#C#  '
@@ -210,19 +213,14 @@ def part2(data):
     return solve(data, TARGET2, TARGET_ROOMS2)
 
 
-def main(pretty_print=True):
+def main():
     def map_line(line):
         return list(line)
 
     data = aoc_parse.map_input_lines(prj_path + '/year2021/input/day23.txt', map_line)
     data[-2] += [' '] * 2
     data[-1] += [' '] * 2
-
-    if pretty_print:
-        aoc_output.print_result(1, part1, data)
-        aoc_output.print_result(2, part2, data)
-    else:
-        return part1(data), part2(data)
+    return part1(data), part2(data)
 
 
 if __name__ == "__main__":

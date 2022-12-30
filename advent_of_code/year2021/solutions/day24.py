@@ -1,7 +1,8 @@
 import pathlib
 
 prj_path = str(pathlib.Path(__file__).parent.parent.parent.resolve())
-from advent_of_code.utils import output as aoc_output, parse as aoc_parse
+from advent_of_code.lib import parse as aoc_parse
+from advent_of_code.lib import aoc
 
 
 def get_info(data):
@@ -27,27 +28,24 @@ def solve(dd, cc, oo, max_model):
     return sum([model[len(model) - i - 1] * 10 ** i for i in range(len(model))])
 
 
+@aoc.pretty_solution(1)
 def part1(dd, cc, oo):
     return solve(dd, cc, oo, True)
 
 
+@aoc.pretty_solution(2)
 def part2(dd, cc, oo):
     return solve(dd, cc, oo, False)
 
 
-def main(pretty_print=True):
+def main():
     def map_line(line):
         l = line.split()
         return l[0], tuple([int(x) if x[0] == '-' or x.isnumeric() else x for x in l[1:]])
 
     data = aoc_parse.map_input_lines(prj_path + '/year2021/input/day24.txt', map_line)
     dd, cc, oo = get_info(data)
-
-    if pretty_print:
-        aoc_output.print_result(1, part1, dd, cc, oo)
-        aoc_output.print_result(2, part2, dd, cc, oo)
-    else:
-        return part1(dd, cc, oo), part2(dd, cc, oo)
+    return part1(dd, cc, oo), part2(dd, cc, oo)
 
 
 if __name__ == "__main__":

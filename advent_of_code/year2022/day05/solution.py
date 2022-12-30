@@ -1,7 +1,6 @@
 import copy
-import pathlib
-
-from advent_of_code.utils import output as aoc_output, parse as aoc_parse
+from advent_of_code.lib import parse as aoc_parse
+from advent_of_code.lib import aoc
 
 
 class CraneStep:
@@ -13,9 +12,9 @@ class CraneStep:
 
 def get_input(file):
     # read from file as list of strings
-    lines = aoc_parse.input_as_lines(str(pathlib.Path(__file__).parent) + "/" + file)
+    lines = aoc_parse.as_lines(aoc.read_input(2022, 5, file))
 
-    ## first parse crates
+    # first parse crates
     # stop at first empty line
     idx = lines.index("")
     # transpose lines in columns
@@ -24,7 +23,7 @@ def get_input(file):
     # ignore last element (stack id), ignore empty space and reverse order
     crates = [list("".join(line[-2::-1]).strip()) for line in raw if line[-2].isalpha()]
 
-    ## parse instruction steps
+    # parse instruction steps
     def get_step(line):
         # split line at whitespace, take 1,3,5 elements and map to int
         return CraneStep(*list(map(int, line.split()[1::2])))
@@ -43,6 +42,7 @@ def do_step(crates, step: CraneStep, multiple):
     return crates
 
 
+@aoc.pretty_solution(1)
 def part1(crates, steps):
     crates = copy.deepcopy(crates)
     for step in steps:
@@ -50,6 +50,7 @@ def part1(crates, steps):
     return "".join([crate[-1] for crate in crates])
 
 
+@aoc.pretty_solution(2)
 def part2(crates, steps):
     crates = copy.deepcopy(crates)
     for step in steps:
@@ -59,8 +60,8 @@ def part2(crates, steps):
 
 def main():
     crates, steps = get_input("input.txt")
-    aoc_output.print_result(1, part1, crates, steps)
-    aoc_output.print_result(2, part2, crates, steps)
+    part1(crates, steps)
+    part2(crates, steps)
 
 
 def test():

@@ -1,7 +1,8 @@
 import pathlib
 
 prj_path = str(pathlib.Path(__file__).parent.parent.parent.resolve())
-from advent_of_code.utils import output as aoc_output, parse as aoc_parse
+from advent_of_code.lib import parse as aoc_parse
+from advent_of_code.lib import aoc
 from numpy import dot, round
 from math import sin, cos, pi
 from functools import reduce
@@ -82,10 +83,12 @@ def scan(data):
     return beacons, scanners
 
 
+@aoc.pretty_solution(1)
 def part1(beacons):
     return len(beacons)
 
 
+@aoc.pretty_solution(2)
 def part2(scanners):
     max_dist = 0
     for i in range(len(scanners)):
@@ -94,7 +97,7 @@ def part2(scanners):
     return max_dist
 
 
-def main(pretty_print=True):
+def main():
     raw = aoc_parse.input_as_lines(prj_path + '/year2021/input/day19.txt')
 
     data = []
@@ -109,12 +112,7 @@ def main(pretty_print=True):
             i += 1
 
     beacons, scanners = scan(data)
-
-    if pretty_print:
-        aoc_output.print_result(1, part1, beacons)
-        aoc_output.print_result(2, part2, scanners)
-    else:
-        return part1(beacons), part2(scanners)
+    return part1(beacons), part2(scanners)
 
 
 if __name__ == "__main__":

@@ -1,12 +1,8 @@
-from collections import defaultdict
-import pathlib
-
-from advent_of_code.utils import output as aoc_output
-from advent_of_code.utils import parse as aoc_parse
+from advent_of_code.lib import aoc
 
 
 def get_input(file):
-    return aoc_parse.input_as_string(str(pathlib.Path(__file__).parent) + "/" + file)
+    return aoc.read_input(2022, 17, file)
 
 
 def spawn_rock(rock_type, height, pad_left):
@@ -35,7 +31,9 @@ def simulate_rock(rock, data, i, solid, limits):
         # move rock: first push then fall
         new_rock = set(point + data[i] for point in rock)
         # check if moved rock collides with something (wall or other rocks)
-        if not (new_rock & solid) and all(limits[0] <= point.real <= limits[1] for point in new_rock):
+        if not (new_rock & solid) and all(
+            limits[0] <= point.real <= limits[1] for point in new_rock
+        ):
             rock = new_rock
 
         # advance and loop i
@@ -111,12 +109,12 @@ def simulate_tetris(data, max_rocks):
     return height
 
 
-@aoc_output.pretty_solution(1)
+@aoc.pretty_solution(1)
 def part1(data):
     return simulate_tetris(data, 2022)
 
 
-@aoc_output.pretty_solution(2)
+@aoc.pretty_solution(2)
 def part2(data):
     return simulate_tetris(data, 1_000_000_000_000)
 

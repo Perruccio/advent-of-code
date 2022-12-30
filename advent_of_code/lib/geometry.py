@@ -24,7 +24,7 @@ def merge_intervals(v: list[int]):
             merged.append([lo, hi])
             continue
 
-        last_lo, last_hi = merged[-1]
+        _, last_hi = merged[-1]
 
         # intervals not intersecting (and not touching). merge touching integer intervals like
         # (1, 2), (2, 3) -> [1, 3] even if not intersecting
@@ -44,9 +44,9 @@ def manhattan_distance(a, b):
 def intersect1d(aa, bb):
     if aa is None or bb is None:
         return None
-    l = max(aa[0], bb[0])
-    r = min(aa[1], bb[1])
-    return (l, r) if l <= r else None
+    left = max(aa[0], bb[0])
+    right = min(aa[1], bb[1])
+    return (left, right) if left <= right else None
 
 
 class Cuboid:
@@ -56,8 +56,8 @@ class Cuboid:
         self.yy = yy
         self.zz = zz
 
-    def is_small(self, l=50):
-        return all(-l <= tt[0] and tt[1] <= l for tt in [self.xx, self.yy, self.zz])
+    def is_small(self, limit=50):
+        return all(-limit <= tt[0] and tt[1] <= limit for tt in [self.xx, self.yy, self.zz])
 
     def volume(self):
         return (

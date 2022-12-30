@@ -1,31 +1,31 @@
-import pathlib
-
-from advent_of_code.utils import output as aoc_output, parse as aoc_parse
+from advent_of_code.lib import aoc
 
 
 def get_input(file):
-    return aoc_parse.input_as_string(str(pathlib.Path(__file__).parent) + "/" + file)
+    return aoc.read_input(2022, 6, file)
 
 
 def check_different_chars(s):
     return len(set(s)) == len(s)
 
 
+@aoc.pretty_solution(1)
 def part1(input, k=4):
     for i in range(len(input) - k + 1):
-        if check_different_chars(input[i: i + k]):
+        if check_different_chars(input[i : i + k]):
             return i + k
     raise RuntimeError
 
 
+@aoc.pretty_solution(2)
 def part2(input):
     return part1(input, k=14)
 
 
 def main():
     input = get_input("input.txt")
-    aoc_output.print_result(1, part1, input)
-    aoc_output.print_result(2, part2, input)
+    part1(input)
+    part2(input)
 
 
 def test():

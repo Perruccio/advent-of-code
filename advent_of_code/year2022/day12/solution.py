@@ -1,13 +1,11 @@
-import pathlib
-
-from advent_of_code.utils import output as aoc_output
-from advent_of_code.utils import parse as aoc_parse
-from advent_of_code.utils import search as aoc_search
+from advent_of_code.lib import parse as aoc_parse
+from advent_of_code.lib import search as aoc_search
+from advent_of_code.lib import aoc
 import copy
 
 
 def get_input(file):
-    return aoc_parse.map_input_lines(str(pathlib.Path(__file__).parent) + "/" + file, list)
+    return aoc_parse.map_by_line(aoc.read_input(2022, 12, file), list)
 
 
 def find_start_end(grid, start_char, end_char):
@@ -20,7 +18,7 @@ def find_start_end(grid, start_char, end_char):
     return start, end
 
 
-@aoc_output.pretty_solution(1)
+@aoc.pretty_solution(1)
 def part1(grid):
     grid = copy.deepcopy(grid)
     start, end = find_start_end(grid, "S", "E")
@@ -36,7 +34,7 @@ def part1(grid):
     return len(aoc_search.bfs_grid(grid, start, is_end, is_valid)) - 1
 
 
-@aoc_output.pretty_solution(2)
+@aoc.pretty_solution(2)
 def part2(grid):
     start, end = find_start_end(grid, "E", "S")
     grid[start[0]][start[1]] = "z"

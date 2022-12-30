@@ -1,8 +1,3 @@
-def sorted_string(s):
-    s = sorted(s)
-    return "".join(s)
-
-
 def sum_grid(grid):
     """Compute the sum of all values in a grid (list of list)"""
     return sum(sum(value for value in row) for row in grid)

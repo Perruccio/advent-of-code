@@ -1,8 +1,9 @@
 import pathlib
 
 prj_path = str(pathlib.Path(__file__).parent.parent.parent.resolve())
-from advent_of_code.utils import output as aoc_output, parse as aoc_parse
-import advent_of_code.utils.math as aoc_math
+from advent_of_code.lib import parse as aoc_parse
+from advent_of_code.lib import aoc
+import advent_of_code.lib.math as aoc_math
 from math import prod
 
 
@@ -88,22 +89,19 @@ def decode(data):
         yield packet
 
 
+@aoc.pretty_solution(1)
 def part1(data):
     return sum([p.sum_versions() for p in decode(data)])
 
 
+@aoc.pretty_solution(2)
 def part2(data):
     return next(decode(data)).evaluate()
 
 
-def main(pretty_print=True):
+def main():
     data = aoc_parse.input_as_string(prj_path + '/year2021/input/day16.txt')
-
-    if pretty_print:
-        aoc_output.print_result(1, part1, data)
-        aoc_output.print_result(2, part2, data)
-    else:
-        return part1(data), part2(data)
+    return part1(data), part2(data)
 
 
 if __name__ == "__main__":

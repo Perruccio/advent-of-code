@@ -1,7 +1,5 @@
-import pathlib
-
-from advent_of_code.utils import output as aoc_output
-from advent_of_code.utils import parse as aoc_parse
+from advent_of_code.lib import parse as aoc_parse
+from advent_of_code.lib import aoc
 import re
 from collections import Counter, defaultdict
 import copy
@@ -32,9 +30,7 @@ class Blueprint:
 
 
 def get_input(file):
-    return aoc_parse.map_input_lines(
-        str(pathlib.Path(__file__).parent) + "/" + file, Blueprint.create_blueprint
-    )
+    return aoc_parse.map_by_line(aoc.read_input(2022, 19, file), Blueprint.create_blueprint)
 
 
 def is_subset(counter1, counter2):
@@ -122,7 +118,7 @@ def optimize_blueprint(blueprint, time, start_robots):
     return max_geodes
 
 
-@aoc_output.pretty_solution(1)
+@aoc.pretty_solution(1)
 def part1(data):
     return sum(
         i * optimize_blueprint(blueprint, 24, Counter(["ore"]))
@@ -130,7 +126,7 @@ def part1(data):
     )
 
 
-@aoc_output.pretty_solution(2)
+@aoc.pretty_solution(2)
 def part2(data):
     return prod(optimize_blueprint(blueprint, 32, Counter(["ore"])) for blueprint in data[:3])
 

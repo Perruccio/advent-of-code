@@ -1,11 +1,9 @@
-import pathlib
-
-from advent_of_code.utils import output as aoc_output
-from advent_of_code.utils import parse as aoc_parse
+from advent_of_code.lib import parse as aoc_parse
+from advent_of_code.lib import aoc
 
 
 def get_input(file):
-    lines = aoc_parse.input_as_lines(str(pathlib.Path(__file__).parent) + "/" + file)
+    lines = aoc_parse.as_lines(aoc.read_input(2022, 22, file))
     grid = {}
     start = None
     for r, line in enumerate(lines[:-2]):
@@ -20,7 +18,7 @@ def get_input(file):
     return start, grid, instructions
 
 
-@aoc_output.pretty_solution(1)
+@aoc.pretty_solution(1)
 def part1(data):
     pos, grid, path = data
     real_limits = {
@@ -89,7 +87,7 @@ def complex_modulo(x, mod):
     return (x.real % mod.real) + 1j * (x.imag % mod.imag)
 
 
-@aoc_output.pretty_solution(2)
+@aoc.pretty_solution(2)
 def part2(data):
     pos, grid, path = data
     side = min(point.real for point in grid if point.imag == 0) // 2
@@ -132,7 +130,7 @@ def part2(data):
                         if face == 2:
                             new_face = 6
                             new_dir = -1j
-                            new_pos_in_face = (side -1 - pos_in_face.imag) + 1j * (side - 1)
+                            new_pos_in_face = (side - 1 - pos_in_face.imag) + 1j * (side - 1)
                         if face == 1:
                             new_face = 3
                             new_dir = 1j
@@ -140,29 +138,29 @@ def part2(data):
                         if face == 5:
                             new_face = 3
                             new_dir = -1j
-                            new_pos_in_face = (side - 1 - pos_in_face.imag) + 1j * (side-1)
+                            new_pos_in_face = (side - 1 - pos_in_face.imag) + 1j * (side - 1)
                     elif dir == 1j:
                         if face == 2:
                             new_face = 5
                             new_dir = -1j
-                            new_pos_in_face = (side - 1 - pos_in_face.real) + 1j * (side-1)
+                            new_pos_in_face = (side - 1 - pos_in_face.real) + 1j * (side - 1)
                         if face == 3:
                             new_face = 5
                             new_dir = 1
-                            new_pos_in_face = (0) + 1j * (side-1 - pos_in_face.real)
+                            new_pos_in_face = (0) + 1j * (side - 1 - pos_in_face.real)
                         if face == 5:
                             new_face = 2
                             new_dir = -1j
-                            new_pos_in_face = (side - 1 - pos_in_face.real) + 1j * (side-1)
+                            new_pos_in_face = (side - 1 - pos_in_face.real) + 1j * (side - 1)
                         if face == 6:
                             new_face = 2
                             new_dir = 1
-                            new_pos_in_face = (0) + 1j * (side-1 - pos_in_face.real)
+                            new_pos_in_face = (0) + 1j * (side - 1 - pos_in_face.real)
                     elif dir == -1j:
                         if face == 2:
                             new_face = 1
                             new_dir = 1j
-                            new_pos_in_face = (side -1 - pos_in_face.real) + 1j * (0)
+                            new_pos_in_face = (side - 1 - pos_in_face.real) + 1j * (0)
                         if face == 3:
                             new_face = 1
                             new_dir = 1
@@ -170,11 +168,11 @@ def part2(data):
                         if face == 1:
                             new_face = 2
                             new_dir = 1j
-                            new_pos_in_face = (side -1 - pos_in_face.real) + 1j * (0)
+                            new_pos_in_face = (side - 1 - pos_in_face.real) + 1j * (0)
                         if face == 6:
                             new_face = 4
                             new_dir = -1
-                            new_pos_in_face = (side - 1) + 1j * (side -1 - pos_in_face.real)
+                            new_pos_in_face = (side - 1) + 1j * (side - 1 - pos_in_face.real)
 
                     new_pos = face_position[new_face] + new_pos_in_face
 

@@ -1,15 +1,15 @@
-import pathlib
-
-from advent_of_code.utils import output as aoc_output, parse as aoc_parse
+from advent_of_code.lib import parse as aoc_parse
+from advent_of_code.lib import aoc
 
 
 def get_input(file):
     def get_ranges(line):
         return [list(map(int, range.split("-"))) for range in line.split(",")]
 
-    return aoc_parse.map_input_lines(str(pathlib.Path(__file__).parent) + "/" + file, get_ranges)
+    return aoc_parse.map_by_line(aoc.read_input(2022, 4, file), get_ranges)
 
 
+@aoc.pretty_solution(1)
 def part1(v):
     def range_contained(r1, r2):
         # just check that extremes are contained
@@ -18,6 +18,7 @@ def part1(v):
     return sum(range_contained(r1, r2) for r1, r2 in v)
 
 
+@aoc.pretty_solution(2)
 def part2(v):
     def range_overlap(r1, r2):
         # check one extreme is contained in the other range
@@ -28,8 +29,8 @@ def part2(v):
 
 def main():
     data = get_input("input.txt")
-    aoc_output.print_result(1, part1, data)
-    aoc_output.print_result(2, part2, data)
+    part1(data)
+    part2(data)
 
 
 def test():

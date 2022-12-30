@@ -1,7 +1,8 @@
 import pathlib
 
 prj_path = str(pathlib.Path(__file__).parent.parent.parent.resolve())
-from advent_of_code.utils import output as aoc_output, parse as aoc_parse
+from advent_of_code.lib import parse as aoc_parse
+from advent_of_code.lib import aoc
 from statistics import median
 
 
@@ -13,6 +14,7 @@ def match(o, c):
     return c == {'(': ')', '[': ']', '{': '}', '<': '>'}[o]
 
 
+@aoc.pretty_solution(1)
 def part1(data):
     points = {')': 3, ']': 57, '}': 1197, '>': 25137}
     score = 0
@@ -27,6 +29,7 @@ def part1(data):
     return score
 
 
+@aoc.pretty_solution(2)
 def part2(data):
     def compute_score(line):
         points = {'(': 1, '[': 2, '{': 3, '<': 4}
@@ -49,17 +52,12 @@ def part2(data):
     return median(scores)
 
 
-def main(pretty_print=True):
+def main():
     def map_line(line):
         return line
 
     data = aoc_parse.map_input_lines(prj_path + '/year2021/input/day10.txt', map_line)
-
-    if pretty_print:
-        aoc_output.print_result(1, part1, data)
-        aoc_output.print_result(2, part2, data)
-    else:
-        return part1(data), part2(data)
+    return part1(data), part2(data)
 
 
 if __name__ == "__main__":

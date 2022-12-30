@@ -6,5 +6,10 @@
     "python.testing.pytestEnabled": true,
     "python.envFile": "${workspaceFolder}/.env",
     "python.formatting.blackArgs": ["--line-length", "100"],
-    "editor.rulers": [ 100 ]
+    "editor.rulers": [ 100 ],
+    "python.linting.flake8Enabled": false,
+    "python.linting.flake8Args": [
+        "--max-line-length=100",
+        "--ignore=E203, W503, E306, E501",
+    ],
 }

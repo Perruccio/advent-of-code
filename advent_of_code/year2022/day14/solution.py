@@ -1,16 +1,14 @@
-import pathlib
-
-from advent_of_code.utils import output as aoc_output
-from advent_of_code.utils import parse as aoc_parse
-from advent_of_code.utils import math as aoc_math
+from advent_of_code.lib import parse as aoc_parse
+from advent_of_code.lib import math as aoc_math
+from advent_of_code.lib import aoc
 
 
 def get_input(file):
     def parse_wall(line):
         ints = aoc_parse.get_ints(line)
-        return [complex(*ints[i:i+2]) for i in range(0, len(ints), 2)]
+        return [complex(*ints[i : i + 2]) for i in range(0, len(ints), 2)]
 
-    return aoc_parse.map_input_lines(str(pathlib.Path(__file__).parent) + "/" + file, parse_wall)
+    return aoc_parse.map_by_line(aoc.read_input(2022, 14, file), parse_wall)
 
 
 def make_walls(data):
@@ -53,14 +51,14 @@ def simulate_sand(rocks, abyss, floor):
     return rest
 
 
-@aoc_output.pretty_solution(1)
+@aoc.pretty_solution(1)
 def part1(data):
     rocks = make_walls(data)
     abyss = max(rock.imag for rock in rocks)
     return simulate_sand(rocks, abyss, None)
 
 
-@aoc_output.pretty_solution(2)
+@aoc.pretty_solution(2)
 def part2(data):
     rocks = make_walls(data)
     abyss = max(rock.imag for rock in rocks)

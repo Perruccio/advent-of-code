@@ -1,7 +1,6 @@
-import pathlib
-
-from advent_of_code.utils import output as aoc_output, parse as aoc_parse
-from advent_of_code.utils import geometry as aoc_geometry
+from advent_of_code.lib import parse as aoc_parse
+from advent_of_code.lib import geometry as aoc_geometry
+from advent_of_code.lib import aoc
 from collections import defaultdict
 
 
@@ -10,10 +9,10 @@ def get_input(file):
         ints = aoc_parse.get_ints(line)
         return (ints[0], ints[1]), (ints[2], ints[3])
 
-    return aoc_parse.map_input_lines(str(pathlib.Path(__file__).parent) + "/" + file, get_info)
+    return aoc_parse.map_by_line(aoc.read_input(2022, 15, file), get_info)
 
 
-@aoc_output.pretty_solution(1)
+@aoc.pretty_solution(1)
 def part1(data, y):
     beacons_in_y = set()
     intervals = []
@@ -35,15 +34,15 @@ def part1(data, y):
     return sum(hi - lo + 1 for lo, hi in intervals) - len(beacons_in_y)
 
 
-@aoc_output.pretty_solution(2)
+@aoc.pretty_solution(2)
 def part2(data, limit):
     # remap data as sensor, radius
     data = [(sensor, aoc_geometry.manhattan_distance(sensor, beacon)) for sensor, beacon in data]
 
     # NB the trick is that since we know there is exactly one possible point,
-    # this must be exactly inside a 1-square regione insiede 4 lines, parallell and perpendicular 2 by 2.
-    # Hence if for each sensor we draw the 4 lines at distance r+1, then compute intersections of
-    # the perpendicular, we are sure that the target is one on these intersections.
+    # this must be exactly inside a 1-square regione insiede 4 lines, parallell and perpendicular 2
+    # by 2. Hence if for each sensor we draw the 4 lines at distance r+1, then compute intersections
+    # of the perpendicular, we are sure that the target is one on these intersections.
     # The we just check which is out of rech of every sensor
     # For each sensor, the 4 lines are (xs and y_sensor are sensor's coordinate and r the radius)
     #
@@ -71,7 +70,9 @@ def part2(data, limit):
             # check inside limit
             if all(0 <= coordinate <= limit for coordinate in intersection):
                 # check candidate is actually the solution
-                if all(aoc_geometry.manhattan_distance(intersection, sensor) > r for sensor, r in data):
+                if all(
+                    aoc_geometry.manhattan_distance(intersection, sensor) > r for sensor, r in data
+                ):
                     return intersection[0] * 4000000 + intersection[1]
     return None
 

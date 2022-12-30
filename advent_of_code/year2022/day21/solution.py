@@ -1,8 +1,6 @@
-import pathlib
-
-from advent_of_code.utils import output as aoc_output
-from advent_of_code.utils import parse as aoc_parse
-from advent_of_code.utils import math as aoc_math
+from advent_of_code.lib import parse as aoc_parse
+from advent_of_code.lib import math as aoc_math
+from advent_of_code.lib import aoc
 from operator import add, mul, sub, truediv
 
 
@@ -11,7 +9,7 @@ def get_input(file):
         monkey, yell = line.split(": ")
         return monkey, (int(yell) if yell.isnumeric() else tuple(yell.split()))
 
-    lines = aoc_parse.input_as_lines(str(pathlib.Path(__file__).parent) + "/" + file)
+    lines = aoc_parse.as_lines(aoc.read_input(2022, 21, file))
     return dict(map(get_monkey_info, lines))
 
 
@@ -26,12 +24,12 @@ def compute_monkey(monkey, data):
     return op(compute_monkey(monkey1, data), compute_monkey(monkey2, data))
 
 
-@aoc_output.pretty_solution(1)
+@aoc.pretty_solution(1)
 def part1(data):
     return round(compute_monkey("root", data))
 
 
-@aoc_output.pretty_solution(2)
+@aoc.pretty_solution(2)
 def part2(data):
     # let root do monkey1 - monkey2 to use secant method to compute its zero
     # (zero is when monkey = monkey2)
@@ -54,7 +52,6 @@ def main():
 
 def test():
     example = get_input("example.txt")
-    print(example)
     assert part1(example) == 152
     assert part2(example) == 301
 

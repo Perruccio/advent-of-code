@@ -1,11 +1,10 @@
-import pathlib
+from advent_of_code.lib import parse as aoc_parse
+from advent_of_code.lib import aoc
 
-from advent_of_code.utils import output as aoc_output, parse as aoc_parse
 
-# rock:1, paper:2, scissors:3
-shape_points = {0: 1, 1: 2, 2: 3}
-
-outcome_points = {"win": 6, "draw": 3, "loss": 0}
+def get_input(file):
+    raw = aoc.read_input(2022, 2, file)
+    return aoc_parse.map_by_line(raw, lambda line: line.split())
 
 
 def decrypt_opponent(opp):
@@ -24,15 +23,22 @@ def rock_paper_scissors(player, opponent):
 
 
 def round_score(player, opponent):
-    """ shape points + outcome points """
+    """shape points + outcome points"""
+    # rock:1, paper:2, scissors:3
+    shape_points = {0: 1, 1: 2, 2: 3}
+    outcome_points = {"win": 6, "draw": 3, "loss": 0}
     return shape_points[player] + outcome_points[rock_paper_scissors(player, opponent)]
 
 
+@aoc.pretty_solution(1)
 def part1(v):
-    decrypt_player = lambda pl: ord(pl) - ord("X")
+    def decrypt_player(pl):
+        return ord(pl) - ord("X")
+
     return sum([round_score(decrypt_player(pl), decrypt_opponent(opp)) for opp, pl in v])
 
 
+@aoc.pretty_solution(2)
 def part2(v):
     def compute_move(strategy, opponent):
         # return (opponent + ord(strategy) - ord("Y")) % 3
@@ -54,14 +60,10 @@ def part2(v):
     )
 
 
-def get_input(file):
-    return aoc_parse.map_input_lines(str(pathlib.Path(__file__).parent) + "/" + file, lambda line: line.split())
-
-
 def main():
     data = get_input("input.txt")
-    aoc_output.print_result(1, part1, data)
-    aoc_output.print_result(2, part2, data)
+    part1(data)
+    part2(data)
 
 
 def test():

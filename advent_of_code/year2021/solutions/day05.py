@@ -1,8 +1,9 @@
 import pathlib
 
 prj_path = str(pathlib.Path(__file__).parent.parent.parent.resolve())
-from advent_of_code.utils import output as aoc_output, parse as aoc_parse
-import advent_of_code.utils.math as aoc_math
+from advent_of_code.lib import parse as aoc_parse
+from advent_of_code.lib import aoc
+import advent_of_code.lib.math as aoc_math
 from collections import defaultdict
 
 
@@ -35,26 +36,23 @@ def get_overlaps(data, can_overlap):
     return sum(1 for value in overlaps.values() if value > 1)
 
 
+@aoc.pretty_solution(1)
 def part1(data):
     return get_overlaps(data, lambda v: straight(*v))
 
 
+@aoc.pretty_solution(2)
 def part2(data):
     return get_overlaps(data, lambda v: straight(*v) or diag(*v))
 
 
-def main(pretty_print=True):
+def main():
     def map_line(line):
         (x1, y1), (x2, y2) = map(lambda s: map(int, s.split(',')), line.split('->'))
         return (x1, y1), (x2, y2)
 
     data = aoc_parse.map_input_lines(prj_path + '/year2021/input/day05.txt', map_line)
-
-    if pretty_print:
-        aoc_output.print_result(1, part1, data)
-        aoc_output.print_result(2, part2, data)
-    else:
-        return part1(data), part2(data)
+    return part1(data), part2(data)
 
 
 if __name__ == "__main__":

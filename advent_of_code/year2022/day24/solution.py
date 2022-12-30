@@ -1,15 +1,13 @@
-import pathlib
-
-from advent_of_code.utils import output as aoc_output
-from advent_of_code.utils import parse as aoc_parse
-from advent_of_code.utils import math as aoc_math
+from advent_of_code.lib import parse as aoc_parse
+from advent_of_code.lib import math as aoc_math
+from advent_of_code.lib import aoc
 from collections import deque
 from math import lcm
 from copy import deepcopy
 
 
 def get_input(file):
-    raw = aoc_parse.input_as_lines(str(pathlib.Path(__file__).parent) + "/" + file)
+    raw = aoc_parse.as_lines(aoc.read_input(2022, 24, file))
     # directions map in complex plane. NB up is -1j
     directions = {">": 1, "<": -1, "^": -1j, "v": 1j}
 
@@ -20,7 +18,7 @@ def get_input(file):
         for c, point in enumerate(line[1:]):
             if point in directions:
                 blizzards[complex(c, r)] = directions[point]
-    return blizzards, len(raw[0])-2, len(raw)-2
+    return blizzards, len(raw[0]) -2, len(raw) -2
 
 
 def simulate(data, come_back=False):
@@ -69,12 +67,12 @@ def simulate(data, come_back=False):
                     todo.append((new_pos, t))
     return t
 
-@aoc_output.pretty_solution(1)
+@aoc.pretty_solution(1)
 def part1(data):
     return simulate(data)
 
 
-@aoc_output.pretty_solution(2)
+@aoc.pretty_solution(2)
 def part2(data):
     return simulate(data, come_back=True)
 

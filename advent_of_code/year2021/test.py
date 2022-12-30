@@ -33,7 +33,7 @@ answers = OrderedDict({
 
 def test():
     for day in answers:
-        p1, p2 = globals()[day].main(pretty_print=False)
+        p1, p2 = globals()[day].main()
         assert p1, p2 == answers[day]
         res1 = "OK" if p1 == answers[day][0] else "ERROR"
         res2 = "OK" if p2 == answers[day][1] else "ERROR"

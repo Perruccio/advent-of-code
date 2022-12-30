@@ -1,6 +1,4 @@
 import re
-import pathlib
-
 *grid, _, path = open(str(pathlib.Path(__file__).parent) + "/input.txt")
 pos, dir = grid[0].index('.') * 1j, 1j
 grid = {(x+y*1j): c for x,l in enumerate(grid)

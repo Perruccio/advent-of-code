@@ -1,7 +1,8 @@
 import pathlib
 
 prj_path = str(pathlib.Path(__file__).parent.parent.parent.resolve())
-from advent_of_code.utils import output as aoc_output, parse as aoc_parse
+from advent_of_code.lib import parse as aoc_parse
+from advent_of_code.lib import aoc
 from math import prod
 
 
@@ -23,6 +24,7 @@ def low_points(data):
                 yield i, j
 
 
+@aoc.pretty_solution(1)
 def part1(data):
     return sum([data[i][j] + 1 for i, j in low_points(data)])
 
@@ -47,6 +49,7 @@ def part2(data):
     return prod(sorted(basin_size)[-3:])
 
 
+@aoc.pretty_solution(2)
 def part22(data):
     end_i, end_j = len(data), len(data[0])
 
@@ -65,17 +68,12 @@ def part22(data):
     return prod(sorted(basins_size)[-3:])
 
 
-def main(pretty_print=True):
+def main():
     def map_line(line):
         return [int(x) for x in line]
 
     data = aoc_parse.map_input_lines(prj_path + '/year2021/input/day09.txt', map_line)
-
-    if pretty_print:
-        aoc_output.print_result(1, part1, data)
-        aoc_output.print_result(2, part2, data)
-    else:
-        return part1(data), part2(data)
+    return part1(data), part2(data)
 
 
 if __name__ == "__main__":

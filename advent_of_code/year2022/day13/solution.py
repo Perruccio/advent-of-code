@@ -1,37 +1,34 @@
-import pathlib
-
-from advent_of_code.utils import output as aoc_output
-from advent_of_code.utils import parse as aoc_parse
+from advent_of_code.lib import aoc
 from ast import literal_eval
 
 
 def get_input(file):
-    raw = aoc_parse.input_as_string(str(pathlib.Path(__file__).parent) + "/" + file)
+    raw = aoc.read_input(2022, 13, file)
     # get rid of empty lines
     lines = raw.replace("\n\n", "\n").split()
     return list(map(literal_eval, lines))
 
 
-def compare(l, r):
-    """Return l - r in given sense"""
+def compare(left, right):
+    """Return left - right in given sense"""
     # fmt: odff
-    match l, r:
-        case int(), int(): return l - r
-        case int(), list(): l = [l]
-        case list(), int(): r = [r]
+    match left, right:
+        case int(), int(): return left - right
+        case int(), list(): left = [left]
+        case list(), int(): right = [right]
     # map performes compare parallel to iterables l and r (like zip)
     # next takes greedily first element available, otherwise default
-    return next((res for res in map(compare, l, r) if res), len(l) - len(r))
+    return next((res for res in map(compare, left, right) if res), len(left) - len(right))
     # fmt: on
 
 
-@aoc_output.pretty_solution(1)
+@aoc.pretty_solution(1)
 def part1(data):
     pairs = (data[i : i + 2] for i in range(0, len(data), 2))
     return sum(i for i, pair in enumerate(pairs, 1) if compare(*pair) < 0)
 
 
-@aoc_output.pretty_solution(2)
+@aoc.pretty_solution(2)
 def part2(data):
     x, y = [[2]], [[6]]
     px = 1 + len([1 for i in data if compare(i, x) < 0])

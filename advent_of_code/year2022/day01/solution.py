@@ -1,24 +1,26 @@
-import pathlib
-
-from advent_of_code.utils import output as aoc_output, parse as aoc_parse
+from advent_of_code.lib import parse as aoc_parse
+from advent_of_code.lib import aoc
 
 
 def get_input(file):
-    return aoc_parse.input_as_list_of_lists(str(pathlib.Path(__file__).parent) + "/" + file, "")
+    raw = aoc.read_input(2022, 1, file)
+    return aoc_parse.input_as_list_of_lists(raw, "")
 
 
+@aoc.pretty_solution(1)
 def part1(v):
     return max([sum(cal) for cal in v])
 
 
+@aoc.pretty_solution(2)
 def part2(v, top=3):
     return sum(sorted([sum(cal) for cal in v])[-top:])
 
 
 def main():
     data = get_input("input.txt")
-    aoc_output.print_result(1, part1, data)
-    aoc_output.print_result(2, part2, data)
+    part1(data)
+    part2(data)
 
 
 def test():

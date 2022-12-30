@@ -1,12 +1,14 @@
 import pathlib
 
 prj_path = str(pathlib.Path(__file__).parent.parent.parent.resolve())
-from advent_of_code.utils import output as aoc_output, parse as aoc_parse
+from advent_of_code.lib import parse as aoc_parse
+from advent_of_code.lib import aoc
 from functools import lru_cache
 from itertools import product
 from collections import Counter
 
 
+@aoc.pretty_solution(1)
 def part1(p1, p2):
     def play(p, dice, rolls):
         p = (p + 3 * dice - 1) % 10 + 1
@@ -53,21 +55,17 @@ def quantum_dice(p1, s1, p2, s2):
     return win1, win2
 
 
+@aoc.pretty_solution(2)
 def part2(p1, p2):
     return max(quantum_dice(p1, 0, p2, 0))
 
 
-def main(pretty_print=True):
+def main():
     def map_line(line):
         return int(line.split(': ')[1])
 
     p1, p2 = aoc_parse.map_input_lines(prj_path + '/year2021/input/day21.txt', map_line)
-
-    if pretty_print:
-        aoc_output.print_result(1, part1, p1, p2)
-        aoc_output.print_result(2, part2, p1, p2)
-    else:
-        return part1(p1, p2), part2(p1, p2)
+    return part1(p1, p2), part2(p1, p2)
 
 
 if __name__ == "__main__":

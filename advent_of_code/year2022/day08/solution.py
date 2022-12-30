@@ -1,25 +1,25 @@
-import pathlib
-
-from advent_of_code.utils import output as aoc_output, parse as aoc_parse
+from advent_of_code.lib import parse as aoc_parse
+from advent_of_code.lib import aoc
 
 
 def get_input(file):
-    file_path = str(pathlib.Path(__file__).parent) + "/" + file
-    return aoc_parse.map_input_lines(file_path, lambda line: [int(x) for x in line])
+    return aoc_parse.map_by_line(
+        aoc.read_input(2022, 8, file), lambda line: [int(x) for x in line]
+    )
 
 
 def get_directions(grid, r, c):
     """Get the 4 iterators starting from (r, c) excluded, with True when other
     trees are lower than grid[r][c]"""
     height = grid[r][c]
-    east = (tree < height for tree in grid[r][c + 1:])
+    east = (tree < height for tree in grid[r][c + 1 :])
     west = (tree < height for tree in reversed(grid[r][:c]))
     south = (grid[i][c] < height for i in range(r + 1, len(grid)))
     north = (grid[i][c] < height for i in range(r - 1, -1, -1))
     return east, west, south, north
 
 
-@aoc_output.pretty_solution(1)
+@aoc.pretty_solution(1)
 def part1(grid):
     visible = 0
     for r in range(len(grid)):
@@ -29,7 +29,7 @@ def part1(grid):
     return visible
 
 
-@aoc_output.pretty_solution(2)
+@aoc.pretty_solution(2)
 def part2(grid):
     max_score = 0
     for r in range(len(grid)):

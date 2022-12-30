@@ -1,5 +1,5 @@
-def mean(l):
-    return sum(l) / len(l)
+def mean(data):
+    return sum(data) / len(data)
 
 
 def sign(x: float) -> float:

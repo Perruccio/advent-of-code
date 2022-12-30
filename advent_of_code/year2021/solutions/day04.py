@@ -1,7 +1,8 @@
 import pathlib
 
 prj_path = str(pathlib.Path(__file__).parent.parent.parent.resolve())
-from advent_of_code.utils import output as aoc_output, parse as aoc_parse
+from advent_of_code.lib import parse as aoc_parse
+from advent_of_code.lib import aoc
 
 
 class Board:
@@ -55,6 +56,7 @@ class Board:
                 self.calc_score(n)
 
 
+@aoc.pretty_solution(1)
 def part1(numbers, raw_boards):
     """ brute force until a board wins, number by number"""
     boards = [Board(b) for b in raw_boards]
@@ -68,6 +70,7 @@ def part1(numbers, raw_boards):
     return None
 
 
+@aoc.pretty_solution(2)
 def part2(numbers, raw_boards):
     # init a corresponding table of marked numbers for each board
     boards = [Board(b) for b in raw_boards]
@@ -84,7 +87,7 @@ def part2(numbers, raw_boards):
     return last_win_score
 
 
-def main(pretty_print=True):
+def main():
     raw = aoc_parse.input_as_lines(prj_path + '/year2021/input/day04.txt')
     # get drawn numbers in order
     numbers = [int(x) for x in raw[0].split(',')]
@@ -93,12 +96,7 @@ def main(pretty_print=True):
     boards = []
     for i in range(2, len(raw), BOARD_SZ + 1):
         boards.append([[int(x) for x in raw[j].split()] for j in range(i, i + BOARD_SZ)])
-
-    if pretty_print:
-        aoc_output.print_result(1, part1, numbers, boards)
-        aoc_output.print_result(2, part2, numbers, boards)
-    else:
-        return part1(numbers, boards), part2(numbers, boards)
+    return part1(numbers, boards), part2(numbers, boards)
 
 
 if __name__ == "__main__":

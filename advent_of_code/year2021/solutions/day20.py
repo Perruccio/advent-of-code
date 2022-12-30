@@ -1,7 +1,8 @@
 import pathlib
 
 prj_path = str(pathlib.Path(__file__).parent.parent.parent.resolve())
-from advent_of_code.utils import output as aoc_output, parse as aoc_parse
+from advent_of_code.lib import parse as aoc_parse
+from advent_of_code.lib import aoc
 
 
 def enhance(image, inf, alg):
@@ -40,24 +41,21 @@ def enhance_n(image, alg, n):
     return sum([sum(line) for line in image])
 
 
+@aoc.pretty_solution(1)
 def part1(image, alg):
     return enhance_n(image, alg, 2)
 
 
+@aoc.pretty_solution(2)
 def part2(image, alg):
     return enhance_n(image, alg, 50)
 
 
-def main(pretty_print=True):
+def main():
     data = aoc_parse.input_as_string(prj_path + '/year2021/input/day20.txt').split('\n\n')
     alg = [int(x == '#') for x in data[0]]
     image = [[int(x == '#') for x in line] for line in data[1].split('\n')]
-
-    if pretty_print:
-        aoc_output.print_result(1, part1, image, alg)
-        aoc_output.print_result(2, part2, image, alg)
-    else:
-        return part1(image, alg), part2(image, alg)
+    return part1(image, alg), part2(image, alg)
 
 
 if __name__ == "__main__":

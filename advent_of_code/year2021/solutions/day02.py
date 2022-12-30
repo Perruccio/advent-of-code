@@ -1,9 +1,11 @@
 import pathlib
 
 prj_path = str(pathlib.Path(__file__).parent.parent.parent.resolve())
-from advent_of_code.utils import output as aoc_output, parse as aoc_parse
+from advent_of_code.lib import parse as aoc_parse
+from advent_of_code.lib import aoc
 
 
+@aoc.pretty_solution(1)
 def part1(data):
     horizontal = sum(x[1] for x in data if x[0] == 'forward')
     depth = sum(
@@ -14,6 +16,7 @@ def part1(data):
     return horizontal * depth
 
 
+@aoc.pretty_solution(2)
 def part2(data):
     h_pos = 0
     d_pos = 0
@@ -29,18 +32,13 @@ def part2(data):
     return h_pos * d_pos
 
 
-def main(pretty_print=True):
+def main():
     def map_line(line):
         a, b = line.split()
         return a, int(b)
 
     data = aoc_parse.map_input_lines(prj_path + '/year2021/input/day02.txt', map_line)
-
-    if pretty_print:
-        aoc_output.print_result(1, part1, data)
-        aoc_output.print_result(2, part2, data)
-    else:
-        return part1(data), part2(data)
+    return part1(data), part2(data)
 
 
 if __name__ == "__main__":
