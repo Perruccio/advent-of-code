@@ -32,12 +32,11 @@ def simulate(elves, rounds=None, until_stationary=None):
 
     round = 0
     while until_stationary or (rounds and round < rounds):
-        # compute new set of elves
-        new_elves = set()
+        # compute new set of elves.
+        new_elves = copy(elves)
         for elf in elves:
             # if alone don't move
             if all(elf + step not in elves for step in complex_neighbours):
-                new_elves.add(elf)
                 continue
             # check first possible direction
             for direction in directions:
@@ -46,18 +45,15 @@ def simulate(elves, rounds=None, until_stationary=None):
                     # fmt:on
                     # move if nobody has already tried to move there
                     if (new_elf := elf + direction) not in new_elves:
+                        new_elves.remove(elf)
                         new_elves.add(new_elf)
-                    # only possible collision is from opposite elves! just replace both at original
-                    # positions
                     else:
+                        # only possible collision is from opposite elves!
+                        # just replace both at original positions
                         new_elves.add(elf)
-                        # remove collision and put elf back
                         new_elves.remove(new_elf)
                         new_elves.add(elf + 2*direction)
                     break
-            else:
-                new_elves.add(elf)
-
         round += 1
 
         # check stationarity
