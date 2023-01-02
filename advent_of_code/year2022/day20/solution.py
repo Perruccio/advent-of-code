@@ -7,15 +7,19 @@ def get_input(file):
 
 
 def solve(data, key=1, times=1):
-    # not my idea. Create a list of indices and mix that.
-    # Every time just look for the index and move it according to data
+    # Not my idea. Create a list of indices and mix that.
+    # Every time just look for the index and move it according to data.
+    # It turns out the searching the index is faster than the straightforward
+    # implementation with a list of nodes (of a double-linked list), on which every time we
+    # update the links
     n = len(data)
-    data = list(map(lambda x: x * key, data))
-    indices = list(range(n))
     # data maps original indices to original values
     # indices maps current indices to original indices
+    data = list(map(lambda x: x * key, data))
+    indices = list(range(n))
+    # indices*times = 0, 1, 2, ..., n-1, 0, 1, ...
     for i in indices * times:
-        # find new position of index which was originally i
+        # find current position of index which was originally i
         indices.pop(new_i := indices.index(i))
         # shift it according to data[i] (data is never changed)
         # remember to use mod n-1 because of how jumping in a list works
