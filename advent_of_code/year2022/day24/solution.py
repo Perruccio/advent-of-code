@@ -1,7 +1,6 @@
 from advent_of_code.lib import aoc
 from advent_of_code.lib import parse as aoc_parse
 from advent_of_code.lib import math as aoc_math
-from copy import deepcopy
 
 
 def get_input(file):
@@ -24,7 +23,7 @@ def get_input(file):
 
 def simulate(data, come_back=False):
     # info
-    blizzards_0, walls, width, height = deepcopy(data)
+    blizzards_0, walls, width, height = data
     start, end = -1j, width - 1 + height * 1j
     mod = width + 1j * height
     # add walls around start and end to avoid player going out of map

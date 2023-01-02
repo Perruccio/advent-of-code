@@ -1,13 +1,5 @@
 from advent_of_code.lib import parse as aoc_parse
-from advent_of_code.lib import algorithm as aoc_algo
 from advent_of_code.lib import aoc
-
-
-class Node:
-    def __init__(self, x):
-        self.x = x
-        self.left = None
-        self.right = None
 
 
 def get_input(file):
@@ -15,56 +7,23 @@ def get_input(file):
 
 
 def solve(data, key=1, times=1):
+    # not my idea. Create a list of indices and mix that.
+    # Every time just look for the index and move it according to data
     n = len(data)
-    # use a vector of nodes to remember original order
-    nodes = [Node(val * key) for val in data]
-    for i in range(n):
-        nodes[i].right = nodes[(i + 1) % n]
-        nodes[i].left = nodes[i - 1]
+    data = list(map(lambda x: x * key, data))
+    indices = list(range(n))
+    # data maps original indices to original values
+    # indices maps current indices to original indices
+    for i in indices * times:
+        # find new position of index which was originally i
+        indices.pop(new_i := indices.index(i))
+        # shift it according to data[i] (data is never changed)
+        # remember to use mod n-1 because of how jumping in a list works
+        indices.insert((new_i + data[i]) % (n - 1), i)
 
-    # NB we must use mod n-1 because when we want to remove a node,
-    # we're left with n-1 nodes
-    mod = n - 1
-    for t in range(times):
-        for node in nodes:
-            # we need to remember node with value 0 for answer
-            if node.x == 0 and t == times - 1:
-                node_0 = node
-                continue
-
-            # advance (left or right) until new position is reached
-            # instead of just performing node.x jumps, check which direction
-            # is shorter (nice performance gain)
-            # NB we're making jumps to the left, do one more jump, so that new is always
-            # at the left of where we should insert node
-
-            # first compute right jumps
-            jumps = (node.x % mod + mod) % mod
-            # check if going left would be better (remember to do one jump more)
-            if mod - jumps + 1 < jumps:
-                jumps -= mod + 1
-            new = aoc_algo.advance_in_linked_list(node, jumps)
-
-            if new == node:
-                continue
-
-            # remove node from previous position and connect adjacent
-            node.right.left = node.left
-            node.left.right = node.right
-
-            # add old node in-between of new neighbours
-            node.right = new.right
-            node.left = new
-            new.right.left = node
-            new.right = node
-
-    # compute answer
-    res = 0
-    for _ in range(3):
-        for _ in range(1000):
-            node_0 = node_0.right
-        res += node_0.x
-    return res
+    # find zero
+    zero_i = indices.index(data.index(0))
+    return sum(data[indices[(zero_i + shift) % n]] for shift in [1000, 2000, 3000])
 
 
 @aoc.pretty_solution(1)
