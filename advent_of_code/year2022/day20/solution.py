@@ -11,7 +11,8 @@ def solve(data, key=1, times=1):
     # Every time just look for the index and move it according to data.
     # It turns out the searching the index is faster than the straightforward
     # implementation with a list of nodes (of a double-linked list), on which every time we
-    # update the links
+    # update the links. This method is convenient becaus by actually moving the index, we're sure
+    # that other indices will be automatically updated as well
     n = len(data)
     # data maps original indices to original values
     # indices maps current indices to original indices

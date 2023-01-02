@@ -29,6 +29,7 @@ def simulate(data, come_back=False):
     # add walls around start and end to avoid player going out of map
     walls.add(start - 1j)
     walls.add(end + 1j)
+    # init
     goals = [end, start, end] if come_back else [end]
     positions, t = {start}, 0
     while goals:
