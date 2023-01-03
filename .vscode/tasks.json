@@ -1,0 +1,11 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "type": "austin",
+            "file": "advent_of_code/year2022/day19/solution.py",
+            "args": ["--verbose"],
+            "label": "Profile Day19",
+        }
+    ]
+}
