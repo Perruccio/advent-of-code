@@ -44,25 +44,26 @@ def optimize_blueprint(blueprint, time, start_robots):
     max_resource = Counter({ORE: max_ore, CLAY: max_clay, OBS: max_OBS})
 
     # state = time_left, resources, robots
+    # use priority queue to first search states with most geodes, obs, clay, time
+    # to make best use of optimizations
     todo = []
     pq.heappush(todo, ((0,), (time, Counter(), start_robots)))
     # {state:time} so that we can skip states if already visited with more available time
     visited = set()
     max_geodes = 0
-    # dfs
     while todo:
         t, resources, robots = pq.heappop(todo)[1]
 
         # consider all possible next robot builds
         for robot in blueprint:
-            # check if this robot is useful or I can already satitfy the max possible request of a resource
+            # check if this robot is useful or I can already satisfy the max possible request of a resource
             if (
                 robot.produce != GEO
                 and robots[robot.produce] * t + resources[robot.produce] >= max_resource[robot.produce] * t
             ):
                 continue
 
-            # check if i have necessary robots to harvest resources to build this robot
+            # check if i have necessary robots to harvest resources to build this robot by only waiting
             if any(robots[resource] == 0 for resource in robot.cost):
                 continue
 
@@ -83,13 +84,14 @@ def optimize_blueprint(blueprint, time, start_robots):
             new_resources = Counter(
                 {res: resources[res] + robots[res] * time_to_wait - robot.cost[res] for res in range(4)}
             )
-            # already take into account future geodes
+            # already take into account future geodes for max score
             if robot.produce == GEO:
                 new_resources[GEO] += new_t
 
+            # compute robots in new state (make a copy)
             new_robots = Counter(robots)
+            # don't count geodes in robots, actually pointless
             if robot.produce != GEO:
-                # don't count geodes in robots, actually pointless
                 new_robots[robot.produce] += 1
 
             # if max possible (in very optimistic case) geodes is less than current best,
@@ -97,6 +99,7 @@ def optimize_blueprint(blueprint, time, start_robots):
             if new_resources[GEO] + new_t * (new_t - 1) // 2 <= max_geodes:
                 continue
 
+            # check not already visited
             if (new := (new_t, tuple(new_resources.values()), tuple(new_robots.values()))) in visited:
                 continue
 
