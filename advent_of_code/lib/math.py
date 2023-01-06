@@ -10,8 +10,8 @@ def complex_sign(x: complex) -> complex:
     return complex((x.real > 0) - (x.real < 0), (x.imag > 0) - (x.imag < 0))
 
 
-def complex_modulo(x, mod):
-    return (x.real % mod.real) + 1j * (x.imag % mod.imag)
+def complex_modulo(x, mod, shift = 0):
+    return complex(shift.real + (x.real - shift.real) % mod.real, shift.imag + (x.imag - shift.imag) % mod.imag)
 
 
 def hex2bin(hex_digits, fill=True):
