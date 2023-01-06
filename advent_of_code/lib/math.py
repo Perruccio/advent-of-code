@@ -1,17 +1,37 @@
+from math import sqrt
+from collections.abc import Iterable
+
+
 def mean(data):
     return sum(data) / len(data)
 
 
-def sign(x: float) -> float:
-    return 1 if x > 0 else -1 if x < 0 else 0
+def sign(x):
+    match x:
+        case int() | float():
+            return 1 if x > 0 else -1 if x < 0 else 0
+        case complex():
+            return complex(sign(x.real), sign(x.imag))
+        case Iterable():
+            return type(x)(*(sign(c) for c in x))
+        case _:
+            ValueError(f"Cannot compute sign of {type(x)}")
 
 
-def complex_sign(x: complex) -> complex:
-    return complex((x.real > 0) - (x.real < 0), (x.imag > 0) - (x.imag < 0))
+def norm(vector, measure="l2"):
+    match measure.lower():
+        case "l2":
+            return sqrt(sum(c * c for c in vector))
+        case "inf":
+            return sum(abs(c) for c in vector)
+        case _:
+            ValueError(f"Unknown measure {measure}")
 
 
-def complex_modulo(x, mod, shift = 0):
-    return complex(shift.real + (x.real - shift.real) % mod.real, shift.imag + (x.imag - shift.imag) % mod.imag)
+def complex_modulo(x, mod, shift=0):
+    return complex(
+        shift.real + (x.real - shift.real) % mod.real, shift.imag + (x.imag - shift.imag) % mod.imag
+    )
 
 
 def hex2bin(hex_digits, fill=True):

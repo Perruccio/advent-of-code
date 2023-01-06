@@ -1,5 +1,9 @@
+from collections.abc import Collection
+from dataclasses import dataclass
+
+
 def get_neighbours(pos, ends, exclude_diag=False):
-    """return the position of the neighbours of pos in a 2d matrix"""
+    """Return the position of the neighbours of pos in a 2d matrix"""
     shifts = [(0, 1), (0, -1), (1, 0), (-1, 0)]
     if not exclude_diag:
         shifts += [(1, 1), (1, -1), (-1, 1), (-1, -1)]
@@ -9,7 +13,7 @@ def get_neighbours(pos, ends, exclude_diag=False):
             yield i2, j2
 
 
-def merge_intervals(v: list[int]):
+def merge_intervals(v: list[Collection[int]]):
     """
     Return sorted list of lists where overlapping intervals are merged.
     Example expand1d([(0, 1), (5, 7), (10, 12)], (6, 11)) -> [[0, 1], [5, 12]]
@@ -17,7 +21,7 @@ def merge_intervals(v: list[int]):
     # sort alphabetically
     v.sort()
 
-    merged = []
+    merged: list[list[int]] = []
     for lo, hi in v:
         # nothing to merge
         if not merged:
@@ -49,6 +53,36 @@ def intersect1d(aa, bb):
     return (left, right) if left <= right else None
 
 
+@dataclass(frozen=True, slots=True, order=True)
+class Point2D:
+    """Represent a point in a 2D space with overloaded element-wise mathematical operations"""
+
+    x: int | float
+    y: int | float
+
+    def __add__(self, other: "Point2D"):
+        return Point2D(self.x + other.x, self.y + other.y)
+
+    def __sub__(self, other: "Point2D"):
+        return Point2D(self.x - other.x, self.y - other.y)
+
+    def __mul__(self, other: int | float):
+        return Point2D(self.x * other, self.y * other)
+
+    def __rmul__(self, other: int | float):
+        return self.__mul__(self, other)
+
+    def __str__(self):
+        return f"Point2D(x = {self.x}, y = {self.y})"
+
+    def __mod__(self, mod: int, shift: int | float = 0):
+        return Point2D(shift + (self.x - shift) % mod, shift + (self.y - shift) % mod)
+
+    def __iter__(self):
+        yield self.x
+        yield self.y
+
+
 class Cuboid:
     def __init__(self, xx, yy, zz):
         assert xx[0] <= xx[1] and yy[0] <= yy[1] and zz[0] <= zz[1]
@@ -60,11 +94,7 @@ class Cuboid:
         return all(-limit <= tt[0] and tt[1] <= limit for tt in [self.xx, self.yy, self.zz])
 
     def volume(self):
-        return (
-            (self.xx[1] - self.xx[0] + 1)
-            * (self.yy[1] - self.yy[0] + 1)
-            * (self.zz[1] - self.zz[0] + 1)
-        )
+        return (self.xx[1] - self.xx[0] + 1) * (self.yy[1] - self.yy[0] + 1) * (self.zz[1] - self.zz[0] + 1)
 
     def intersect(self, other):
         xx = intersect1d(self.xx, other.xx)

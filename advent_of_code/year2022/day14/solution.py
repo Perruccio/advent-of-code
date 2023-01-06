@@ -1,12 +1,13 @@
 from advent_of_code.lib import parse as aoc_parse
 from advent_of_code.lib import math as aoc_math
+from advent_of_code.lib.geometry import Point2D
 from advent_of_code.lib import aoc
 
 
 def get_input(file):
     def parse_wall(line):
         ints = aoc_parse.get_ints(line)
-        return [complex(*ints[i : i + 2]) for i in range(0, len(ints), 2)]
+        return [Point2D(x, y) for x, y in zip(ints[::2], ints[1::2])]
 
     return aoc_parse.map_by_line(aoc.read_input(2022, 14, file), parse_wall)
 
@@ -17,13 +18,13 @@ def make_walls(data):
         # fill every point from edge to edge (included)
         for edge1, edge2 in zip(wall, wall[1:]):
             diff = edge2 - edge1
-            dir = aoc_math.complex_sign(diff)
-            rocks.update(edge1 + dir * step for step in range(1 + int(abs(diff))))
+            dir = aoc_math.sign(diff)
+            rocks.update(edge1 + dir * step for step in range(1 + aoc_math.norm(diff, "inf")))
     return rocks
 
 
 def simulate_sand(rocks, abyss, floor):
-    origin = 500
+    origin = Point2D(500, 0)
     # counter for rest unit of sand
     rest, path = 0, [origin]
     while True:
@@ -31,10 +32,10 @@ def simulate_sand(rocks, abyss, floor):
         sand = path[-1]
         # down, down-left, down-right in order
         for dx in [0, -1, 1]:
-            # add dy (1j)
-            next_sand = sand + 1j + dx
+            # add dy (1)
+            next_sand = sand + Point2D(dx, 1)
             # check if movement is possible
-            if next_sand in rocks or next_sand.imag == floor:
+            if next_sand in rocks or next_sand.y == floor:
                 continue
             path.append(next_sand)
             # go on following this path first (dfs)
@@ -46,7 +47,7 @@ def simulate_sand(rocks, abyss, floor):
             path.pop()
 
         # check if over
-        if origin in rocks or (floor is None and sand.imag > abyss):
+        if origin in rocks or (floor is None and sand.y > abyss):
             break
     return rest
 
@@ -54,14 +55,14 @@ def simulate_sand(rocks, abyss, floor):
 @aoc.pretty_solution(1)
 def part1(data):
     rocks = make_walls(data)
-    abyss = max(rock.imag for rock in rocks)
+    abyss = max(rock.y for rock in rocks)
     return simulate_sand(rocks, abyss, None)
 
 
 @aoc.pretty_solution(2)
 def part2(data):
     rocks = make_walls(data)
-    abyss = max(rock.imag for rock in rocks)
+    abyss = max(rock.y for rock in rocks)
     floor = abyss + 2
     return simulate_sand(rocks, abyss, floor)
 

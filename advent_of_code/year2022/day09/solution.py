@@ -15,7 +15,7 @@ def follow(tail, head):
     """Move tail horizontal/vertical/diagonal by 1 to follow head if not adjacent,
     where head and tail are point in the complex integer plane"""
     if abs(tail - head) >= 2:
-        tail += aoc_math.complex_sign(head - tail)
+        tail += aoc_math.sign(head - tail)
     return tail
 
 
