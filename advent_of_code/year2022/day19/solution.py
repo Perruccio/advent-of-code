@@ -36,7 +36,7 @@ def get_input(file):
 
 
 def optimize_blueprint(blueprint, time, start_robots):
-
+    # the optimizations are not my ideas, other solvers take credits
     # compute max useful amount for each resource
     max_ore = max(robot.cost[ORE] for robot in blueprint)
     max_clay = max(robot.cost[CLAY] for robot in blueprint)

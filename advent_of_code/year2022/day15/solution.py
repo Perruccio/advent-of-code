@@ -39,6 +39,7 @@ def part2(data, limit):
     # remap data as sensor, radius
     data = [(sensor, aoc_geometry.manhattan_distance(sensor, beacon)) for sensor, beacon in data]
 
+    # not my idea.
     # NB the trick is that since we know there is exactly one possible point,
     # this must be exactly inside a 1-square regione insiede 4 lines, parallell and perpendicular 2
     # by 2. Hence if for each sensor we draw the 4 lines at distance r+1, then compute intersections
@@ -70,9 +71,7 @@ def part2(data, limit):
             # check inside limit
             if all(0 <= coordinate <= limit for coordinate in intersection):
                 # check candidate is actually the solution
-                if all(
-                    aoc_geometry.manhattan_distance(intersection, sensor) > r for sensor, r in data
-                ):
+                if all(aoc_geometry.manhattan_distance(intersection, sensor) > r for sensor, r in data):
                     return intersection[0] * 4000000 + intersection[1]
     return None
 
