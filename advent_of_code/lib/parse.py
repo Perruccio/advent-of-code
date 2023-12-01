@@ -1,11 +1,17 @@
 import re
 
 # regex map to parse data
-RE = {"int": r"[+-]?\d+"}
+RE = {
+    "int": r"[+-]?\d+",
+    "digit": r"\d",}
 
 
 def get_ints(line):
     return list(map(int, re.findall(RE["int"], line)))
+
+
+def get_digits(line):
+    return list(map(int, re.findall(RE["digit"], line)))
 
 
 def as_lines(raw: str) -> list[str]:
