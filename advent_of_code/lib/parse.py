@@ -1,5 +1,6 @@
 import re
 
+# regex map to parse data
 RE = {"int": r"[+-]?\d+"}
 
 
@@ -31,7 +32,8 @@ def input_as_list_of_lists(raw: str, delim: str = "", func=int) -> list[list]:
 def input_as_string(filename):
     with open(filename) as f:
         return f.read().rstrip("\n")
-    
+
+
 def input_as_lines(filename: str) -> list[str]:
     """Return a list where each line in the input file is an element of the list"""
     return input_as_string(filename).split("\n")
