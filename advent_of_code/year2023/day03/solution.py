@@ -39,7 +39,7 @@ def get_number(grid, r, c):
 @aoc.pretty_solution(1)
 def part1(grid):
     res = 0
-    # loop throug thegrid
+    # loop through the grid
     # when number is encountered, 
     # reconstruct whole number and check if it touches any symbol
     for r, row in enumerate(grid):
