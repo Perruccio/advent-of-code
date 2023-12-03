@@ -3,7 +3,8 @@ import re
 # regex map to parse data
 RE = {
     "int": r"[+-]?\d+",
-    "digit": r"\d",}
+    "digit": r"\d",
+    }
 
 
 def get_ints(line):

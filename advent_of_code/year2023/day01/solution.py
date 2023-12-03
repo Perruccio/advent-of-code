@@ -20,9 +20,9 @@ def part2(lines):
         for i, c in enumerate(line):
             if c.isdigit():
                 first, last = first or int(c), int(c)
-            for d, w in enumerate(("one", "two", "three", "four", "five", "six", "seven", "eight", "nine"), 1):
-                if line[i: i + len(w)] == w:
-                    first, last = first or d, d
+            for digit, word in enumerate(("one", "two", "three", "four", "five", "six", "seven", "eight", "nine"), 1):
+                if line.startswith(word):
+                    first, last = first or digit, digit
         return 10*first + last
     return sum(map(compute_value, lines))
 
