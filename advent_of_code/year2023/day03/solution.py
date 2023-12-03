@@ -28,7 +28,7 @@ def get_number(grid, r, c):
         res.append(grid[r][c-1])
         c -= 1
     res = res[::-1]
-    # go right until finished
+    # go right until last digit
     c = begin
     while c+1 < len(grid[r]) and grid[r][c+1].isdigit():
         res.append(grid[r][c+1])
