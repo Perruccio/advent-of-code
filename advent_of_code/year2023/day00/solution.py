@@ -24,8 +24,8 @@ def main():
 
 def test():
     data = get_input("example.txt")
-    assert part1(data) == None
-    assert part2(data) == None
+    # assert part1(data) == None
+    # assert part2(data) == None
     print("Test OK")
 
 
