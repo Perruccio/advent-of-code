@@ -69,7 +69,7 @@ def part2(seeds, almanac):
                     # no intersection found -> interval remains untouched
                     new.append((a, b))
             # update curr with new
-            new, curr = curr, new
+            curr = new
         res = min(res, min(a for a, _ in curr))
     return res
 
