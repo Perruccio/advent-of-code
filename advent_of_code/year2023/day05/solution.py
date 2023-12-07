@@ -1,6 +1,6 @@
 from advent_of_code.lib import parse as aoc_parse
 from advent_of_code.lib import aoc
-
+from operator import itemgetter
 
 def get_input(file):
     raw = aoc.read_input(2023, 5, file)
@@ -70,7 +70,7 @@ def part2(seeds, almanac):
                     new.append((a, b))
             # update curr with new
             curr = new
-        res = min(res, min(a for a, _ in curr))
+        res = min(res, min(map(itemgetter(0), curr)))
     return res
 
 
