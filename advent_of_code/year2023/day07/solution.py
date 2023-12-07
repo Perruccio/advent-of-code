@@ -25,11 +25,10 @@ def compute_point(hand, joker):
         mx = [], ""
         # NB remember that in case of ties, "J" (now "B") is the lowest
         # replace it with "0"
-        hand_for_ties = hand.replace("B", "0")
         # brute force every possible value of "J" (now "B")
         for j in set(range(2, 9+1)) | set("ACDE"):
             new_hand = hand.replace("B", str(j))
-            point = compute_point(new_hand, False)[0], hand_for_ties
+            point = compute_point(new_hand, False)[0], hand.replace("B", "0")
             mx = max(mx, point)
         return mx
 
