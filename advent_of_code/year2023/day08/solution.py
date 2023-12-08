@@ -34,17 +34,17 @@ def part1(data):
 
 @aoc.pretty_solution(2)
 def part2(data):
-    instructions, links = data
+    instructions, graph = data
     is_start = lambda s: s.endswith("A")
     is_end = lambda s: s.endswith("Z")
     # NB it turns out we can assume that
     # after the first time an end node is hit,
     # it always take the same number of steps
     res = 1
-    for node in filter(is_start, links):
+    for node in filter(is_start, graph):
         steps = 0
         while not is_end(node):
-            node = next_node(node, links, instructions, steps)
+            node = next_node(node, graph, instructions, steps)
             steps += 1
         # compute lcm of all loops
         res = lcm(res, steps)
