@@ -70,7 +70,7 @@ def part2(seeds, almanac):
                     new.append((a, b))
             # update curr with new
             curr = new
-        res = min(res, min(map(itemgetter(0), curr)))
+        res = min(res, min(min(curr)))
     return res
 
 
