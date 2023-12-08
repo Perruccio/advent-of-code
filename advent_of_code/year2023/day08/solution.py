@@ -35,8 +35,8 @@ def part1(data):
 @aoc.pretty_solution(2)
 def part2(data):
     instructions, links = data
-    is_start = lambda s: s[-1] == "A"
-    is_end = lambda s: s[-1] == "Z"
+    is_start = lambda s: s.endswith("A")
+    is_end = lambda s: s.endswith("Z")
     # NB it turns out we can assume that
     # after the first time an end node is hit,
     # it always take the same number of steps
