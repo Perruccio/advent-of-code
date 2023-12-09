@@ -7,38 +7,31 @@ def get_input(file):
     return aoc_parse.map_by_line(raw, func=aoc_parse.get_ints)
 
 
+def extrapolate(series):
+    # we should just add all the last values
+    # of the diff series
+    extrapolated = series[-1]
+    while not all(x == series[0] for x in series):
+        series = list(b - a for a, b in zip(series, series[1:]))
+        extrapolated += series[-1]
+    return extrapolated
+
+
 @aoc.pretty_solution(1)
 def part1(data):
-    res = 0
-    for series in data:
-        extrapolated = series[-1]
-        # we should just add all the last values
-        # of the diff series
-        while not all(x == series[0] for x in series):
-            series = list(b - a for a, b in zip(series, series[1:]))
-            extrapolated += series[-1]
-        res += extrapolated
-    return res
+    return sum(map(extrapolate, data))
 
 
 @aoc.pretty_solution(2)
 def part2(data):
-    res = 0
-    for series in data:
-        # a   b   c
-        #   d   e
-        #     f
-        # NB the relation is d = b - a => a = b - d
-        # but d = e - f ==> a = b - (e - f) = b - e + f - ... + ...
-        # the signs alternate
-        back_extrapolated = series[0]
-        sign = -1
-        while not all(x == series[0] for x in series):
-            series = list(b - a for a, b in zip(series, series[1:]))
-            back_extrapolated += sign * series[0]
-            sign *= -1
-        res += back_extrapolated
-    return res
+    # a   b   c
+    #   d   e
+    #     f
+    # NB the relation is d = b - a => a = b - d
+    # but d = e - f ==> a = b - (e - f) = b - e + f - ... + ...
+    # the signs alternate.
+    # However, we can just flip the series and extrapolate normally
+    return sum(map(extrapolate, [series[::-1] for series in data]))
 
 
 def main():
