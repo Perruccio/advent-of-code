@@ -41,11 +41,11 @@ def main():
 
 
 def test():
-    data = get_input("example.txt")
+    data = get_input("input.txt")
     assert part1(data) == 1681758908
     assert part2(data) == 803
     print("Test OK")
 
 
 if __name__ == "__main__":
-    main()
+    test()
