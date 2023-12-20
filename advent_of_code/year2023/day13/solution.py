@@ -17,10 +17,10 @@ def horizontal_reflection(grid, old=None):
     # compute n of rows above reflection
     # ignore reflection at r = old
     for i, row in enumerate(grid[:-1]):
-        # check if two consecutive rowsa are identical
+        # check if two consecutive rows are identical
         if row == grid[i+1] and old not in {i, i+1}:
-            r1, r2 = i-1, i+2
             # check it actually is a reflection
+            r1, r2 = i-1, i+2
             while 0 <= r1 and r2 < len(grid):
                 if grid[r1] != grid[r2]:
                     break
