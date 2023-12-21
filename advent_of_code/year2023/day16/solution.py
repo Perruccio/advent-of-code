@@ -8,7 +8,7 @@ def get_input(file):
 
 
 def simulate(grid, start):
-    # do a complete simulation
+    # do a complete simulation, given starting position and direction
     seen = set()
     # a node is (r, c, dir r, dir c)
     # i.e. position + direction
