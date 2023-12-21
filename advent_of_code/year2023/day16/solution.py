@@ -9,7 +9,6 @@ def get_input(file):
 
 def simulate(grid, start):
     # do a complete simulation
-    energized = set()
     seen = set()
     # a node is (r, c, dir r, dir c)
     # i.e. position + direction
@@ -27,7 +26,6 @@ def simulate(grid, start):
 
         # flag as visited
         seen.add((r, c, dr, dc))
-        energized.add((r, c))
 
         # handle bifurcations
         if grid[r][c] == "|" and dc != 0:
@@ -47,7 +45,9 @@ def simulate(grid, start):
 
         # move
         q.append((r + dr, c + dc, dr, dc))
-    return len(energized)
+    # just discard the directions to compute set of all
+    # energized points
+    return len({(r, c) for r, c, _, _ in seen})
 
 
 @aoc.pretty_solution(1)
