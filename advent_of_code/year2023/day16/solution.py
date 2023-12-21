@@ -40,7 +40,7 @@ def simulate(grid, start):
         # steer if necessary
         if grid[r][c] == "\\":
             dr, dc = dc, dr
-        if grid[r][c] == "/":
+        elif grid[r][c] == "/":
             dr, dc = -dc, -dr
 
         # move
@@ -86,4 +86,4 @@ def test():
 
 
 if __name__ == "__main__":
-    main()
+    test()
