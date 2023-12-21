@@ -3,8 +3,7 @@ from advent_of_code.lib import aoc
 from functools import reduce
 
 def get_input(file):
-    raw = aoc.read_input(2023, 15, file)
-    return raw
+    return aoc.read_input(2023, 15, file)
 
 
 def hash256(word):
