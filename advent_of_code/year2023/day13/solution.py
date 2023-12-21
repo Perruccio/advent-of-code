@@ -76,7 +76,7 @@ def main():
 
 
 def test():
-    data = get_input("example.txt")
+    data = get_input("input.txt")
     assert part1(data) == 34100
     assert part2(data) == 33106
     print("Test OK")

@@ -23,7 +23,7 @@ def main():
 
 
 def test():
-    data = get_input("example.txt")
+    data = get_input("input.txt")
     # assert part1(data) == None
     # assert part2(data) == None
     print("Test OK")
