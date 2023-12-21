@@ -8,8 +8,8 @@ def get_input(file):
 
 
 def hash256(word):
-    update_hash = lambda h, c: ((h + c)*17 ) % 256
-    return reduce(update_hash, map(ord, word), 0)
+    update_hash = lambda h, c: ((h + ord(c))*17 ) % 256
+    return reduce(update_hash, word, 0)
 
 
 @aoc.pretty_solution(1)
