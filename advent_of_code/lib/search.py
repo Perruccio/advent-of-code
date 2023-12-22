@@ -8,6 +8,7 @@ class Graph:
     def __iter__(self):
         ...
 
+
 def bfs_grid(grid, start, is_end, is_valid, exclude_diag=True):
     """Standard and not very efficient implementation of BFS in a grid.
     Returns the optimal path assuming every movement has equal cost and the grid
@@ -40,7 +41,6 @@ def bfs_grid(grid, start, is_end, is_valid, exclude_diag=True):
     return path[::-1]
 
 
-
 def floyd_warshall(graph : Graph):
     """Return a dict of dicts min_dists where min_dists[a][b] is the
     min weights to go from a to b in a directed graph.
@@ -54,7 +54,7 @@ def floyd_warshall(graph : Graph):
             # support only uniform weights
             min_dists[node][neighbour] = 1
             min_dists[neighbour][neighbour] = 0
-    
+
     # the trick here is that min_dists is the min distance of nodes reachable
     # with only one step. After each loop of "mid", we're basically expanding to
     # include 2-steps paths, 3-steps paths, and so on, up to n-steps, because we're
@@ -64,11 +64,5 @@ def floyd_warshall(graph : Graph):
     # symmetric and interchangeable, but the first for loop must be relative to mid
     for mid, src, dst in product(graph, graph, graph):
         min_dists[src][dst] = min(min_dists[src][dst], min_dists[src][mid] + min_dists[mid][dst])
-        
+
     return min_dists
-        
-        
-        
-        
-    
-    
