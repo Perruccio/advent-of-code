@@ -4,9 +4,11 @@ from advent_of_code.lib import aoc
 
 def get_input(file):
     raw = aoc.read_input(2023, 18, file)
+
     def read_line(line):
         dig_dir, l, color = line.split(" ")
         return (dig_dir, int(l), color[2:-1])
+
     return aoc_parse.map_by_line(raw, func=read_line)
 
 
@@ -15,7 +17,7 @@ def solve(data):
     area = 0
     perimeter = 0
     for dig, l in data:
-        dd = {"D":1j, "R": 1, "L": -1, "U":-1j}[dig]
+        dd = {"D": 1j, "R": 1, "L": -1, "U": -1j}[dig]
         # Green's theorem!!
         area += curr.real * dd.imag * l
         curr += dd * l

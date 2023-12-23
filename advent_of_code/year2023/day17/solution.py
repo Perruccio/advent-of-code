@@ -2,12 +2,13 @@ from advent_of_code.lib import parse as aoc_parse
 from advent_of_code.lib import aoc
 import heapq
 
+
 def get_input(file):
     raw = aoc.read_input(2023, 17, file)
     return aoc_parse.as_lines(raw)
 
 
-def solve(grid, min_consecutives=0, max_consecutives=float('inf')):
+def solve(grid, min_consecutives=0, max_consecutives=float("inf")):
     start, end = (0, 0), (len(grid) - 1, len(grid[0]) - 1)
     # init priority queue of nodes for Dijkstra
     # NB we bust keep track also of direction and consecutives moves in the same direction
@@ -50,6 +51,7 @@ def solve(grid, min_consecutives=0, max_consecutives=float('inf')):
 @aoc.pretty_solution(1)
 def part1(grid):
     return solve(grid, max_consecutives=3)
+
 
 @aoc.pretty_solution(2)
 def part2(grid):

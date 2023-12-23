@@ -2,12 +2,15 @@ from advent_of_code.lib import parse as aoc_parse
 from advent_of_code.lib import aoc
 from functools import reduce
 
+
 def get_input(file):
     return aoc.read_input(2023, 15, file)
 
 
 def hash256(word):
-    update_hash = lambda h, c: ((h + ord(c))*17 ) % 256
+    def update_hash(h, c):
+        return (h + ord(c)) * 17 % 256
+
     return reduce(update_hash, word, 0)
 
 

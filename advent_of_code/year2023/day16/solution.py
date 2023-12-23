@@ -68,7 +68,7 @@ def part2(grid):
     # first and last column
     for r in range(rows):
         res = max(res, simulate(grid, (r, 0, 0, 1)))
-        res = max(res, simulate(grid, (r, cols-1, 0, -1)))
+        res = max(res, simulate(grid, (r, cols - 1, 0, -1)))
     return res
 
 

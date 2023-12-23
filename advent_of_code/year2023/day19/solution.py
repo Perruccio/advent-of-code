@@ -2,6 +2,7 @@ from advent_of_code.lib import parse as aoc_parse
 from advent_of_code.lib import aoc
 from copy import deepcopy
 
+
 def get_input(file):
     raw = aoc.read_input(2023, 19, file)
     workflow, parts_raw = raw.split("\n\n")
@@ -12,7 +13,7 @@ def get_input(file):
         process[name] = list(map(lambda r: r.split(":"), rules.split(",")))
         process[name][-1] = process[name][-1][0]
     for part in parts_raw.split("\n"):
-        parts.append(tuple(map(lambda s:int(s[2:]), part[1:-1].split(","))))
+        parts.append(tuple(map(lambda s: int(s[2:]), part[1:-1].split(","))))
     return process, parts
 
 
@@ -41,10 +42,10 @@ def add_constraint(xmas_bounds, constraint):
     # add constraint to xmas_bound
     # take the intersection
     # NB modify in place
-    var = constraint[0] # "x", "m", "a" or "s"
-    bound = constraint[1] # ">" or "<"
+    var = constraint[0]  # "x", "m", "a" or "s"
+    bound = constraint[1]  # ">" or "<"
     value = int(constraint[2:])
-    idx = "xmas".find(var) # find to which variable we shuold add
+    idx = "xmas".find(var)  # find to which variable we shuold add
     if bound == "<":
         xmas_bounds[idx][1] = min(value - 1, xmas_bounds[idx][1])
     else:
@@ -94,7 +95,7 @@ def part2(data):
         if curr == "A":
             score = 1
             for lo, hi in xmas:
-                score *= (hi - lo + 1)
+                score *= hi - lo + 1
             res += score
             continue
 

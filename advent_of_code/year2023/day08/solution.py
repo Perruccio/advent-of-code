@@ -1,7 +1,6 @@
 from advent_of_code.lib import parse as aoc_parse
 from advent_of_code.lib import aoc
 from math import lcm
-from functools import reduce
 
 
 def get_input(file):

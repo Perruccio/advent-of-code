@@ -5,9 +5,11 @@ from functools import lru_cache
 
 def get_input(file):
     raw = aoc.read_input(2023, 12, file)
+
     def read_line(line):
         spring, groups = line.split(" ")
         return spring, tuple(map(int, groups.split(",")))
+
     return aoc_parse.map_by_line(raw, read_line)
 
 
@@ -22,9 +24,13 @@ def count(spring, target):
         case "#":
             # make one whole block at a time (not a single character)
             # be careful because "#" can't be immediately after the block
-            if len(spring) < target[0] or "." in spring[:target[0]] or (len(spring) > target[0] and spring[target[0]] == "#"):
+            if (
+                len(spring) < target[0]
+                or "." in spring[: target[0]]
+                or (len(spring) > target[0] and spring[target[0]] == "#")
+            ):
                 return 0
-            return count(spring[target[0] + 1:], target[1:])
+            return count(spring[target[0] + 1 :], target[1:])
         case "?":
             # duplicate the string
             return count("#" + spring[1:], target) + count("." + spring[1:], target)
@@ -37,7 +43,7 @@ def part1(data):
 
 @aoc.pretty_solution(2)
 def part2(data):
-    return sum(count('?'.join([spring]*5), target * 5) for spring, target in data)
+    return sum(count("?".join([spring] * 5), target * 5) for spring, target in data)
 
 
 def main():

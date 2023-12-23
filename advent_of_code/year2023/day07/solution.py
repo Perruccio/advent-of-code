@@ -20,7 +20,7 @@ def get_input(file):
 
 
 def compute_point(hand, joker):
-    if joker == True:
+    if joker:
         mx = [], ""
         # brute force every possible value of "J" (now "B")
         for j in set(range(2, 9+1)) | set("ACDE"):
