@@ -20,15 +20,18 @@ def get_input(file):
 def part1(data):
     flows, parts = data
     res = 0
+    # just simulate the process
     for x, m, a, s in parts:
         curr = "in"
         while curr not in ["A", "R"]:
             for rule in flows[curr][:-1]:
+                # follow new flow if condition is met
                 if eval(rule[0]):
                     curr = rule[1]
                     break
             else:
                 curr = flows[curr][-1]
+        # if A compute score, ignore if R
         if curr == "A":
             res += x + m + a + s
     return res
@@ -37,16 +40,16 @@ def part1(data):
 def add_constraint(xmas_bounds, constraint):
     # add constraint to xmas_bound
     # take the intersection
+    # NB modify in place
     var = constraint[0] # "x", "m", "a" or "s"
     bound = constraint[1] # ">" or "<"
     value = int(constraint[2:])
     idx = "xmas".find(var) # find to which variable we shuold add
-    new_bounds = deepcopy(xmas_bounds)
     if bound == "<":
-        new_bounds[idx][1] = min(value - 1, xmas_bounds[idx][1])
+        xmas_bounds[idx][1] = min(value - 1, xmas_bounds[idx][1])
     else:
-        new_bounds[idx][0] = max(value + 1, xmas_bounds[idx][0])
-    return new_bounds
+        xmas_bounds[idx][0] = max(value + 1, xmas_bounds[idx][0])
+    return xmas_bounds
 
 
 def negative_constraint(constraint):
@@ -71,14 +74,15 @@ def part2(data):
     res = 0
     mn, mx = 1, 4000
     # current flow + all lower and upper bounds (inclusive)
-    q = [("in", *[[mn, mx]]*4)]
+    q = [("in", *[[mn, mx] for _ in range(4)])]
     while q:
-        curr, xx, mm, aa, ss = q.pop()
-        xmas = [xx, mm, aa, ss]
+        # curr, xmas = [xx, mm, aa, s]
+        curr, *xmas = q.pop()
         # skip if rejected
         if curr == "R":
             continue
         # skip if impossible path (max < min)
+        # it actually isnt necessary for input
         for lo, hi in xmas:
             impossible = False
             if lo > hi:
@@ -97,16 +101,17 @@ def part2(data):
         # follow all possible paths from current node
         # NB keep track of the negation of all encounterd rules
         # because they must be applied to next nodes
-        past_rules_negated = list(map(list, xmas))
         for rule, nxt in flows[curr][:-1]:
-            this_xmas = add_constraint(past_rules_negated, rule)
+            this_xmas = deepcopy(xmas)
+            add_constraint(this_xmas, rule)
             # follow this path
             q.append((nxt, *this_xmas))
-            # add the negative to accumulate and go on
-            past_rules_negated = add_constraint(past_rules_negated, negative_constraint(rule))
+            # add the negatives to xmas and go on
+            # NB we can continue to modify the same xmas of the current node
+            add_constraint(xmas, negative_constraint(rule))
 
-        # manually handle last possibility
-        q.append((flows[curr][-1], *past_rules_negated))
+        # manually handle last possibility: no rule, just go to next flow
+        q.append((flows[curr][-1], *xmas))
     return res
 
 
