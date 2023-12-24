@@ -18,41 +18,41 @@ class Module:
     name: str
     links: list[str] = field(default_factory=list)
 
-    def receive(self, sender, signal, q):
+    def receive(self, sender, signal):
         ...
 
-    def send(self, signal, q):
+    def send(self, signal):
         for link in self.links:
-            q.append(Message(self.name, link, signal))
+            yield Message(self.name, link, signal)
 
 
 @dataclass
 class FlipFlop(Module):
     value: int = 0
 
-    def receive(self, sender, signal, q):
+    def receive(self, sender, signal):
         if signal == 0:
             self.value = 1 - self.value
-            self.send(self.value, q)
+            return self.send(self.value)
 
 
 class Conjunction(Module):
     def set_pre(self, pre):
         self.pre = {p: 0 for p in pre}
 
-    def receive(self, sender, signal, q):
+    def receive(self, sender, signal):
         self.pre[sender] = signal
-        self.send(0 if all(self.pre.values()) else 1, q)
+        return self.send(0 if all(self.pre.values()) else 1)
 
 
 class Broadcaster(Module):
-    def send(self, signal, q):
+    def send(self, signal):
         for link in self.links:
-            q.append(Message(self.name, link, signal))
+            yield Message(self.name, link, signal)
 
 
 class Output(Module):
-    def send(self, signal, q):
+    def send(self, signal):
         ...
 
 
@@ -96,17 +96,17 @@ def part1(modules):
     low_pulse, high_pulse = 0, 0
     for _ in range(1000):
         # manually handle the queue of messages
-        q = deque()
+        q = deque(modules["broadcaster"].send(0))
         # start button sends low to broadcast
         low_pulse += 1
-        modules["broadcaster"].send(0, q)
         while q:
             msg = q.popleft()
             low_pulse += msg.signal == 0
             high_pulse += msg.signal == 1
             # process this message
             # the module that receives it will update the q
-            modules[msg.user].receive(msg.sender, msg.signal, q)
+            if new_msgs := modules[msg.user].receive(msg.sender, msg.signal):
+                q.extend(new_msgs)
     return low_pulse * high_pulse
 
 
@@ -130,9 +130,8 @@ def part2(modules):
     # send a low signal to 'rx'
     cycles = {}
     for t in range(1, 10_000):
-        q = deque()
         # do the simulation
-        modules["broadcaster"].send(0, q)
+        q = deque(modules["broadcaster"].send(0))
         while q:
             msg = q.popleft()
             # inspect message:
@@ -147,7 +146,8 @@ def part2(modules):
                 # will be triggered at the same time
                 if len(cycles) == len(pre_dg):
                     return lcm(*cycles.values())
-            modules[msg.user].receive(msg.sender, msg.signal, q)
+            if new_msgs := modules[msg.user].receive(msg.sender, msg.signal):
+                q.extend(new_msgs)
     raise "Not enough time"
 
 
