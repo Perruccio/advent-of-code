@@ -24,6 +24,7 @@ def simulate(data):
     v_supports_k = defaultdict(set)
     # simulate
     for i, brick in enumerate(bricks):
+        # while above the ground
         while brick.zz[0] >= 1:
             # try to shift brick down
             brick.shift((0, 0, -1))
