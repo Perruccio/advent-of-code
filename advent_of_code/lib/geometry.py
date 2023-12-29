@@ -90,6 +90,11 @@ class Cuboid:
         self.yy = yy
         self.zz = zz
 
+    def shift(self, delta):
+        for d, pp in zip(delta, [self.xx, self.yy, self.zz]):
+            for i in range(2):
+                pp[i] += d
+
     def is_small(self, limit=50):
         return all(-limit <= tt[0] and tt[1] <= limit for tt in [self.xx, self.yy, self.zz])
 
@@ -100,9 +105,15 @@ class Cuboid:
         xx = intersect1d(self.xx, other.xx)
         yy = intersect1d(self.yy, other.yy)
         zz = intersect1d(self.zz, other.zz)
-        if any([t is None for t in [xx, yy, zz]]):
+        if any(t is None for t in [xx, yy, zz]):
             return None
         return Cuboid(xx, yy, zz)
+
+    def __str__(self):
+        return "{" + ', '.join(f"{pp[0], pp[1]}" for pp in [self.xx, self.yy, self.zz]) + "}"
+
+    def __repr__(self):
+        return self.__str__()
 
 
 if __name__ == "__main__":
