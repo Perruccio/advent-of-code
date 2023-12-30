@@ -43,15 +43,15 @@ def part2(data):
     # for each i-th hail.
     # Isolate -t_i from the 3 equations and we get
     #
-    # (x - x_i) / (vx - vx_i) = (y - y_i) / (vy - vy_i) = (z - z_i) / (vz - vz_i)
+    # -t_i = (x - x_i) / (vx - vx_i) = (y - y_i) / (vy - vy_i) = (z - z_i) / (vz - vz_i)
     #
-    # for each i.
+    # for each i. Now just break into 2 equations for each i
 
     x, y, z, vx, vy, vz = sp.symbols("x, y, z, vx, vy, vz")
 
     equations = []
-    # 10 equations shohld be sufficient for 6 variables
-    for x_i, y_i, z_i, vx_i, vy_i, vz_i in data[:10]:
+    # just use 4*2 equations to speed up
+    for x_i, y_i, z_i, vx_i, vy_i, vz_i in data[:4]:
         equations.append((x - x_i) / (vx - vx_i) - (y - y_i) / (vy - vy_i))
         equations.append((y - y_i) / (vy - vy_i) - (z - z_i) / (vz - vz_i))
 
