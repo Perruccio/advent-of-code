@@ -1,9 +1,4 @@
-from advent_of_code.lib import parse as aoc_parse
-from advent_of_code.lib import aoc
-from dataclasses import dataclass, field
-from collections import defaultdict, deque
-from math import lcm
-from copy import deepcopy
+from advent_of_code.lib.import_all import *
 
 
 @dataclass
