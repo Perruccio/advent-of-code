@@ -5,53 +5,63 @@ from advent_of_code.lib.import_all import *
 class Message:
     sender: str
     user: str
-    signal: int
+    signal: bool
 
 
 @dataclass
-class Module:
+class ModuleType(ABC):
+    @abstractmethod
+    def process(self, message):
+        pass
+
+    @abstractmethod
+    def send(self, signal):
+        pass
+
+
+@dataclass
+class ImplModule(ABC):
     name: str
     links: list[str] = field(default_factory=list)
 
-    def process(self, message):
-        ...
-
     def send(self, signal):
         for link in self.links:
             yield Message(self.name, link, signal)
 
 
 @dataclass
-class FlipFlop(Module):
-    value: int = 0
+class FlipFlop(ImplModule, ModuleType):
+    value: bool = False
 
     def process(self, message):
         if message.signal == 0:
-            self.value = 1 - self.value
+            self.value = not self.value
             return self.send(self.value)
 
 
-class Conjunction(Module):
+class Conjunction(ImplModule, ModuleType):
     def set_pre(self, pre):
-        self.pre = {p: 0 for p in pre}
+        self.pre = {p: False for p in pre}
 
     def process(self, message):
         self.pre[message.sender] = message.signal
-        return self.send(0 if all(self.pre.values()) else 1)
+        return self.send(not all(self.pre.values()))
 
 
-class Broadcaster(Module):
+class Broadcaster(ImplModule, ModuleType):
+    def process(self, message):
+        raise NotImplementedError
+
+
+class Output(ImplModule, ModuleType):
+    def process(self, message):
+        pass
+
     def send(self, signal):
-        for link in self.links:
-            yield Message(self.name, link, signal)
+        raise NotImplementedError
 
 
-class Output(Module):
-    def send(self, signal):
-        ...
-
-
-def get_module(config):
+def get_module(config:str ) -> ModuleType:
     name, links = config.split(" -> ")
     links = list(links.split(", "))
     if name == "broadcaster":
