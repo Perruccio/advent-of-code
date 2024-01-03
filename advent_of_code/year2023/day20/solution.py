@@ -13,7 +13,7 @@ class Module:
     name: str
     links: list[str] = field(default_factory=list)
 
-    def receive(self, sender, signal):
+    def process(self, sender, signal):
         ...
 
     def send(self, signal):
@@ -25,7 +25,7 @@ class Module:
 class FlipFlop(Module):
     value: int = 0
 
-    def receive(self, sender, signal):
+    def process(self, sender, signal):
         if signal == 0:
             self.value = 1 - self.value
             return self.send(self.value)
@@ -35,7 +35,7 @@ class Conjunction(Module):
     def set_pre(self, pre):
         self.pre = {p: 0 for p in pre}
 
-    def receive(self, sender, signal):
+    def process(self, sender, signal):
         self.pre[sender] = signal
         return self.send(0 if all(self.pre.values()) else 1)
 
@@ -100,7 +100,7 @@ def part1(modules):
             high_pulse += msg.signal == 1
             # process this message
             # the module that receives it will update the q
-            if new_msgs := modules[msg.user].receive(msg.sender, msg.signal):
+            if new_msgs := modules[msg.user].process(msg.sender, msg.signal):
                 q.extend(new_msgs)
     return low_pulse * high_pulse
 
@@ -141,7 +141,7 @@ def part2(modules):
                 # will be triggered at the same time
                 if len(cycles) == len(pre_dg):
                     return lcm(*cycles.values())
-            if new_msgs := modules[msg.user].receive(msg.sender, msg.signal):
+            if new_msgs := modules[msg.user].process(msg.sender, msg.signal):
                 q.extend(new_msgs)
     raise "Not enough time"
 
