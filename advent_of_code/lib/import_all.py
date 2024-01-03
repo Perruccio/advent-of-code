@@ -7,3 +7,5 @@ from advent_of_code.lib.geometry import Cuboid
 from advent_of_code.lib.math import *
 from math import prod, lcm
 from dataclasses import dataclass, field
+from abc import ABC, abstractmethod
+from typing import Optional, Dict, List
