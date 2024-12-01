@@ -1,6 +1,4 @@
-from advent_of_code.lib import parse as aoc_parse
-from advent_of_code.lib import aoc
-from collections import Counter
+from advent_of_code.lib.all import *
 
 
 def get_input(file):
