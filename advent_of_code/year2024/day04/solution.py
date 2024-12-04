@@ -6,27 +6,22 @@ def get_input(file):
     return aoc_parse.as_lines(raw)
 
 
-def count_word_grid(grid, i0, j0, word):
-    m, n = len(grid), len(grid[0])
+def count_word_grid(grid, i, j, word):
     res = 0
+    word = list(word)
     for di in (-1, 0, 1):
         for dj in (-1, 0, 1):
-            if di == dj == 0:
-                continue
-            i, j, c = i0, j0, 0
-            while 0 <= i < m and 0 <= j < n and c < len(word) and grid[i][j] == word[c]:
-                i += di
-                j += dj
-                c += 1
-            if c == len(word):
-                res += 1
+            # compute the whole word directly
+            res += word == [grid[i + di*n, j + dj*n] for n in range(len(word))]
     return res
 
 
 @aoc.pretty_solution(1)
 def part1(data):
     m, n = len(data), len(data[0])
-    return sum(count_word_grid(data, i, j, "XMAS") for i in range(m) for j in range(n))
+    # store the grid in a defaultdict so we don't have to check bounds!
+    grid = defaultdict(str) | {(i, j):data[i][j] for i in range(m) for j in range(n)}
+    return sum(count_word_grid(grid, i, j, "XMAS") for i in range(m) for j in range(n))
 
 
 @aoc.pretty_solution(2)
