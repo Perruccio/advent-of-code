@@ -4,39 +4,45 @@ from advent_of_code.lib.all import *
 def get_input(file):
     raw = aoc.read_input(2024, 5, file)
     order_raw, updates = raw.split("\n\n")
-    order = defaultdict(set)
+    order = set()
     for line in order_raw.split("\n"):
-        a, b = line.split("|")
-        order[int(a)].add(int(b))
+        a, b = map(int, line.split("|"))
+        order.add((a, b))
     updates = [list(map(int, update.split(","))) for update in updates.split("\n")]
     return order, updates
 
 
-def is_sorted_pair(order, a, b):
+def is_pair_sorted(order, a, b):
     # not transitive!! just check directly
-    return b in order[a]
+    return (a, b) in order
 
-def is_sorted_vector(order, v):
-    return all(is_sorted_pair(order, a, b) for a, b in zip(v, v[1:]))
+
+def cmp(order, a, b):
+    if is_pair_sorted(order, a, b):
+        return -1
+    if is_pair_sorted(order, b, a):
+        return 1
+    else:
+        return 0
+    
+
+def is_vector_sorted(order, v):
+    return all(is_pair_sorted(order, a, b) for a, b in zip(v, v[1:]))
 
 
 @aoc.pretty_solution(1)
 def part1(order, updates):
-    return sum(v[len(v)//2] for v in updates if is_sorted_vector(order, v))
+    return sum(v[len(v)//2] for v in updates if is_vector_sorted(order, v))
 
 
 @aoc.pretty_solution(2)
 def part2(order, updates):
     res = 0
     for update in updates:
-        if is_sorted_vector(order, update):
+        if is_vector_sorted(order, update):
             continue
-        # bubble sort: don't rely on transitivity
+        update.sort(key=cmp_to_key(lambda x, y:cmp(order, x, y)))
         l = len(update)
-        for i in range(l-1, -1, -1):
-            for j in range(i):
-                if not is_sorted_pair(order, update[j], update[j+1]):
-                    update[j], update[j+1] = update[j+1], update[j]
         res += update[l//2]
     return res
 
