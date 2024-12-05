@@ -47,7 +47,6 @@ def part2(order, updates):
     return res
 
 
-
 def main():
     data = get_input("input.txt")
     part1(*data)
