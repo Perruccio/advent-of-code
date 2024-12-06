@@ -13,16 +13,12 @@ def advance(pos, dir):
 
 def simulate(grid, pos, dir):
     seen = defaultdict(set) | {pos:{dir}}
-    loop = False
-    while 1:
-        nxt = advance(pos, dir)
-        if nxt not in grid:
-            break
+    while pos in grid and (nxt := advance(pos, dir)) in grid:
         if grid[nxt] == "#":
             dir = rotate(dir)
         else:
             pos = nxt
-            if loop := pos in seen and dir in seen[pos]:
+            if loop := (pos in seen and dir in seen[pos]):
                 break
             seen[pos].add(dir)
     return seen, loop
@@ -38,22 +34,18 @@ def part1(data):
 @aoc.pretty_solution(2)
 def part2(data):
     grid = {(i, j):data[i][j] for i in range(len(data)) for j in range(len(data[0]))}
-    start = next(((i, j) for i, j in grid if grid[i, j] == "^"))
+    start = next(p for p in grid if grid[p] == "^")
     seen, _ = simulate(grid, start, (-1, 0))
-    res = 0
     # brute force: put the rock at every seen position
+    res = 0
     for pos in seen:
-        if pos == start:
-            continue
-        grid[pos] = "#"
-        _, loop = simulate(grid, start, (-1, 0))
-        # backtrack
-        grid[pos] = "."
+        if pos == start: continue
+        _, loop = simulate(grid | {pos:"#"}, start, (-1, 0))
         res += loop
     return res
 
 def main():
-    data = get_input("input.txt")
+    data = get_input("test.txt")
     part1(data)
     part2(data)
 
@@ -62,6 +54,11 @@ def test():
     data = get_input("input.txt")
     assert part1(data) == 4826
     assert part2(data) == 1721
+
+    data = get_input("test.txt")
+    assert part1(data) == 41
+    assert part2(data) == 6
+
     print("Test OK")
 
 
