@@ -3,3 +3,4 @@
 .venv/
 advent_of_code.egg-info/
 build/
+pypyvenv/
