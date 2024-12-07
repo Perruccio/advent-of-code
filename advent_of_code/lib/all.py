@@ -5,3 +5,4 @@ from collections import deque, defaultdict
 from copy import deepcopy
 import re
 from functools import lru_cache, cmp_to_key, cache
+from operator import add, mul
