@@ -1,4 +1,4 @@
-from math import sqrt
+from math import sqrt, log10
 from collections.abc import Iterable
 
 
@@ -54,3 +54,12 @@ def secant(f, x1, x2, y_toll=1e-12, max_iter=1000):
         x1, x2 = x2, x2 - (x2 - x1) / (1e-16 + y2 - f(x1)) * y2
         iter += 1
     return x2
+
+
+def n_digits(n):
+    if n > 0:
+        return int(log10(n)) + 1
+    elif n == 0:
+        return 1
+    else:
+        return int(log10(-n)) + 2 # +1 if you don't count the '-'
