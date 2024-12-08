@@ -23,7 +23,7 @@ def part1(rows, cols, antennas):
     res = set()
     for _, points in antennas.items():
         l = len(points)
-        # just check every pair point. we check every pair twice
+        # just check every pair of points. we check every pair twice
         # to account for both new points without code repetition
         for i in range(l):
             for j in range(l):
