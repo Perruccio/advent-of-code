@@ -47,37 +47,41 @@ def part1(data_const):
 
 @aoc.pretty_solution(2)
 def part2(data):
-    # create memory
-    mem = []
+    # following hyper neutrino's approach
+    # create memory: store files in a dictionary with id as key
+    # and empty space in a list
+    files = {}
+    empty = []
+    pos = 0
     for i in range(0, len(data), 2):
-        mem.append((i//2, data[i]))
-        if i+1 < len(data):
-            mem.append((-1, data[i+1]))
-    # move files. NB mem len is modified during the loop,
-    # we need a while to adjust the index accordingly
-    r = len(mem)-1
-    while r > 0:
-        id, sz = mem[r]
-        if id == -1:
-            r -=1
-            continue
-        # search leftmost big enough empty space
-        for l in range(r):
-            id_l, sz_l = mem[l]
-            # if not empty or not big enough, skip it
-            if id_l != -1 or sz_l < sz:
-                continue
-            # split empty memory in 2 (where the leftmost is exactly the size of the file)
-            if sz_l > sz:
-                mem.insert(l, (id_l, sz))
-                mem[l+1] = (id_l, sz_l - sz)
-                # mem is longer now, we need to adjust r
-                r += 1
-            # swap
-            mem[l], mem[r] = mem[r], mem[l]
-            break
-        r -= 1
-    return checksum(mem)
+        file_id = i//2
+        # file
+        assert(data[i] > 0)
+        files[file_id] = (pos, data[i])
+        pos += data[i]
+        # empty
+        if i+1 < len(data) and data[i+1] > 0:
+            empty.append((pos, data[i+1]))
+            pos += data[i+1]
+    # move files
+    for file_id in range(max(files.keys()), 0, -1):
+        file_pos, file_sz = files[file_id]
+        for i, (empty_pos, empty_sz) in enumerate(empty):
+            if empty_pos > file_pos:
+                break
+            if empty_sz >= file_sz:
+                files[file_id] = (empty_pos, file_sz)
+                if empty_sz == file_sz:
+                    del empty[i]
+                else:
+                    empty[i] = (empty_pos + file_sz, empty_sz - file_sz)
+                break
+    # compute checksum
+    res = 0
+    for id, (pos, sz) in files.items():
+        for i in range(pos, pos + sz):
+            res += id*i
+    return res
 
 
 def main():
