@@ -19,18 +19,19 @@ def checksum(mem):
 @aoc.pretty_solution(1)
 def part1(data_const):
     data = copy(data_const)
-    sz = len(data)
-    assert(sz%2 == 1)
+    assert(len(data)%2 == 1)
     mem = []
+    # index of empty memory
     empty_i = 1
-    l, r = 0, sz-1
-    while l <= r and empty_i < len(data):
+    # 2 pointer
+    l, r = 0, len(data)-1
+    while l <= r:
         # put from left pointer
         # id is just l//2 or r//2
         mem.append((l//2, data[l]))
         l += 2
         # fill empty space from right pointer
-        # first handle case where empty space > right file
+        # first handle case where empty space > right file size
         while data[r] < data[empty_i]:
             data[empty_i] -= data[r]
             mem.append((r//2, data[r]))
@@ -52,20 +53,31 @@ def part2(data):
         mem.append((i//2, data[i]))
         if i+1 < len(data):
             mem.append((-1, data[i+1]))
-    # move file
-    mem2 = mem[:]
-    for j in range(len(mem)-1, 0, -2):
-        id, sz = mem[j]
-        for k, (id2, sz2) in enumerate(mem2):
-            if id2 == id:
-                break
-            if id2==-1 and sz2 >= sz:
-                mem2[k] = (-1, sz2-sz)
-                g = mem2.index((id, sz))
-                mem2[g] = (-1, sz)
-                mem2.insert(k, (id, sz))
-                break
-    return checksum(mem2)
+    # move files. NB mem len is modified during the loop,
+    # we need a while to adjust the index accordingly
+    r = len(mem)-1
+    while r > 0:
+        id, sz = mem[r]
+        if id == -1:
+            r -=1
+            continue
+        # search leftmost big enough empty space
+        for l in range(r):
+            id_l, sz_l = mem[l]
+            # if not empty or not big enough, skip it
+            if id_l != -1 or sz_l < sz:
+                continue
+            # split empty memory in 2 (where the leftmost is exactly the size of the file)
+            if sz_l > sz:
+                mem.insert(l, (id_l, sz))
+                mem[l+1] = (id_l, sz_l - sz)
+                # mem is longer now, we need to adjust r
+                r += 1
+            # swap
+            mem[l], mem[r] = mem[r], mem[l]
+            break
+        r -= 1
+    return checksum(mem)
 
 
 def main():
