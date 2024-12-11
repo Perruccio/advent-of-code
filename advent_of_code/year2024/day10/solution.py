@@ -21,7 +21,7 @@ def solve(m, part2):
             pos = q.pop()
             # check hiking is over
             if m[pos] == 9:
-                # no double counting is possible
+                # part2: no double counting is possible
                 # every time we arrive here it's from a different path
                 if part2: res += 1
                 else: peeks.add(pos)
