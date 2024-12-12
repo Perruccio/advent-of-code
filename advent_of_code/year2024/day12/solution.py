@@ -47,7 +47,7 @@ def main():
 
 def test():
     data = get_input("input.txt")
-    # assert part1(data) == 
+    assert part1(data) == 1400386
     # assert part2(data) == 
     print("Test OK")
 
