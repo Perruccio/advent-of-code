@@ -56,10 +56,11 @@ def secant(f, x1, x2, y_toll=1e-12, max_iter=1000):
     return x2
 
 
-def n_digits(n):
-    if n > 0:
-        return int(log10(n)) + 1
-    elif n == 0:
-        return 1
-    else:
-        return int(log10(-n)) + 2 # +1 if you don't count the '-'
+def n_digits(n, m = 1):
+    """Compute the number of digits of n * m"""
+    if m != 1:
+        assert n > 0
+        return int(log10(n) + log10(m)) + 1
+    if n == 0: return 1
+    if n < 0: return 1 + n_digits(-n)
+    return int(log10(n)) + 1
