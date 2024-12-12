@@ -17,20 +17,19 @@ def part1(m):
         # find region with DFS
         region = set()
         q = [start]
-        plant = m[start]
         while q:
             p = q.pop()
             region.add(p)
             for step in (1, -1, 1j, -1j):
                 p2 = p + step
-                if p2 not in m or m[p2] != plant or p2 in region:
+                if p2 not in m or m[p2] != m[p] or p2 in region:
                     continue
                 q.append(p2)
         seen |= region
         # find perimeter: count the number of outside neighbours
         perimeter = 0
         for p in region:
-            perimeter += sum(1 for step in (1, -1, 1j, -1j) if p + step not in region)
+            perimeter += sum(p+step not in region for step in (1, -1, 1j, -1j))
         res += len(region) * perimeter
     return res
 
