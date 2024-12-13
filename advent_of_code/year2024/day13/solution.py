@@ -23,12 +23,15 @@ def solve(data, prize_shift = 0):
     for machine in data:
         (xa, ya), (xb, yb), (x, y) = machine.a, machine.b, machine.prize
         x, y = x + prize_shift, y + prize_shift
+        # solve the linear 2x2 system to find the solution IF unique.
+        # ignore case det == 0 (ok if impossible, one could solve the diophantine equation if undetermined)
         det = xa*yb - xb*ya
-        if det == 0: continue
-        na = (yb*x - xb*y)
-        nb = (-ya*x + xa*y)
-        if not na%det == nb%det == 0: continue
-        res += (na*a_cost + nb*b_cost) // det
+        if det == 0:
+            continue
+        na, rem_a = divmod(yb*x - xb*y, det)
+        nb, rem_b = divmod(-ya*x + xa*y, det)
+        if rem_a == rem_b == 0:
+            res += na*a_cost + nb*b_cost
     return res
 
 
