@@ -16,18 +16,14 @@ def part2(data):
     return
 
 
-def main():
+def test():
     data = get_input("input.txt")
     part1(data)
     part2(data)
-
-
-def test():
-    data = get_input("input.txt")
     # assert part1(data) == 
     # assert part2(data) == 
     print("Test OK")
 
 
 if __name__ == "__main__":
-    main()
+    test()
