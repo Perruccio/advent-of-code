@@ -7,12 +7,12 @@ RE = {
     }
 
 
-def get_ints(line):
-    return list(map(int, re.findall(RE["int"], line)))
+def get_ints(data):
+    return list(map(int, re.findall(RE["int"], data)))
 
 
-def get_digits(line):
-    return list(map(int, re.findall(RE["digit"], line)))
+def get_digits(data):
+    return list(map(int, re.findall(RE["digit"], data)))
 
 
 def as_lines(raw: str) -> list[str]:
