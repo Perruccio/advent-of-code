@@ -18,9 +18,9 @@ def part2(data):
 
 def test():
     data = get_input("input.txt")
-    part1(data)
+    part1(deepcopy(data))
     part2(data)
-    # assert part1(data) == 
+    # assert part1(deepcopy(data)) == 
     # assert part2(data) == 
     print("Test OK")
 
