@@ -9,7 +9,7 @@ setup(
     author_email='',
     license='',
     packages=find_packages(),
-    install_requires=['numpy', 'pytest'],
+    install_requires=['numpy', 'pytest', 'sympy', 'networkx'],
 
     classifiers=[
         'Programming Language :: Python :: 3.10',

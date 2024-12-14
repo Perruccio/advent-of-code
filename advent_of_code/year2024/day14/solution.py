@@ -38,6 +38,7 @@ def show(robots, rows, cols):
     for line in grid:
         print(''.join(line))
 
+
 @aoc.pretty_solution(1)
 def part1(robots, seconds = 100):
     rows, cols = 103, 101
