@@ -2,6 +2,10 @@ from pathlib import Path, PurePath
 import time
 
 
+def open_input(year, day, file_name):
+    return open(Path.cwd() / PurePath(f"advent_of_code/year{year}/day{day:02}/{file_name}"))
+
+
 def read_input(year, day, file_name):
     """Returns the content of the input file as a string"""
     with open(Path.cwd() / PurePath(f"advent_of_code/year{year}/day{day:02}/{file_name}")) as f:

@@ -11,12 +11,7 @@ def get_input(file):
 
 
 def step(move):
-    match move:
-        case "<": return -1j
-        case ">": return  1j
-        case "^": return -1
-        case "v": return  1
-        case _: raise AssertionError("error")
+    return {"<": -1j, ">":  1j, "^": -1, "v": 1}[move]
 
 
 @aoc.pretty_solution(1)
