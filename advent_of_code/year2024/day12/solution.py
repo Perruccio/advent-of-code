@@ -26,13 +26,11 @@ def n_sides(region):
     # - the oblique is in the region and the 2 adjacent sides are both not 
     res = 0
     for p in region:
-        for dr in (1, -1):
-            for dc in (1, -1):
-                oblique = p + dr + 1j*dc
-                if oblique in region:
-                    res += p+dr not in region and p+1j*dc not in region
-                else:
-                    res += (p + dr in region) == (p + 1j*dc in region)
+        for dr, dc in cart_prod((1, -1), (1j, -1j)):
+            l, r, o = p + dr, p + dc, p + dr + dc
+            if (l in region) != (r in region):
+                continue
+            res += (l not in region) or (o not in region)
     return res
 
 
