@@ -30,20 +30,21 @@ def solve(m, start, end):
 
 @aoc.pretty_solution(1)
 def part1(m, rows, cols, points):
-    for c, r in points[:1204]:
+    for r, c in points[:1204]:
         m.remove(r+1j*c)
     return solve(m, 0, (rows-1) + 1j * (cols-1))
 
 
 @aoc.pretty_solution(2)
 def part2(m, rows, cols, points):
-    for c, r in points[:2000]:
+    for r, c in points[:2500]:
         m.remove(r+1j*c)
-    for c, r in points[2000:]:
+
+    for r, c in points[2500:]:
         m.remove(r+1j*c)
         res = solve(m, 0, (rows-1) + 1j * (cols-1))
         if res is None:
-            return f"{c},{r}"
+            return f"{r},{c}"
     return None
 
 
