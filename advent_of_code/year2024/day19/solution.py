@@ -23,13 +23,17 @@ def part1(tokens, words):
 
 @aoc.pretty_solution(2)
 def part2(tokens, words):
-    return sum(map(lambda word: count(tokens, word), words))
-    # @cache
-    # def count_memo(word):
-    #     if not word:
-    #         return 1
-    #     return sum(count_memo(word.removeprefix(token)) for token in tokens if word.startswith(token))
-    # return sum(map(count_memo, words))
+    # return sum(map(lambda word: count(tokens, word), words))
+    @cache
+    def count_memo(word):
+        if word == "":
+            return 1
+        res = 0
+        for i in range(len(word) + 1):
+            if word[:i] in tokens:
+                res += count_memo(word[i:])
+        return res
+    return sum(map(count_memo, words))
 
 
 def test():
