@@ -7,5 +7,6 @@ import re
 from functools import lru_cache, cmp_to_key, cache
 from operator import add, mul
 from math import log10, prod
-from itertools import zip_longest, product as cart_prod
+from itertools import zip_longest, permutations, product as cart_prod
+from abc import ABC
 from heapq import heappop, heappush
