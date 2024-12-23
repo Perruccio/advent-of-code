@@ -49,6 +49,7 @@ def part2(graph):
     largest = []
     max_clique_size = max(map(len, graph.values())) + 1
     for i in range(1, max_clique_size + 1):
+        # find clique of size i
         clique_i = clique(set(graph), i, graph)
         if clique_i and len(clique_i) > len(largest):
             largest = clique_i
