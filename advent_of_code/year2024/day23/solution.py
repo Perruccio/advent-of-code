@@ -24,31 +24,34 @@ def part1(graph):
     return len(triangles)
 
 
-def dfs(n, graph):
-    # find largest connected component that includes node n
-    q = [(n, frozenset({n}))]
-    seen = {q[0][1]}
-    while q:
-        node, req = q.pop()
-        for nb in graph[node]:
-            # already included
-            if nb in req: continue
-            # not fully connected
-            if not req <= graph[nb]: continue
-            new = frozenset(req | {nb})
-            if new in seen: continue
-            seen.add(new)
-            q.append((nb, new))
-    return max(seen, key=len)
+def lazy_intersect(set1, set2):
+    yield from set(set1) & set(set2)
+
+
+def clique(candidates, size, graph):
+    # return the list of a clique of size 'size' composed
+    # by nodes in 'candidates'
+
+    # recursion base case
+    if size == 0:
+        return []
+    # try each node in candidates
+    for v in candidates:
+        # if v is in the clique, then we must restrict to its friends
+        res = clique(lazy_intersect(candidates, graph[v]), size-1, graph)
+        if res != None:
+            return res + [v]
+    return None
 
     
 @aoc.pretty_solution(2)
 def part2(graph):
-    largest = set()
-    for n in graph:
-        group = dfs(n, graph)
-        if len(group) > len(largest):
-            largest = group
+    largest = []
+    max_clique_size = max(map(len, graph.values())) + 1
+    for i in range(1, max_clique_size + 1):
+        clique_i = clique(set(graph), i, graph)
+        if clique_i and len(clique_i) > len(largest):
+            largest = clique_i
     return ','.join(sorted(largest))
     
 
