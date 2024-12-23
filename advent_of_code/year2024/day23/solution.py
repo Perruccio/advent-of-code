@@ -31,7 +31,9 @@ def dfs(n, graph):
     while q:
         node, req = q.pop()
         for nb in graph[node]:
+            # already included
             if nb in req: continue
+            # not fully connected
             if not req <= graph[nb]: continue
             new = frozenset(req | {nb})
             if new in seen: continue
