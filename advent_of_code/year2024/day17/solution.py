@@ -8,12 +8,12 @@ def get_input(file):
     return reg, prog
 
 
-def compute_generic(a, prog):
+def compute_generic(reg, prog):
     def combo(o):
         if 0 <= o <= 3:
             return o
         return [a, b, c][o-4]
-    b = c = 0
+    a,b,c = reg
     i, res = 0, []
     while i+1 < len(prog):
         p, o = prog[i], prog[i+1]
@@ -52,7 +52,7 @@ def my_compute(a):
 
 @aoc.pretty_solution(1)
 def part1(reg, prog):
-    return ','.join(map(str, compute_generic(reg[0], prog)))
+    return ','.join(map(str, compute_generic(reg, prog)))
 
 
 @aoc.pretty_solution(2)
