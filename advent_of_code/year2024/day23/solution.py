@@ -31,6 +31,7 @@ def lazy_intersect(set1, set2):
 def clique(candidates, size, graph):
     # return the list of a clique of size 'size' composed
     # by nodes in 'candidates'
+    # NB actually this method is not correct but works somehow...
 
     # recursion base case
     if size == 0:
