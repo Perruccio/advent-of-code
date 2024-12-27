@@ -1,4 +1,4 @@
-Register A: 3
+Register A: 1
 Register B: 0
 Register C: 0
 
