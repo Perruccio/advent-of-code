@@ -1,126 +1,125 @@
 from advent_of_code.lib.all import *
 
+
 def get_input(file):
     raw = aoc.read_input(2024, 21, file)
     return aoc_parse.as_lines(raw)
 
 
-class Keypad(ABC):
-
-    @classmethod
-    def convert_move(cls, move):
-        match move:
-            case  1 : return "v"
-            case -1 : return "^"
-            case  1j: return ">"
-            case -1j: return "<"
-        raise
-
-    @classmethod
-    def convert_sequence(cls, seq):
-        return ''.join(list(map(cls.convert_move, seq)))
+def step_to_key(step):
+    match step:
+        case  1 : return "v"
+        case -1 : return "^"
+        case  1j: return ">"
+        case -1j: return "<"
 
 
-    def get_all(self, keys):
-        keys = list(map(self.convert_key, keys))
-        starts = [self.p] + keys[:-1]
-        ends = keys
-        res = [""]
-        for start, end in zip(starts, ends):
-            new_seqs = self.get_moves(start, end)
-            new_seqs = list(map(lambda seq: self.convert_sequence(seq) + "A", new_seqs))
-            res = [seq1 + seq2 for seq1 in res for seq2 in new_seqs]
+def optimal_sequences(pad):
+    # precompute optimal sequences for each pair of points
+    # with BFS. result is such that res[(x, y)] = sequence of moves
+    # that parent robot must signal to press y in this pad, given
+    # that the finger is at x. it includes the final "A" for press
+    res = defaultdict(list)
+    for start, end in cart_prod(pad, repeat=2):
+        if start == end:
+            # we're already at the target button,
+            # just press A
+            res[(start, end)] = ["A"]
+            continue
+        # BFS
+        q = deque([(start, "")])
+        optimal = len(pad)
+        while q:
+            p, path = q.popleft()
+            if p == end:
+                res[(start, end)].append(path + "A")
+                optimal = len(path)
+                continue
+            for step in (1, -1, 1j, -1j):
+                new_p = p + step
+                if new_p in pad and len(path) + 1 <= optimal:
+                    q.append((new_p, path + step_to_key(step)))
+    # convert to have result as buttons, not positions
+    res = {(pad[x], pad[y]):paths for (x, y), paths in res.items()}
+    return res
+
+
+def convert_pad(pad):
+    # convert pad to dictionary with complex keys
+    res = {}
+    for r, row in enumerate(pad):
+        for c, button in enumerate(row):
+            if button is not None:
+                res[r + 1j*c] = button
+    return res
+
+
+def solve_num(code, seqs):
+    # manually solve the first step from
+    # numerical pad to first robot
+    # return all possibile combinations (cartesian produt)
+    res = [""]
+    for pair in zip("A" + code, code):
+        # cartesian product
+        res = [last + seq for last in res for seq in seqs[pair]]
+    return res
+
+
+def solve(data, robots):
+    num_pad = convert_pad([
+        ["7", "8", "9"],
+        ["4", "5", "6"],
+        ["1", "2", "3"],
+        [None, "0", "A"],
+    ])
+    dir_pad = convert_pad([
+        [None, "^", "A"],
+        ["<", "v", ">"],
+    ])
+    num_seqs = optimal_sequences(num_pad)
+    dir_seqs = optimal_sequences(dir_pad)
+
+    @cache
+    def min_length(seq, depth=robots):
+        # return the min length of sequence that human must
+        # input to result in 'seq' in the robot of depth 'depth':
+        # the trick is that we can split the computation into optimal
+        # for each single movement (from one button to another)
+        if depth == 0:
+            # human is reached
+            return len(seq)
+        res = 0
+        # split the result in each pair that forms the sequence
+        for pair in zip("A" + seq, seq):
+            # for each pair, check what's the optimal number of human moves
+            # by brute forcing all sequences of the parent robot recursively
+            res += min(min_length(subseq, depth - 1) for subseq in dir_seqs[pair])
         return res
 
-    def get_moves(self, start, end):
-        delta = end - start
-        moves = [aoc_math.sign(delta.real)] * abs(int(delta.real))
-        moves += [aoc_math.sign(delta.imag)*1j] * abs(int(delta.imag))
-        res = []
-        for perm in set(permutations(moves)):
-            p = start
-            for move in perm:
-                p += move
-                if p == self.avoid:
-                    break
-            else:
-                res.append(perm)
-        return res
-  
+    # compute final score
+    res = 0
+    for code in data:
+        # manually solve last step for numerical pad
+        dir_last = solve_num(code, num_seqs)
+        best = min(map(min_length, dir_last))
+        res += best * int(code[:-1])
+    return res
 
-class NumericalKeypad(Keypad):
-    def __init__(self):
-        self.p = 3 + 2j
-        self.avoid = 3
-
-    def convert_key(self, digit):
-        # convert digit to position in grid
-        if digit in "789":
-            return (int(digit) - 7)*1j
-        if digit in "456":
-            return 1 + (int(digit) - 4)*1j
-        if digit in "123":
-            return 2 + (int(digit) - 1)*1j
-        if digit == "0":
-            return 3 + 1j
-        if digit == "A":
-            return 3 + 2j
-        raise
-
-
-class DirectionalKeyboard(Keypad):
-    def __init__(self):
-        self.p = 0 + 2j
-        self.avoid = 0
-
-    def convert_key(self, key):
-        match key:
-            case "^" : return 1j
-            case "<" : return 1
-            case "v" : return 1 + 1j
-            case ">" : return 1 + 2j
-            case "A" : return 2j
-        raise
-
-def score(code, moves):
-    print(f"{len(moves)} * {int(code[:-1])}")
-    return int(code[:-1]) * len(moves)
 
 @aoc.pretty_solution(1)
-def part1(codes):
-    score = 0
-    for code in codes:
-        nk = NumericalKeypad()
-        dk1, dk2, dk3 = [DirectionalKeyboard() for _ in range(3)]
-        res = []
-        for s1 in nk.get_all(code):
-            res += dk1.get_all(s1)
-        res2 = []
-        for s2 in res:
-            res2 += dk2.get_all(s2)
-        res3 = []
-        for s3 in res2:
-            res3 += dk3.get_all(s3)
-        score += min(map(len, res3))*int(code[:-1])
-        print(f"{min(map(len, res3))}*{int(code[:-1])}")
-    return score
-    
+def part1(data):
+    return solve(data, 2)
+
 
 @aoc.pretty_solution(2)
 def part2(data):
-    return
+    return solve(data, 25)
 
-def unit_test():
-    nk = NumericalKeypad()
-    assert nk.get_moves("029A") == "<A^A^^>AvvvA"
-    print("Unit tests OK")
 
 def test():
     data = get_input("input.txt")
-    part1(deepcopy(data))
-    part2(data)
-    # assert part1(deepcopy(data)) == 217662
-    # assert part2(data) == 
+    assert part1(deepcopy(data)) == 217662
+    assert part2(data) == 263617786809000
     print("Test OK")
 
 
