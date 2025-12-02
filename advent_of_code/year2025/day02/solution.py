@@ -32,6 +32,8 @@ def part2(data):
     def valid(id):
         id = str(id)
         for l in range(1, len(id)//2 + 1):
+            if len(id) % l != 0:
+                break
             for i in range(0, len(id), l):
                 if id[i:i+l] != id[0:l]:
                     break
