@@ -31,13 +31,18 @@ def part2(data):
 
     def valid(id):
         id = str(id)
+        # check for each possible length
+        # of subarrays
         for l in range(1, len(id)//2 + 1):
+            # it must be a divisor
             if len(id) % l != 0:
-                break
+                continue
+            # check subarrays of len l are equal
             for i in range(0, len(id), l):
-                if id[i:i+l] != id[0:l]:
+                if id[i:i+l] != id[-l:]:
                     break
             else:
+                # didn't break, subarrays are equal -> invalid
                 return False
         return True
 
@@ -63,4 +68,4 @@ def test():
 
 
 if __name__ == "__main__":
-    main()
+    test()
