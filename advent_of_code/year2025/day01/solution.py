@@ -22,22 +22,19 @@ def part1(data):
 
 @aoc.pretty_solution(2)
 def part2(data):
-    def count(a, b, n):
-        """count how many multiples of n are between (a, b]"""
-        sign = 1 if b > a else -1
-        res = 0
-        for i in range(a+sign, b+sign, sign):
-            if i%n ==0:
-                res +=1
-        return res
-
     dial = 50
     res = 0
     for dir, steps in data:
+        # whole loops + remainder
+        n_0, rem = divmod(steps, 100)
         sign = 1 if dir == "R" else -1
-        new_dial = dial + sign*steps
-        res += count(dial, new_dial, 100)
-        dial = (new_dial) % 100
+        new_dial = dial + sign*rem
+        # add whole loops
+        res += n_0
+        # if R, add 1 if >=100. if L, add if <= 0 but
+        # remove case where dial was already 0
+        res += (dial != 0 and new_dial <= 0) or new_dial >= 100
+        dial = new_dial % 100
     return res
 
 
