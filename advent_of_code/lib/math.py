@@ -64,3 +64,13 @@ def n_digits(n, m = 1):
     if n == 0: return 1
     if n < 0: return 1 + n_digits(-n)
     return int(log10(n)) + 1
+
+
+def argmax(iterable, start=0, end=None):
+    """Return the (index, value) of the maximum element in the iterable"""
+    v = list(iterable)
+    if end is None:
+        end = len(v)
+    mx = max(v[start:end])
+    i = v.index(mx, start, end)
+    return i, mx

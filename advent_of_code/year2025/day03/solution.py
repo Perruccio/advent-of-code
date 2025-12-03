@@ -12,14 +12,8 @@ def part1(data):
     res = 0
     for bank in data:
         # first and second digit of max
-        mx1, mx2 = 0, 0
-        for i, battery in enumerate(bank):
-            # update mx1, mx2 restart from 0 
-            if i < len(bank)-1 and battery > mx1:
-                mx1 = battery
-                mx2 = 0
-            else:
-                mx2 = max(battery, mx2)
+        i_mx1, mx1 =  aoc_math.argmax(bank, 0, len(bank)-1)
+        mx2 = max(bank[i_mx1+1:])
         res += mx2 + 10*mx1
     return res
 
@@ -28,15 +22,15 @@ def part1(data):
 def part2(data):
     def max_ndigits(v, n):
         res = []
-        # keep track of last inserted digit
+        # keep track of last inserted index
         left = 0
         for exclude in range(n-1, -1, -1):
             # greedy look for first occurrence of max
             # that leves enough space for other digits
             mx = max(v[left:len(v)-exclude])
-            # find index of next max digit
-            left = v.find(mx, left) + 1
             res.append(mx)
+            # update left index
+            left = v.find(mx, left) + 1
         return res
 
     res = 0
