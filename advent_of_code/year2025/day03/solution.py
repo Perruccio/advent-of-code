@@ -31,11 +31,12 @@ def part2(data):
         # keep track of last inserted digit
         left = 0
         for exclude in range(n-1, -1, -1):
-            # find index of next digit:
             # greedy look for first occurrence of max
-            left = v.find(max(v[left:len(v)-exclude]), left)
-            res.append(v[left])
-            left += 1
+            # that leves enough space for other digits
+            mx = max(v[left:len(v)-exclude])
+            # find index of next max digit
+            left = v.find(mx, left) + 1
+            res.append(mx)
         return res
 
     res = 0
