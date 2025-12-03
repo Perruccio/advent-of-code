@@ -1,5 +1,5 @@
 from advent_of_code.lib.all import *
-
+import itertools
 
 def get_input(file):
     raw = aoc.read_input(2025, 2, file)
@@ -34,15 +34,8 @@ def part2(data):
         # check for each possible length
         # of subarrays
         for l in range(1, len(id)//2 + 1):
-            # it must be a divisor
-            if len(id) % l != 0:
-                continue
-            # check subarrays of len l are equal
-            for i in range(0, len(id), l):
-                if id[i:i+l] != id[-l:]:
-                    break
-            else:
-                # didn't break, subarrays are equal -> invalid
+            # it must be a divisor and every batch equal
+            if len(id) % l == 0 and all(s == id[:l] for s in itertools.batched(id, l)):
                 return False
         return True
 
