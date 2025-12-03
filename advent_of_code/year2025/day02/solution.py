@@ -34,8 +34,10 @@ def part2(data):
         # check for each possible length
         # of subarrays
         for l in range(1, len(id)//2 + 1):
-            # it must be a divisor and every batch equal
-            if len(id) % l == 0 and all(s == id[:l] for s in itertools.batched(id, l)):
+            # trick= take first l character,
+            # create string with repetitive pattern and 
+            # compare with id
+            if len(id) % l == 0 and id[:l] * (len(id)//l) == id:
                 return False
         return True
 
