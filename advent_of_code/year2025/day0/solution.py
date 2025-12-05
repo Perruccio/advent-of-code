@@ -13,6 +13,7 @@ def part1(data):
 def part2(data):
     pass
 
+
 def main():
     data = get_input("input.txt")
     part1(data)
