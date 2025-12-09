@@ -74,3 +74,7 @@ def argmax(iterable, start=0, end=None):
     mx = max(v[start:end])
     i = v.index(mx, start, end)
     return i, mx
+
+def transpose(m):
+    rows, cols = len(m), len(m[0])
+    return [[m[r][c] for r in range(rows)] for c in range(cols)]
