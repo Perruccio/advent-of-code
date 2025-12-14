@@ -76,5 +76,4 @@ def argmax(iterable, start=0, end=None):
     return i, mx
 
 def transpose(m):
-    rows, cols = len(m), len(m[0])
-    return [[m[r][c] for r in range(rows)] for c in range(cols)]
+    return list(zip(*m))

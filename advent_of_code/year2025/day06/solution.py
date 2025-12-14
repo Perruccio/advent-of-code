@@ -4,8 +4,8 @@ from advent_of_code.lib.all import *
 def get_input_1(file):
     raw = aoc.read_input(2025, 6, file)
     data = [list(line.rstrip().split()) for line in raw.splitlines()]
-    problems = [[data[r][c] for r in range(len(data))] for c in range(len(data[0]))]
-    return problems
+    # transpose the lines to get the problems
+    return list(zip(*data))
 
 
 def get_input_2(file):
@@ -16,8 +16,7 @@ def get_input_2(file):
 @aoc.pretty_solution(1)
 def part1(data):
     res = 0
-    for problem in data:
-        *v, op = problem
+    for *v, op in data:
         v = map(int, v)
         res += reduce(operator.mul if op == "*" else operator.add, v)
     return res
