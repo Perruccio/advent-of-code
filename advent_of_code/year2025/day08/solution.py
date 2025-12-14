@@ -1,4 +1,5 @@
 from advent_of_code.lib.all import *
+import math
 
 
 def get_input(file):
@@ -8,56 +9,66 @@ def get_input(file):
 
 
 def dist(p1, p2):
-    return aoc_math.sqrt(sum((a - b)**2 for a, b in zip(p1, p2)))
+    return math.hypot(*[a - b for a, b in zip(p1, p2)])
+
+
+## naive implementation of union-find
+def root(i, parent):
+    if parent[i] == i:
+        return i
+    # optimization: avoid linear trees
+    # set the parent directly
+    parent[i] = root(parent[i], parent)
+    return parent[i]
+
+
+def merge(i, j, parent):
+    parent[root(i, parent)] = root(j, parent)
 
 
 @aoc.pretty_solution(1)
 def part1(data):
     connections = 1000
-    comb = list(combinations(range(len(data)), 2))
-    dists = sorted(comb, key=lambda ii: dist(data[ii[0]], data[ii[1]]))[:connections]
-    circuits = []
-    for p1, p2 in dists:
-        c1, c2 = map(lambda p: next((i for i in range(len(circuits)) if p in circuits[i]), None), [p1, p2])
-        if c1 is not None and c1 == c2:
-            continue
-        elif c1 is None and c2 is None:
-            circuits.append({p1, p2})
-        elif c1 is None:
-            circuits[c2].add(p1)
-        elif c2 is None:
-            circuits[c1].add(p2)
-        elif c1 is not None and c2 is not None:
-            c = circuits[c1] | circuits[c2]
-            del circuits[max(c1, c2)]
-            del circuits[min(c1, c2)]
-            circuits.append(c)
-    return prod(sorted(set(map(len, circuits)))[-3:])
+    # just use indices of points instead of actual 3d points
+    edges = list(combinations(range(len(data)), 2))
+    dists = sorted(edges, key=lambda ii: dist(data[ii[0]], data[ii[1]]))
+    
+    # init union-find
+    parent = list(range(len(data)))
+
+    # do the work
+    for p1, p2 in dists[:connections]:
+        merge(p1, p2, parent)
+
+    # find size of each subsets
+    sizes = [0] * len(data)
+    for i in range(len(data)):
+        sizes[root(i, parent)] += 1
+
+    return prod(sorted(sizes)[-3:])
 
 
 @aoc.pretty_solution(2)
 def part2(data):
-    comb = list(combinations(range(len(data)), 2))
-    dists = sorted(comb, key=lambda ii: dist(data[ii[0]], data[ii[1]]))
-    circuits = []
+    # just use indices of points instead of actual 3d points
+    edges = list(combinations(range(len(data)), 2))
+    dists = sorted(edges, key=lambda ii: dist(data[ii[0]], data[ii[1]]))
+    
+    # init union-find
+    parent = list(range(len(data)))
+
+    # do the work
+    circuits = len(data)
     for p1, p2 in dists:
-        c1, c2 = map(lambda p: next((i for i in range(len(circuits)) if p in circuits[i]), None), [p1, p2])
-        if c1 is not None and c1 == c2:
+        if root(p1, parent) == root(p2, parent):
             continue
-        last = p1, p2
-        
-        if c1 is None and c2 is None:
-            circuits.append({p1, p2})
-        elif c1 is None:
-            circuits[c2].add(p1)
-        elif c2 is None:
-            circuits[c1].add(p2)
-        elif c1 is not None and c2 is not None:
-            c = circuits[c1] | circuits[c2]
-            del circuits[max(c1, c2)]
-            del circuits[min(c1, c2)]
-            circuits.append(c)
-    return data[last[0]][0] * data[last[1]][0]
+        merge(p1, p2, parent)
+        circuits -= 1
+        if circuits == 1:
+            break
+
+    # find size of each subsets
+    return data[p1][0] * data[p2][0]
 
 
 def main():
