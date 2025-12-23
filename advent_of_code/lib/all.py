@@ -6,7 +6,11 @@ from copy import deepcopy, copy
 import re
 from functools import lru_cache, cmp_to_key, cache
 from operator import add, mul
-from math import log10, prod
+from math import log10, prod, lcm
 from itertools import zip_longest, permutations, combinations, product as cart_prod
 from abc import ABC
 from heapq import heappop, heappush
+from dataclasses import dataclass, field
+from advent_of_code.lib.geometry import Cuboid
+from abc import ABC, abstractmethod
+from typing import Optional, Dict, List

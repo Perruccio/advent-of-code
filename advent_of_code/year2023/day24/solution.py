@@ -1,4 +1,4 @@
-from advent_of_code.lib.import_all import *
+from advent_of_code.lib.all import *
 import sympy as sp
 
 
@@ -25,7 +25,7 @@ def part1(data, min_coord=200000000000000, max_coord=400000000000000):
             if not all(min_coord <= coord <= max_coord for coord in (x_inters, y_inters)):
                 continue
             # check intersection is in the future
-            if sign(x_inters - x1) == sign(vx1) and sign(x_inters - x2) == sign(vx2):
+            if aoc_math.sign(x_inters - x1) == aoc_math.sign(vx1) and aoc_math.sign(x_inters - x2) == aoc_math.sign(vx2):
                 res += 1
     return res
 

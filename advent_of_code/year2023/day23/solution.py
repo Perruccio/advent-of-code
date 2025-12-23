@@ -1,4 +1,4 @@
-from advent_of_code.lib.import_all import *
+from advent_of_code.lib.all import *
 
 
 def get_input(file):
