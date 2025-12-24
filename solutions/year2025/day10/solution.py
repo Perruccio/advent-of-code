@@ -1,5 +1,6 @@
 from aoc.all import *
 from scipy.optimize import linprog
+import numpy as np
 
 
 def get_input(file):
@@ -52,12 +53,12 @@ def part2(data):
     # we use scipy.linprog
     res = 0
     for _, buttons, machine in data:
-        A = [[0]*len(buttons) for _ in range(len(machine))]
+        A = np.zeros((len(machine), len(buttons)))
         for c, button in enumerate(buttons):
-            for b in button:
-                A[b][c] = 1
+            # trick: A[[2,3], c] = 1 will set the rows 2,3 of c-th column to 1
+            A[button, c] = 1
         x = linprog([1]*len(buttons), A_eq=A, b_eq=machine, bounds=(0, None), integrality=1).x
-        res += round(sum(x))
+        res += sum(map(round, x))
     return res
 
 
